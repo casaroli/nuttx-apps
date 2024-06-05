@@ -24,11 +24,19 @@ CONFIGURED_APPS += $(APPDIR)/crypto/mbedtls
 # Allows `<mbedtls/<>.h>` import.
 
 CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/include
-CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/include
-CFLAGS += ${DEFINE_PREFIX}MBEDTLS_CONFIG_FILE="<mbedtls/mbedtls_config.h>"
+# CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/include
+CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/build/install/include
+# CFLAGS += ${DEFINE_PREFIX}MBEDTLS_CONFIG_FILE="<mbedtls/mbedtls_config.h>"
 
 CXXFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/include
 CXXFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/include
-CXXFLAGS += ${DEFINE_PREFIX}MBEDTLS_CONFIG_FILE="<mbedtls/mbedtls_config.h>"
+# CXXFLAGS += ${DEFINE_PREFIX}MBEDTLS_CONFIG_FILE="<mbedtls/mbedtls_config.h>"
+
+# use the same trick as libtest to add the built library
+EXTRA_LIBS += -lmbedcrypto -lmbedtls -lmbedx509
+EXTRA_LIBPATHS += -L$(APPDIR)/crypto/mbedtls/mbedtls/build/install/lib
 
 endif
+
+mbedtls/tests/src/certs.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/library
+mbedtls/programs/ssl/ssl_test_lib.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include

@@ -13,7 +13,7 @@ if CRYPTO_MBEDTLS
 
 config MBEDTLS_VERSION
 	string "Mbed TLS Version"
-	default "3.4.0"
+	default "3.6.0"
 
 config MBEDTLS_DEBUG_C
 	bool "This module provides debugging functions."
@@ -586,7 +586,7 @@ endif # CRYPTO_CRYPTODEV
 
 menuconfig MBEDTLS_APPS
 	tristate "Mbed TLS Applications"
-	default n
+	default y
 	---help---
 		Enable Mbed TLS Applications
 
@@ -598,9 +598,9 @@ config MBEDTLS_DEFAULT_TASK_STACKSIZE
 
 config MBEDTLS_APP_BENCHMARK
 	bool "Mbed TLS benchmark"
-	default n
+	default y
 	---help---
-		Enable the Mbed TLS self test
+		Enable the Mbed TLS benchmark
 
 if MBEDTLS_APP_BENCHMARK
 
@@ -623,7 +623,7 @@ endif # MBEDTLS_APP_BENCHMARK
 
 config MBEDTLS_APP_SELFTEST
 	bool "Mbed TLS Self Test"
-	default n
+	default y
 	---help---
 		Enable the Mbed TLS self test
 
@@ -645,6 +645,106 @@ config MBEDTLS_APP_SELFTEST_STACKSIZE
 	default MBEDTLS_DEFAULT_TASK_STACKSIZE
 
 endif # MBEDTLS_APP_SELFTEST
+
+config MBEDTLS_APP_SSL_CLIENT2
+	bool "Mbed TLS SSL client2"
+	default y
+	---help---
+		Enable the Mbed SSL client
+
+if MBEDTLS_APP_SSL_CLIENT2
+
+config MBEDTLS_APP_SSL_CLIENT2_PROGNAME
+	string "Program name"
+	default "mbedssl_client2"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config MBEDTLS_APP_SSL_CLIENT2_PRIORITY
+	int "SSL client2 task priority"
+	default 100
+
+config MBEDTLS_APP_SSL_CLIENT2_STACKSIZE
+	int "SSL client2 stack size"
+	default 65536
+
+endif # MBEDTLS_APP_SSL_CLIENT2
+
+config MBEDTLS_APP_SSL_SERVER2
+	bool "Mbed TLS SSL server2"
+	default y
+	---help---
+		Enable the Mbed SSL server
+
+if MBEDTLS_APP_SSL_SERVER2
+
+config MBEDTLS_APP_SSL_SERVER2_PROGNAME
+	string "Program name"
+	default "mbedssl_server2"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config MBEDTLS_APP_SSL_SERVER2_PRIORITY
+	int "SSL server2 task priority"
+	default 100
+
+config MBEDTLS_APP_SSL_SERVER2_STACKSIZE
+	int "SSL server2 stack size"
+	default 65536
+
+endif # MBEDTLS_APP_SSL_SERVER2
+
+config MBEDTLS_APP_X509_CERT_APP
+	bool "Mbed TLS X509 cert app"
+	default y
+	---help---
+		Enable the Mbed X509 cert app server
+
+if MBEDTLS_APP_X509_CERT_APP
+
+config MBEDTLS_APP_X509_CERT_APP_PROGNAME
+	string "Program name"
+	default "mbedx509_cert_app"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config MBEDTLS_APP_X509_CERT_APP_PRIORITY
+	int "X509 cert app task priority"
+	default 100
+
+config MBEDTLS_APP_X509_CERT_APP_STACKSIZE
+	int "X509 cert app stack size"
+	default 65536
+
+endif # MBEDTLS_APP_X509_CERT_APP
+
+config MBEDTLS_APP_X509_LOAD_ROOTS
+	bool "Mbed TLS X509 load roots"
+	default y
+	---help---
+		Enable the Mbed X509 load roots
+
+if MBEDTLS_APP_X509_LOAD_ROOTS
+
+config MBEDTLS_APP_X509_LOAD_ROOTS_PROGNAME
+	string "Program name"
+	default "mbedx509_load_roots"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config MBEDTLS_APP_X509_LOAD_ROOTS_PRIORITY
+	int "X509 load roots task priority"
+	default 100
+
+config MBEDTLS_APP_X509_LOAD_ROOTS_STACKSIZE
+	int "X509 load roots stack size"
+	default 16384
+
+endif # MBEDTLS_APP_X509_LOAD_ROOTS
 
 endif # MBEDTLS_APPS
 
