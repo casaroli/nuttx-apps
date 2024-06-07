@@ -156,6 +156,13 @@ STACKSIZE += $(CONFIG_MBEDTLS_APP_X509_LOAD_ROOTS_STACKSIZE)
 MAINSRC += $(MBEDTLS_UNPACKPROGDIR)/x509/load_roots.c
 endif
 
+PROGNAME += test_load_ca
+PRIORITY += 100
+STACKSIZE += 8192
+MAINSRC += test_load_ca.c
+CSRCS += ca_certs.c
+
+test_load_ca.c_CFLAGS += ${DEFINE_PREFIX}__unix__
 endif
 
 # Configuration alternative implementation
