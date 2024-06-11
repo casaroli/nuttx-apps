@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
     }
 
     int rv;
-#if 0
+#if 1
     print("Start parse\n");
     mbedtls_x509_crt_init(crt);
     rv = mbedtls_x509_crt_parse(crt, buf, buflen);
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     }
     print("End parse\n");
 #endif
-
+#if 0
     mbedtls_pem_context pem;
 
     while (buflen > 1)
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 
         mbedtls_pem_free(&pem);
     }
-
+#endif
 #if 1
     int fd = (int)socket(AF_INET, SOCK_STREAM,
                          IPPROTO_TCP);
