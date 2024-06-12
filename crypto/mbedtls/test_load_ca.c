@@ -12,6 +12,7 @@
 #include <mbedtls/ssl.h>
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/pem.h>
+#include <mbedtls/debug.h>
 
 #define CA_LIST "/data/conf/etc/ssl/certs/ca-certificates.crt"
 

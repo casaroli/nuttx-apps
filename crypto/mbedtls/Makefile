@@ -28,11 +28,17 @@ MBEDTLS_UNPACKNAME = mbedtls
 MBEDTLS_UNPACKLIBDIR = $(MBEDTLS_UNPACKNAME)$(DELIM)library
 MBEDTLS_UNPACKPROGDIR = $(MBEDTLS_UNPACKNAME)$(DELIM)programs
 
-# This lets Mbed TLS better use some of the POSIX features we have
-CFLAGS += ${DEFINE_PREFIX}__unix__ -Wno-error=undef
+# Let Mbed TLS better use some of the POSIX features we have
+CFLAGS += ${DEFINE_PREFIX}__unix__
 
-# CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/include
+# Silence some undefined macros
+CFLAGS += -Wno-error=undef
 
+# Mbedtls includes
+CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/library
+
+# Needed for mbedtls test apps
+CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
 
 # mbedtls/library/bignum.c_CFLAGS += -fno-lto
 # 
@@ -112,6 +118,7 @@ PROGNAME  += $(CONFIG_MBEDTLS_APP_SELFTEST_PROGNAME)
 PRIORITY  += $(CONFIG_MBEDTLS_APP_SELFTEST_PRIORITY)
 STACKSIZE += $(CONFIG_MBEDTLS_APP_SELFTEST_STACKSIZE)
 MAINSRC += $(MBEDTLS_UNPACKPROGDIR)/test/selftest.c
+$(MBEDTLS_UNPACKPROGDIR)/test/selftest.c_CFLAGS += ${DEFINE_PREFIX}MBEDTLS_SELF_TEST
 endif
 
 ifeq ($(CONFIG_MBEDTLS_APP_SSL_CLIENT2),y)
@@ -119,7 +126,6 @@ PROGNAME += $(CONFIG_MBEDTLS_APP_SSL_CLIENT2_PROGNAME)
 PRIORITY += $(CONFIG_MBEDTLS_APP_SSL_CLIENT2_PRIORITY)
 STACKSIZE += $(CONFIG_MBEDTLS_APP_SSL_CLIENT2_STACKSIZE)
 MAINSRC += $(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_client2.c
-$(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_client2.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
 endif
 
 ifeq ($(CONFIG_MBEDTLS_APP_SSL_SERVER2),y)
@@ -127,20 +133,13 @@ PROGNAME += $(CONFIG_MBEDTLS_APP_SSL_SERVER2_PROGNAME)
 PRIORITY += $(CONFIG_MBEDTLS_APP_SSL_SERVER2_PRIORITY)
 STACKSIZE += $(CONFIG_MBEDTLS_APP_SSL_SERVER2_STACKSIZE)
 MAINSRC += $(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_server2.c
-$(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_server2.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
 endif
 
 CSRCS += $(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_test_lib.c
-mbedtls/programs/ssl/ssl_test_lib.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
-./mbedtls/programs/ssl/ssl_test_lib.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
-$(MBEDTLS_UNPACKPROGDIR)/ssl/ssl_test_lib.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include
 CSRCS += $(MBEDTLS_UNPACKPROGDIR)/test/query_config.c
 CSRCS += mbedtls/tests/src/certs.c
 CSRCS += mbedtls/tests/src/helpers.c
 CSRCS += mbedtls/tests/src/psa_crypto_helpers.c
-mbedtls/tests/src/helpers.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/library
-mbedtls/tests/src/certs.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/library
-mbedtls/tests/src/psa_crypto_helpers.c_CFLAGS += ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/tests/include ${INCDIR_PREFIX}$(APPDIR)/crypto/mbedtls/mbedtls/library
 
 ifeq ($(CONFIG_MBEDTLS_APP_X509_CERT_APP),y)
 PROGNAME += $(CONFIG_MBEDTLS_APP_X509_CERT_APP_PROGNAME)
@@ -161,8 +160,6 @@ PRIORITY += 100
 STACKSIZE += 8192
 MAINSRC += test_load_ca.c
 CSRCS += ca_certs.c
-
-test_load_ca.c_CFLAGS += ${DEFINE_PREFIX}__unix__
 endif
 
 # Configuration alternative implementation
