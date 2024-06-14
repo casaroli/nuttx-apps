@@ -1,0 +1,6314 @@
+# 0 "tinyemu-2019-12-21/temu.c"
+# 0 "<built-in>"
+# 0 "<command-line>"
+# 1 "tinyemu-2019-12-21/temu.c"
+# 24 "tinyemu-2019-12-21/temu.c"
+# 1 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 1 3 4
+# 28 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/config.h" 1 3 4
+# 29 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/compiler.h" 1 3 4
+# 30 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/stdint.h" 1 3 4
+# 34 "/workspaces/nuttx-external/nuttx/include/stdint.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/types.h" 1 3 4
+# 51 "/workspaces/nuttx-external/nuttx/include/arch/types.h" 3 4
+
+# 51 "/workspaces/nuttx-external/nuttx/include/arch/types.h" 3 4
+typedef signed char _int8_t;
+typedef unsigned char _uint8_t;
+
+typedef signed short _int16_t;
+typedef unsigned short _uint16_t;
+
+typedef signed int _int32_t;
+typedef unsigned int _uint32_t;
+
+typedef signed long long _int64_t;
+typedef unsigned long long _uint64_t;
+
+
+typedef _int64_t _intmax_t;
+typedef _uint64_t _uintmax_t;
+
+
+typedef short unsigned int _wchar_t;
+# 82 "/workspaces/nuttx-external/nuttx/include/arch/types.h" 3 4
+typedef signed int _ssize_t;
+
+typedef unsigned int _size_t;
+# 95 "/workspaces/nuttx-external/nuttx/include/arch/types.h" 3 4
+typedef unsigned int irqstate_t;
+# 35 "/workspaces/nuttx-external/nuttx/include/stdint.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/inttypes.h" 1 3 4
+# 36 "/workspaces/nuttx-external/nuttx/include/stdint.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/limits.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/limits.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/limits.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/limits.h" 2 3 4
+# 37 "/workspaces/nuttx-external/nuttx/include/stdint.h" 2 3 4
+# 165 "/workspaces/nuttx-external/nuttx/include/stdint.h" 3 4
+typedef _int8_t int8_t;
+typedef _uint8_t uint8_t;
+
+typedef _int16_t int16_t;
+typedef _uint16_t uint16_t;
+
+
+
+
+
+
+typedef _int32_t int32_t;
+typedef _uint32_t uint32_t;
+
+
+typedef _int64_t int64_t;
+typedef _uint64_t uint64_t;
+
+
+
+
+typedef _int8_t int_least8_t;
+typedef _uint8_t uint_least8_t;
+
+typedef _int16_t int_least16_t;
+typedef _uint16_t uint_least16_t;
+
+
+
+
+
+typedef _int32_t int_least24_t;
+typedef _uint32_t uint_least24_t;
+
+
+typedef _int32_t int_least32_t;
+typedef _uint32_t uint_least32_t;
+
+
+typedef _int64_t int_least64_t;
+typedef _uint64_t uint_least64_t;
+
+
+
+
+typedef _int8_t int_fast8_t;
+typedef _uint8_t uint_fast8_t;
+
+typedef int int_fast16_t;
+typedef unsigned int uint_fast16_t;
+
+
+
+
+
+typedef _int32_t int_fast24_t;
+typedef _uint32_t uint_fast24_t;
+
+
+typedef _int32_t int_fast32_t;
+typedef _uint32_t uint_fast32_t;
+
+
+typedef _int64_t int_fast64_t;
+typedef _uint64_t uint_fast64_t;
+# 238 "/workspaces/nuttx-external/nuttx/include/stdint.h" 3 4
+typedef _ssize_t intptr_t;
+typedef _size_t uintptr_t;
+# 252 "/workspaces/nuttx-external/nuttx/include/stdint.h" 3 4
+typedef _intmax_t intmax_t;
+typedef _uintmax_t uintmax_t;
+# 33 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 2 3 4
+# 108 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef unsigned int mode_t;
+# 133 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef _size_t size_t;
+typedef _ssize_t ssize_t;
+typedef _size_t rsize_t;
+
+
+
+
+
+typedef unsigned int uid_t;
+typedef unsigned int gid_t;
+
+
+
+
+
+typedef uint32_t dev_t;
+
+
+
+typedef uint16_t ino_t;
+
+
+
+typedef uint16_t nlink_t;
+
+
+
+
+
+typedef int pid_t;
+
+
+
+
+
+typedef int id_t;
+
+
+
+
+
+
+typedef int32_t key_t;
+
+
+
+typedef intptr_t ptrdiff_t;
+# 188 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef _wchar_t wchar_t;
+
+
+
+
+
+
+typedef int wint_t;
+
+
+
+
+
+
+typedef int wctype_t;
+# 216 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef uint32_t fsblkcnt_t;
+typedef uint32_t fsfilcnt_t;
+# 228 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef uint32_t blkcnt_t;
+typedef int32_t off_t;
+typedef int32_t fpos_t;
+
+
+
+
+typedef int16_t blksize_t;
+
+
+
+typedef unsigned int socklen_t;
+
+typedef uint16_t sa_family_t;
+# 254 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+typedef uint32_t clock_t;
+typedef uint32_t time_t;
+
+typedef int clockid_t;
+typedef void *timer_t;
+
+
+
+
+
+
+
+typedef uint32_t useconds_t;
+typedef int32_t suseconds_t;
+
+
+
+
+typedef volatile uint32_t cpu_set_t;
+
+
+
+
+
+
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+typedef unsigned long u_long;
+
+
+
+typedef unsigned char unchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef signed char s_char;
+typedef char *caddr_t;
+
+
+
+typedef uint8_t u_int8_t;
+typedef uint16_t u_int16_t;
+typedef uint32_t u_int32_t;
+
+
+
+
+typedef uint64_t u_int64_t;
+
+
+struct fsid_s
+{
+  int val[2];
+};
+
+
+
+typedef int (*main_t)(int argc, char *argv[]);
+
+
+
+enum
+{
+  ERROR = -1,
+  OK = 0,
+};
+# 337 "/workspaces/nuttx-external/nuttx/include/sys/types.h" 3 4
+int nsh_main(int argc, char *argv[]);
+# 32 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 2 3 4
+# 90 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+struct div_s
+{
+  int quot;
+  int rem;
+};
+
+typedef struct div_s div_t;
+
+
+
+struct ldiv_s
+{
+  long quot;
+  long rem;
+};
+
+typedef struct ldiv_s ldiv_t;
+
+
+
+struct lldiv_s
+{
+  long quot;
+  long rem;
+};
+
+typedef struct lldiv_s lldiv_t;
+# 133 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+void srand(unsigned int seed);
+int rand(void);
+int rand_r( unsigned int *seedp);
+void lcong48( unsigned short int param[7]);
+ unsigned short int *seed48( unsigned short int seed16v[3]);
+void srand48(long int seedval);
+
+long int jrand48( unsigned short int xsubi[3]);
+long int lrand48(void);
+long int mrand48(void);
+long int nrand48( unsigned short int xsubi[3]);
+
+double drand48(void);
+double erand48( unsigned short int xsubi[3]);
+
+
+
+
+long random(void);
+# 160 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+ char **get_environ_ptr(void);
+ char *getenv( const char *name);
+int putenv( const char *string);
+int clearenv(void);
+int setenv( const char *name, const char *value, int overwrite);
+int unsetenv( const char *name);
+
+
+
+void exit(int status) __attribute__((noreturn));
+void quick_exit(int status) __attribute__((noreturn));
+void abort(void) __attribute__((noreturn));
+int atexit( void (*func)(void));
+int at_quick_exit( void (*func)(void));
+int on_exit( void (*func)(int, void *), void *arg);
+
+
+
+void _Exit(int status) __attribute__((noreturn));
+# 187 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+int system( const char *cmd);
+
+
+ char *realpath( const char *path, char *resolved);
+
+
+
+long strtol( const char *nptr, char **endptr, int base);
+unsigned long strtoul( const char *nptr, char **endptr, int base);
+
+long long strtoll( const char *nptr, char **endptr, int base);
+unsigned long long strtoull( const char *nptr, char **endptr,
+                            int base);
+
+float strtof( const char *str, char **endptr);
+
+double strtod( const char *str, char **endptr);
+
+
+long double strtold( const char *str, char **endptr);
+
+
+int atoi( const char *nptr);
+long atol( const char *nptr);
+
+long long atoll( const char *nptr);
+
+
+double atof( const char *nptr);
+
+
+
+
+ char *itoa(int val, char *str, int base);
+
+
+
+int mblen( const char *s, size_t n);
+int mbtowc( wchar_t *pwc, const char *s, size_t n);
+size_t mbstowcs( wchar_t *dst, const char *src, size_t len);
+int wctomb( char *s, wchar_t wchar);
+size_t wcstombs( char *dst, const wchar_t *src, size_t len);
+
+
+
+ void *malloc(size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(1)));
+ void *valloc(size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(1)));
+void free( void *);
+ void *realloc( void *, size_t) __attribute__((__alloc_size__(2)));
+ void *reallocarray( void *, size_t, size_t) __attribute__((__alloc_size__(2, 3)));
+ void *memalign(size_t, size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(2)));
+ void *zalloc(size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(1)));
+ void *calloc(size_t, size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(1, 2)));
+ void *aligned_alloc(size_t, size_t) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(2)));
+int posix_memalign( void **, size_t, size_t);
+# 258 "/workspaces/nuttx-external/nuttx/include/stdlib.h" 3 4
+int abs(int j);
+long int labs(long int j);
+
+long long int llabs(long long int j);
+
+
+div_t div(int number, int denom);
+ldiv_t ldiv(long number, long denom);
+
+lldiv_t lldiv(long long number, long long denom);
+
+
+
+
+ char *mktemp( char *path_template);
+int mkstemp( char *path_template);
+ char *mkdtemp( char *path_template);
+
+
+
+void qsort( void *base, size_t nel, size_t width,
+                int (*compar)( const void *, const void *));
+
+
+
+ void *bsearch( const void *key, const void *base, size_t nel,
+                   size_t width, int (*compar)( const void *,
+                   const void *));
+
+
+
+ const char *getprogname(void);
+
+
+
+int __cxa_atexit( void (*func)( void *), void *arg,
+                 void *dso_handle);
+# 25 "tinyemu-2019-12-21/temu.c" 2
+# 1 "/workspaces/nuttx-external/nuttx/include/stdio.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/stdio.h" 3 4
+# 1 "/opt/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/13.2.0/include/stdarg.h" 1 3 4
+# 40 "/opt/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/13.2.0/include/stdarg.h" 3 4
+typedef __builtin_va_list __gnuc_va_list;
+# 103 "/opt/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/13.2.0/include/stdarg.h" 3 4
+typedef __gnuc_va_list va_list;
+# 32 "/workspaces/nuttx-external/nuttx/include/stdio.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/time.h" 1 3 4
+# 113 "/workspaces/nuttx-external/nuttx/include/time.h" 3 4
+struct timespec
+{
+  time_t tv_sec;
+  long tv_nsec;
+};
+# 128 "/workspaces/nuttx-external/nuttx/include/time.h" 3 4
+struct tm
+{
+  int tm_sec;
+  int tm_min;
+  int tm_hour;
+  int tm_mday;
+  int tm_mon;
+  int tm_year;
+  int tm_wday;
+  int tm_yday;
+  int tm_isdst;
+  long tm_gmtoff;
+  const char *tm_zone;
+};
+
+
+
+struct itimerspec
+{
+  struct timespec it_interval;
+  struct timespec it_value;
+};
+
+
+
+struct sigevent;
+# 189 "/workspaces/nuttx-external/nuttx/include/time.h" 3 4
+clock_t clock(void);
+
+int clock_settime(clockid_t clockid, const struct timespec *tp);
+int clock_gettime(clockid_t clockid, struct timespec *tp);
+int clock_getres(clockid_t clockid, struct timespec *res);
+int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
+int timespec_get( struct timespec *t, int b);
+
+time_t timegm( struct tm *tp);
+time_t mktime( struct tm *tp);
+
+ struct tm *gmtime( const time_t *timep);
+ struct tm *gmtime_r( const time_t *timep, struct tm *result);
+
+ struct tm *localtime( const time_t *timep);
+ struct tm *localtime_r( const time_t *timep, struct tm *result);
+
+size_t strftime( char *s, size_t max, const char *format,
+                const struct tm *tm) __attribute__((__format__(__strftime__, 3, 0)));
+ char *strptime( const char *s, const char *format,
+                   struct tm *tm);
+
+ char *asctime( const struct tm *tp);
+ char *asctime_r( const struct tm *tp, char *buf);
+ char *ctime( const time_t *timep);
+ char *ctime_r( const time_t *timep, char *buf);
+
+time_t time( time_t *timep);
+
+
+double difftime(time_t time1, time_t time0);
+
+
+
+
+int timer_create(clockid_t clockid, struct sigevent *evp,
+                 timer_t *timerid);
+int timer_delete(timer_t timerid);
+int timer_settime(timer_t timerid, int flags,
+                  const struct itimerspec *value,
+                  struct itimerspec *ovalue);
+int timer_gettime(timer_t timerid, struct itimerspec *value);
+int timer_getoverrun(timer_t timerid);
+
+int clock_nanosleep(clockid_t clockid, int flags,
+                    const struct timespec *rqtp,
+                    struct timespec *rmtp);
+int nanosleep( const struct timespec *rqtp, struct timespec *rmtp);
+# 33 "/workspaces/nuttx-external/nuttx/include/stdio.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 1 3 4
+# 34 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/stdbool.h" 1 3 4
+# 35 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/dirent.h" 1 3 4
+# 111 "/workspaces/nuttx-external/nuttx/include/dirent.h" 3 4
+struct dirent
+{
+  uint8_t d_type;
+  char d_name[32 + 1];
+};
+
+typedef struct
+{
+  int fd;
+  struct dirent entry;
+} DIR;
+# 142 "/workspaces/nuttx-external/nuttx/include/dirent.h" 3 4
+int closedir( DIR *dirp);
+ DIR *opendir( const char *path);
+ DIR *fdopendir(int fd);
+ struct dirent *readdir( DIR *dirp);
+int readdir_r( DIR *dirp, struct dirent *entry,
+                     struct dirent **result);
+void rewinddir( DIR *dirp);
+void seekdir( DIR *dirp, off_t loc);
+off_t telldir( DIR *dirp);
+int scandir( const char *path, struct dirent ***namelist,
+                   int (*filter)( const struct dirent *),
+                   int (*compar)( const struct dirent **,
+                                      const struct dirent **));
+int alphasort( const struct dirent **a,
+                     const struct dirent **b);
+int versionsort( const struct dirent **a,
+                       const struct dirent **b);
+
+int dirfd( DIR *dirp);
+# 37 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 1 3 4
+# 28 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/assert.h" 1 3 4
+# 188 "/workspaces/nuttx-external/nuttx/include/assert.h" 3 4
+void _assert( const char *filename, int linenum,
+             const char *msg, void *regs);
+# 199 "/workspaces/nuttx-external/nuttx/include/assert.h" 3 4
+void __assert( const char *filename, int linenum,
+              const char *msg) __attribute__((noreturn));
+# 29 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 2 3 4
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 1 3 4
+# 30 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/errno.h" 1 3 4
+# 364 "/workspaces/nuttx-external/nuttx/include/errno.h" 3 4
+ int *__errno(void);
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/queue.h" 1 3 4
+# 305 "/workspaces/nuttx-external/nuttx/include/nuttx/queue.h" 3 4
+struct sq_entry_s
+{
+  struct sq_entry_s *flink;
+};
+typedef struct sq_entry_s sq_entry_t;
+
+struct dq_entry_s
+{
+  struct dq_entry_s *flink;
+  struct dq_entry_s *blink;
+};
+typedef struct dq_entry_s dq_entry_t;
+
+struct sq_queue_s
+{
+  sq_entry_t *head;
+  sq_entry_t *tail;
+};
+typedef struct sq_queue_s sq_queue_t;
+
+struct dq_queue_s
+{
+  dq_entry_t *head;
+  dq_entry_t *tail;
+};
+typedef struct dq_queue_s dq_queue_t;
+# 346 "/workspaces/nuttx-external/nuttx/include/nuttx/queue.h" 3 4
+void sq_addafter( sq_entry_t *prev, sq_entry_t *node,
+                 sq_queue_t *queue);
+void dq_addafter( dq_entry_t *prev, dq_entry_t *node,
+                 dq_queue_t *queue);
+
+
+
+ sq_entry_t *sq_remafter( sq_entry_t *node, sq_queue_t *queue);
+ dq_entry_t *dq_remafter( dq_entry_t *node, dq_queue_t *queue);
+ sq_entry_t *sq_remlast( sq_queue_t *queue);
+ dq_entry_t *dq_remlast( dq_queue_t *queue);
+ sq_entry_t *sq_remfirst( sq_queue_t *queue);
+ dq_entry_t *dq_remfirst( dq_queue_t *queue);
+
+
+
+size_t sq_count( sq_queue_t *queue);
+size_t dq_count( dq_queue_t *queue);
+# 34 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 2 3 4
+# 99 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+struct sem_s
+{
+  volatile int16_t semcount;
+
+
+
+
+
+
+  uint8_t flags;
+
+  dq_queue_t waitlist;
+# 119 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+};
+
+typedef struct sem_s sem_t;
+# 164 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+int sem_init( sem_t *sem, int pshared, unsigned int value);
+int sem_destroy( sem_t *sem);
+int sem_wait( sem_t *sem);
+int sem_timedwait( sem_t *sem, const struct timespec *abstime);
+int sem_clockwait( sem_t *sem, clockid_t clockid,
+                         const struct timespec *abstime);
+int sem_trywait( sem_t *sem);
+int sem_post( sem_t *sem);
+int sem_getvalue( sem_t *sem, int *sval);
+# 217 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+int sem_setprotocol( sem_t *sem, int protocol);
+# 238 "/workspaces/nuttx-external/nuttx/include/semaphore.h" 3 4
+int sem_getprotocol( sem_t *sem, int *protocol);
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 1 3 4
+# 293 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+typedef int32_t sclock_t;
+# 317 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+extern volatile clock_t g_system_ticks;
+# 351 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_timespec_compare( const struct timespec *ts1,
+                           const struct timespec *ts2);
+# 369 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+void clock_timespec_add( const struct timespec *ts1,
+                        const struct timespec *ts2,
+                        struct timespec *ts3);
+# 389 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+void clock_timespec_subtract( const struct timespec *ts1,
+                             const struct timespec *ts2,
+                             struct timespec *ts3);
+# 401 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_isleapyear(int year);
+# 411 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_daysbeforemonth(int month, _Bool leapyear);
+# 429 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_dayoftheweek(int mday, int month, int year);
+# 442 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+time_t clock_calendar2utc(int year, int month, int day);
+# 555 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_time2ticks( const struct timespec *reltime,
+                     sclock_t *ticks);
+# 578 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_ticks2time(sclock_t ticks, struct timespec *reltime);
+# 597 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+int clock_systime_timespec( struct timespec *ts);
+# 670 "/workspaces/nuttx-external/nuttx/include/nuttx/clock.h" 3 4
+clock_t perf_gettime(void);
+
+
+
+
+
+void perf_convert(clock_t elapsed, struct timespec *ts);
+
+
+
+
+
+unsigned long perf_getfreq(void);
+# 34 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 2 3 4
+# 125 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_init( sem_t *sem, int pshared, unsigned int value);
+# 151 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_destroy( sem_t *sem);
+# 181 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_wait( sem_t *sem);
+# 207 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_trywait( sem_t *sem);
+# 253 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_timedwait( sem_t *sem, const struct timespec *abstime);
+# 300 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_clockwait( sem_t *sem, clockid_t clockid,
+                    const struct timespec *abstime);
+# 326 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_tickwait( sem_t *sem, uint32_t delay);
+# 357 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_post( sem_t *sem);
+# 385 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_get_value( sem_t *sem, int *sval);
+# 426 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+ sem_t *nxsem_open( const char *name, int oflags, ...);
+# 454 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_close( sem_t *sem);
+# 477 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_unlink( const char *name);
+# 499 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_reset( sem_t *sem, int16_t count);
+# 559 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_set_protocol( sem_t *sem, int protocol);
+# 584 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_wait_uninterruptible( sem_t *sem);
+# 615 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_timedwait_uninterruptible( sem_t *sem,
+                                    const struct timespec *abstime);
+# 648 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_clockwait_uninterruptible( sem_t *sem, clockid_t clockid,
+                                    const struct timespec *abstime);
+# 680 "/workspaces/nuttx-external/nuttx/include/nuttx/semaphore.h" 3 4
+int nxsem_tickwait_uninterruptible( sem_t *sem, uint32_t delay);
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 2 3 4
+# 46 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+struct mutex_s
+{
+  sem_t sem;
+  pid_t holder;
+};
+
+typedef struct mutex_s mutex_t;
+
+struct rmutex_s
+{
+  mutex_t mutex;
+  unsigned int count;
+};
+
+typedef struct rmutex_s rmutex_t;
+# 95 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_init( mutex_t *mutex);
+# 116 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_destroy( mutex_t *mutex);
+# 132 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+_Bool nxmutex_is_hold( mutex_t *mutex);
+# 147 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+_Bool nxmutex_is_locked( mutex_t *mutex);
+# 169 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_lock( mutex_t *mutex);
+# 192 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_trylock( mutex_t *mutex);
+# 218 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_timedlock( mutex_t *mutex, unsigned int timeout);
+# 240 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_unlock( mutex_t *mutex);
+# 254 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+void nxmutex_reset( mutex_t *mutex);
+# 275 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_breaklock( mutex_t *mutex, _Bool *locked);
+# 294 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxmutex_restorelock( mutex_t *mutex, _Bool locked);
+# 316 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_init( rmutex_t *rmutex);
+# 334 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_destroy( rmutex_t *rmutex);
+# 350 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+_Bool nxrmutex_is_hold( rmutex_t *rmutex);
+# 366 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+_Bool nxrmutex_is_locked( rmutex_t *rmutex);
+# 387 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_lock( rmutex_t *rmutex);
+# 412 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_trylock( rmutex_t *rmutex);
+# 439 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_timedlock( rmutex_t *rmutex, unsigned int timeout);
+# 462 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_unlock( rmutex_t *rmutex);
+# 475 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+void nxrmutex_reset( rmutex_t *rmutex);
+# 495 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_breaklock( rmutex_t *rmutex, unsigned int *count);
+# 514 "/workspaces/nuttx-external/nuttx/include/nuttx/mutex.h" 3 4
+int nxrmutex_restorelock( rmutex_t *rmutex, unsigned int count);
+# 39 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 1 3 4
+# 37 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 1 3 4
+# 35 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 1 3 4
+# 36 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+
+
+
+
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/chip/tie.h" 1 3 4
+# 44 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/chip/core-isa.h" 1 3 4
+# 45 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/core.h" 1 3 4
+# 1346 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/core.h" 3 4
+     extern const unsigned char Xthal_cp_id_FPU;
+     extern const unsigned int Xthal_cp_mask_FPU;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP1_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP1_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP2_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP2_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP3_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP3_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP4_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP4_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP5_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP5_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP6_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP6_IDENT;
+
+
+     extern const unsigned char Xthal_cp_id_XCHAL_CP7_IDENT;
+     extern const unsigned int Xthal_cp_mask_XCHAL_CP7_IDENT;
+# 46 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/xtensa_specregs.h" 1 3 4
+# 48 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/xtensa_corebits.h" 1 3 4
+# 49 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/xtensa_coproc.h" 1 3 4
+# 166 "/workspaces/nuttx-external/nuttx/include/arch/xtensa/xtensa_coproc.h" 3 4
+static inline uint32_t xtensa_get_cpenable(void)
+{
+  uint32_t cpenable;
+
+  __asm__ __volatile__
+  (
+    "\trsr %0, CPENABLE\n"
+    : "=r"(cpenable)
+  );
+
+  return cpenable;
+}
+
+
+
+static inline void xtensa_set_cpenable(uint32_t cpenable)
+{
+  __asm__ __volatile__
+  (
+    "\twsr %0, CPENABLE\n"
+    "\trsync\n"
+    : : "r"(cpenable)
+  );
+}
+# 50 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/chip/irq.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/arch/chip/irq.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/esp32/chip.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/arch/chip/irq.h" 2 3 4
+# 54 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/lx6/irq.h" 1 3 4
+# 59 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 2 3 4
+# 179 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+struct xcptcontext
+{
+
+
+
+
+  void *sigdeliver;
+# 195 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+  uint32_t *saved_regs;
+
+
+
+  uint32_t *regs;
+# 217 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+};
+
+
+
+
+
+
+
+static inline uint32_t xtensa_getps(void)
+{
+  uint32_t ps;
+
+  __asm__ __volatile__
+  (
+    "rsr %0, PS" : "=r"(ps)
+  );
+
+  return ps;
+}
+
+
+
+__attribute__((no_instrument_function)) static inline void xtensa_setps(uint32_t ps)
+{
+  __asm__ __volatile__
+  (
+    "wsr %0, PS \n"
+    "rsync \n"
+    :
+    : "r"(ps)
+    : "memory"
+  );
+}
+
+
+
+static inline uint32_t up_getsp(void)
+{
+  register uint32_t sp;
+
+  __asm__ __volatile__
+  (
+    "mov %0, sp\n"
+    : "=r" (sp)
+  );
+
+  return sp;
+}
+
+
+
+__attribute__((no_instrument_function)) static inline void up_irq_restore(uint32_t ps)
+{
+  __asm__ __volatile__
+  (
+    "wsr %0, PS\n"
+    "rsync \n"
+    :
+    : "r"(ps)
+    : "memory"
+  );
+}
+
+
+
+__attribute__((no_instrument_function)) static inline uint32_t up_irq_save(void)
+{
+  uint32_t ps;
+
+
+
+
+
+
+  __asm__ __volatile__
+  (
+    "rsil %0, %1" : "=r"(ps) : "i"(2)
+  );
+
+
+
+
+
+  return ps;
+}
+
+
+
+static inline void up_irq_enable(void)
+{
+
+
+
+  xtensa_setps(((0)&0x0000000f) | 0x00000020 | 0x00040000);
+
+}
+
+
+
+__attribute__((no_instrument_function)) static inline void up_irq_disable(void)
+{
+
+
+
+  xtensa_setps(((3)&0x0000000f) | 0x00000020 | 0x00040000);
+
+}
+
+
+
+
+
+static inline void xtensa_disable_all(void)
+{
+  __asm__ __volatile__
+  (
+    "movi a2, 0\n"
+    "xsr a2, INTENABLE\n"
+    "rsync\n"
+    : : : "a2"
+  );
+}
+
+
+
+
+
+static inline void xtensa_intclear(uint32_t mask)
+{
+  __asm__ __volatile__
+  (
+    "wsr %0, INTCLEAR\n"
+    "rsync\n"
+    :
+    : "r"(mask)
+    :
+  );
+}
+# 379 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+extern volatile uint32_t *g_current_regs[1];
+# 397 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+irqstate_t xtensa_enable_interrupts(irqstate_t mask);
+# 409 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+irqstate_t xtensa_disable_interrupts(irqstate_t mask);
+# 443 "/workspaces/nuttx-external/nuttx/include/arch/irq.h" 3 4
+__attribute__((no_instrument_function)) static inline _Bool up_interrupt_context(void)
+{
+
+
+
+
+  _Bool ret = (g_current_regs[(0)]) != ((void*)0);
+
+
+
+
+
+  return ret;
+}
+# 38 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 2 3 4
+# 83 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 3 4
+typedef uint8_t irq_t;
+# 106 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 3 4
+typedef int (*xcpt_t)(int irq, void *context, void *arg);
+# 149 "/workspaces/nuttx-external/nuttx/include/nuttx/irq.h" 3 4
+int irq_attach(int irq, xcpt_t isr, void *arg);
+# 34 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 2 3 4
+# 55 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+typedef uint8_t spinlock_t;
+# 147 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+spinlock_t up_testset( volatile spinlock_t *lock);
+# 210 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+void spin_lock( volatile spinlock_t *lock);
+# 234 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+void spin_lock_wo_note( volatile spinlock_t *lock);
+# 255 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+_Bool spin_trylock( volatile spinlock_t *lock);
+# 279 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+_Bool spin_trylock_wo_note( volatile spinlock_t *lock);
+# 324 "/workspaces/nuttx-external/nuttx/include/nuttx/spinlock.h" 3 4
+void spin_unlock_wo_note( volatile spinlock_t *lock);
+# 41 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/gran.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 2 3 4
+
+
+
+
+
+struct task_group_s;
+
+
+
+
+
+
+
+struct mm_map_entry_s
+{
+  struct mm_map_entry_s *flink;
+  void *vaddr;
+  size_t length;
+  off_t offset;
+  int prot;
+  int flags;
+  union
+  {
+    void *p;
+    int i;
+  } priv;
+# 66 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+  int (*munmap)( struct task_group_s *group,
+                struct mm_map_entry_s *entry,
+                void *start,
+                size_t length);
+};
+
+
+
+struct mm_map_s
+{
+  sq_queue_t mm_map_sq;
+  size_t map_count;
+
+
+
+
+
+  rmutex_t mm_map_mutex;
+};
+# 105 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+int mm_map_lock(void);
+# 121 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+void mm_map_unlock(void);
+# 138 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+void mm_map_initialize( struct mm_map_s *mm, _Bool kernel);
+# 154 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+void mm_map_destroy( struct mm_map_s *mm);
+# 256 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+int mm_map_add( struct mm_map_s *mm, struct mm_map_entry_s *entry);
+# 276 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+ struct mm_map_entry_s *mm_map_next( struct mm_map_s *mm,
+                           const struct mm_map_entry_s *entry);
+# 295 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+ struct mm_map_entry_s *mm_map_find( struct mm_map_s *mm,
+                                       const void *vaddr,
+                                       size_t length);
+# 322 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/map.h" 3 4
+int mm_map_remove( struct mm_map_s *mm,
+                  struct mm_map_entry_s *entry);
+# 42 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/spawn.h" 1 3 4
+# 30 "/workspaces/nuttx-external/nuttx/include/nuttx/spawn.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/spawn.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/spawn.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sched.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/sched.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/strings.h" 1 3 4
+# 30 "/workspaces/nuttx-external/nuttx/include/strings.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/string.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/string.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/stddef.h" 1 3 4
+# 69 "/workspaces/nuttx-external/nuttx/include/stddef.h" 3 4
+typedef struct
+{
+
+  long long max_align_i;
+
+
+
+
+  long double max_align_f;
+
+
+
+
+
+} max_align_t;
+# 32 "/workspaces/nuttx-external/nuttx/include/string.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/alloca.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/string.h" 2 3 4
+# 64 "/workspaces/nuttx-external/nuttx/include/string.h" 3 4
+ char *strdup( const char *s) __attribute__((__malloc__(__builtin_free, 1)));
+ char *strndup( const char *s, size_t size) __attribute__((__malloc__(__builtin_free, 1)));
+ char *strerror(int);
+int strerror_r(int, char *, size_t);
+size_t strlen( const char *);
+size_t strnlen( const char *, size_t);
+ char *strcat( char *, const char *);
+size_t strlcat( char *, const char *, size_t);
+ char *strncat( char *, const char *, size_t);
+int strcmp( const char *, const char *);
+int strncmp( const char *, const char *, size_t);
+int strcoll( const char *, const char *s2);
+ char *strcpy( char *dest, const char *src);
+ char *stpcpy( char *dest, const char *src);
+size_t strlcpy( char *dst, const char *src, size_t siz);
+ char *strncpy( char *, const char *, size_t);
+ char *stpncpy( char *, const char *, size_t);
+ char *strpbrk( const char *, const char *);
+ char *strchr( const char *s, int c);
+ char *strchrnul( const char *s, int c);
+ char *strrchr( const char *s, int c);
+size_t strspn( const char *, const char *);
+size_t strcspn( const char *, const char *);
+ char *strstr( const char *, const char *);
+ char *strcasestr( const char *, const char *);
+ char *strsep( char **, const char *);
+ char *strsignal(int signum);
+ char *strtok( char *, const char *);
+ char *strtok_r( char *, const char *, char **);
+size_t strxfrm( char *, const char *, size_t n);
+int strverscmp( const char *s1, const char *s2);
+
+ void *memchr( const void *s, int c, size_t n);
+ void *memrchr( const void *s, int c, size_t n);
+ void *rawmemchr( const void *s, int c);
+ void *memccpy( void *s1, const void *s2, int c, size_t n);
+int memcmp( const void *s1, const void *s2, size_t n);
+ void *memcpy( void *dest, const void *src, size_t n);
+ void *mempcpy( void *dest, const void *src, size_t n);
+ void *memmove( void *dest, const void *src, size_t count);
+ void *memset( void *s, int c, size_t n);
+ void *memmem( const void *haystack, size_t haystacklen,
+                  const void *needle, size_t needlelen);
+
+void explicit_bzero( void *s, size_t n);
+int timingsafe_bcmp( const void *b1, const void *b2, size_t n);
+# 31 "/workspaces/nuttx-external/nuttx/include/strings.h" 2 3 4
+# 73 "/workspaces/nuttx-external/nuttx/include/strings.h" 3 4
+static __attribute__((always_inline)) inline int ffs(int j)
+{
+  return __builtin_ffs(j);
+}
+# 87 "/workspaces/nuttx-external/nuttx/include/strings.h" 3 4
+static __attribute__((always_inline)) inline int ffsl(long j)
+{
+  return __builtin_ffsl(j);
+}
+# 102 "/workspaces/nuttx-external/nuttx/include/strings.h" 3 4
+static __attribute__((always_inline)) inline int ffsll(long long j)
+{
+    return __builtin_ffsll(j);
+}
+# 117 "/workspaces/nuttx-external/nuttx/include/strings.h" 3 4
+static __attribute__((always_inline)) inline int fls(int j)
+{
+  return (8 * sizeof(int)) - __builtin_clz(j);
+}
+
+
+
+
+
+static __attribute__((always_inline)) inline int flsl(long j)
+{
+  return (8 * sizeof(long)) - __builtin_clzl(j);
+}
+
+
+
+
+
+
+static __attribute__((always_inline)) inline int flsll(long long j)
+{
+  return (8 * sizeof(long long)) - __builtin_clzll(j);
+}
+
+
+
+
+
+unsigned int popcount(unsigned int j);
+unsigned int popcountl(unsigned long j);
+unsigned int popcountll(unsigned long long j);
+
+ char *index( const char *s, int c);
+ char *rindex( const char *s, int c);
+
+int strcasecmp( const char *, const char *);
+int strncasecmp( const char *, const char *, size_t);
+
+void bzero( void *s, size_t n);
+# 34 "/workspaces/nuttx-external/nuttx/include/sched.h" 2 3 4
+# 187 "/workspaces/nuttx-external/nuttx/include/sched.h" 3 4
+struct sched_param
+{
+  int sched_priority;
+# 200 "/workspaces/nuttx-external/nuttx/include/sched.h" 3 4
+};
+# 223 "/workspaces/nuttx-external/nuttx/include/sched.h" 3 4
+int task_create( const char *name, int priority, int stack_size,
+                   main_t entry, char * const argv[]);
+int task_create_with_stack( const char *name, int priority,
+                              void *stack_addr, int stack_size,
+                              main_t entry, char * const argv[]);
+
+int task_delete(pid_t pid);
+int task_restart(pid_t pid);
+
+int task_setcancelstate(int state, int *oldstate);
+int task_setcanceltype(int type, int *oldtype);
+void task_testcancel(void);
+
+
+
+int sched_setparam(pid_t pid, const struct sched_param *param);
+int sched_getparam(pid_t pid, struct sched_param *param);
+int sched_setscheduler(pid_t pid, int policy,
+                          const struct sched_param *param);
+int sched_getscheduler(pid_t pid);
+int sched_yield(void);
+int sched_get_priority_max(int policy);
+int sched_get_priority_min(int policy);
+int sched_rr_get_interval(pid_t pid, struct timespec *interval);
+# 265 "/workspaces/nuttx-external/nuttx/include/sched.h" 3 4
+int sched_lock(void);
+int sched_unlock(void);
+int sched_lockcount(void);
+
+
+
+_Bool sched_idletask(void);
+# 33 "/workspaces/nuttx-external/nuttx/include/spawn.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/signal.h" 1 3 4
+# 310 "/workspaces/nuttx-external/nuttx/include/signal.h" 3 4
+struct sigset_s
+{
+  uint32_t _elem[(((63 + 1) + 31) >> 5)];
+};
+
+typedef struct sigset_s sigset_t;
+
+
+
+
+
+typedef volatile int sig_atomic_t;
+
+
+
+union sigval
+{
+  int sival_int;
+  void *sival_ptr;
+};
+
+
+
+
+
+
+typedef void (*sigev_notify_function_t)(union sigval value);
+
+struct sigevent
+{
+  uint8_t sigev_notify;
+  uint8_t sigev_signo;
+  union sigval sigev_value;
+
+
+
+
+
+};
+
+
+
+struct siginfo
+{
+  uint8_t si_signo;
+  uint8_t si_code;
+  uint8_t si_errno;
+  union sigval si_value;
+
+
+
+
+
+
+
+  void *si_user;
+};
+
+typedef struct siginfo siginfo_t;
+
+
+
+
+
+typedef void (*_sa_handler_t)(int signo);
+typedef void (*_sa_sigaction_t)(int signo, siginfo_t *siginfo,
+                                     void *context);
+
+
+
+typedef _sa_handler_t sighandler_t;
+
+
+
+struct sigaction
+{
+  union
+  {
+    _sa_handler_t _sa_handler;
+    _sa_sigaction_t _sa_sigaction;
+  } sa_u;
+  sigset_t sa_mask;
+  int sa_flags;
+  void *sa_user;
+};
+# 403 "/workspaces/nuttx-external/nuttx/include/signal.h" 3 4
+typedef struct
+{
+  void *ss_sp;
+  int ss_flags;
+  size_t ss_size;
+} stack_t;
+# 422 "/workspaces/nuttx-external/nuttx/include/signal.h" 3 4
+int kill(pid_t pid, int signo);
+int killpg(pid_t pgrp, int signo);
+int tgkill(pid_t pid, pid_t tid, int signo);
+void psignal(int signum, const char *message);
+void psiginfo( const siginfo_t *pinfo, const char *message);
+int raise(int signo);
+int sigaction(int signo, const struct sigaction *act,
+               struct sigaction *oact);
+int sigaddset( sigset_t *set, int signo);
+int sigandset( sigset_t *dest, const sigset_t *left,
+               const sigset_t *right);
+int sigdelset( sigset_t *set, int signo);
+int sigemptyset( sigset_t *set);
+int sigfillset( sigset_t *set);
+int sighold(int signo);
+int sigisemptyset( sigset_t *set);
+int sigismember( const sigset_t *set, int signo);
+int sigignore(int signo);
+_sa_handler_t signal(int signo, _sa_handler_t func);
+int sigorset( sigset_t *dest, const sigset_t *left,
+              const sigset_t *right);
+int sigpause(int signo);
+int sigpending( sigset_t *set);
+int sigprocmask(int how, const sigset_t *set, sigset_t *oset);
+int sigqueue(int pid, int signo, union sigval value);
+int sigrelse(int signo);
+_sa_handler_t sigset(int signo, _sa_handler_t func);
+int sigwait( const sigset_t *set, int *sig);
+int sigtimedwait( const sigset_t *set, struct siginfo *value,
+                  const struct timespec *timeout);
+int sigsuspend( const sigset_t *sigmask);
+int sigwaitinfo( const sigset_t *set, struct siginfo *value);
+int sigaltstack( const stack_t *ss, stack_t *oss);
+int siginterrupt(int signo, int flag);
+# 34 "/workspaces/nuttx-external/nuttx/include/spawn.h" 2 3 4
+# 75 "/workspaces/nuttx-external/nuttx/include/spawn.h" 3 4
+struct timespec;
+struct posix_spawnattr_s
+{
+
+
+  uint8_t flags;
+  uint8_t priority;
+  uint8_t policy;
+
+
+
+
+
+
+  sigset_t sigmask;
+  size_t stacksize;
+
+
+  void *stackaddr;
+
+
+
+
+
+
+};
+
+typedef struct posix_spawnattr_s posix_spawnattr_t;
+# 112 "/workspaces/nuttx-external/nuttx/include/spawn.h" 3 4
+typedef void *posix_spawn_file_actions_t;
+# 133 "/workspaces/nuttx-external/nuttx/include/spawn.h" 3 4
+int posix_spawn( pid_t *pid, const char *path,
+      const posix_spawn_file_actions_t *file_actions,
+      const posix_spawnattr_t *attr,
+      char * const argv[], char * const envp[]);
+
+
+
+
+
+
+
+int task_spawn( const char *name, main_t entry,
+      const posix_spawn_file_actions_t *file_actions,
+      const posix_spawnattr_t *attr,
+      char * const argv[], char * const envp[]);
+
+
+
+
+
+
+int posix_spawn_file_actions_init(
+      posix_spawn_file_actions_t *file_actions);
+int posix_spawn_file_actions_destroy(
+      posix_spawn_file_actions_t *file_actions);
+
+
+
+int posix_spawn_file_actions_addclose(
+      posix_spawn_file_actions_t *file_actions,
+      int fd);
+int posix_spawn_file_actions_adddup2(
+      posix_spawn_file_actions_t *file_actions,
+      int fd1, int fd2);
+int posix_spawn_file_actions_addopen(
+      posix_spawn_file_actions_t *file_actions,
+      int fd, const char *path, int oflags, mode_t mode);
+
+
+
+
+
+int posix_spawnattr_init( posix_spawnattr_t *attr);
+
+int posix_spawnattr_destroy( posix_spawnattr_t *attr);
+
+
+
+int posix_spawnattr_getflags( const posix_spawnattr_t *attr,
+                             short *flags);
+
+int posix_spawnattr_getschedparam( const posix_spawnattr_t *attr,
+                                  struct sched_param *param);
+int posix_spawnattr_getschedpolicy( const posix_spawnattr_t *attr,
+                                   int *policy);
+
+int posix_spawnattr_getsigmask( const posix_spawnattr_t *attr,
+                               sigset_t *sigmask);
+
+
+
+int posix_spawnattr_setflags( posix_spawnattr_t *attr, short flags);
+
+int posix_spawnattr_setschedparam( posix_spawnattr_t *attr,
+                                  const struct sched_param *param);
+int posix_spawnattr_setschedpolicy( posix_spawnattr_t *attr, int policy);
+
+int posix_spawnattr_setsigmask( posix_spawnattr_t *attr,
+                               const sigset_t *sigmask);
+
+
+
+int posix_spawnattr_getstacksize( const posix_spawnattr_t *attr,
+                                 size_t *stacksize);
+int posix_spawnattr_setstacksize( posix_spawnattr_t *attr,
+                                 size_t stacksize);
+
+
+int posix_spawnattr_getstackaddr( const posix_spawnattr_t *attr,
+                                 void **stackaddr);
+int posix_spawnattr_setstackaddr( posix_spawnattr_t *attr,
+                                 void *stackaddr);
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/spawn.h" 2 3 4
+# 42 "/workspaces/nuttx-external/nuttx/include/nuttx/spawn.h" 3 4
+enum spawn_file_actions_e
+{
+  SPAWN_FILE_ACTION_NONE = 0,
+  SPAWN_FILE_ACTION_CLOSE,
+  SPAWN_FILE_ACTION_DUP2,
+  SPAWN_FILE_ACTION_OPEN
+};
+
+
+
+
+
+
+
+struct spawn_general_file_action_s
+{
+  struct spawn_general_file_action_s *flink;
+  enum spawn_file_actions_e action;
+};
+
+struct spawn_close_file_action_s
+{
+  struct spawn_general_file_action_s *flink;
+  enum spawn_file_actions_e action;
+  int fd;
+};
+
+struct spawn_dup2_file_action_s
+{
+  struct spawn_general_file_action_s *flink;
+  enum spawn_file_actions_e action;
+  int fd1;
+  int fd2;
+};
+
+struct spawn_open_file_action_s
+{
+  struct spawn_general_file_action_s *flink;
+  enum spawn_file_actions_e action;
+  int fd;
+  int oflags;
+  mode_t mode;
+  char path[1];
+
+};
+# 100 "/workspaces/nuttx-external/nuttx/include/nuttx/spawn.h" 3 4
+void add_file_action( posix_spawn_file_actions_t *file_action,
+                     struct spawn_general_file_action_s *entry);
+
+struct tcb_s;
+int spawn_file_actions( struct tcb_s *tcb,
+                       const posix_spawn_file_actions_t *actions);
+
+_Bool
+spawn_file_is_duplicateable( const posix_spawn_file_actions_t *actions,
+                            int fd, _Bool cloexec);
+# 43 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 2 3 4
+# 173 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+struct file;
+struct inode;
+struct stat;
+struct statfs;
+struct pollfd;
+struct mtd_dev_s;
+struct tcb_s;
+
+
+
+
+
+struct fs_dirent_s
+{
+# 195 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+  struct inode *fd_root;
+
+
+
+  char *fd_path;
+};
+
+
+
+
+
+struct file_operations
+{
+
+
+  int (*open)( struct file *filep);
+
+
+
+
+
+
+  int (*close)( struct file *filep);
+  ssize_t (*read)( struct file *filep, char *buffer,
+                       size_t buflen);
+  ssize_t (*write)( struct file *filep, const char *buffer,
+                        size_t buflen);
+  off_t (*seek)( struct file *filep, off_t offset, int whence);
+  int (*ioctl)( struct file *filep, int cmd, unsigned long arg);
+  int (*mmap)( struct file *filep,
+                       struct mm_map_entry_s *map);
+  int (*truncate)( struct file *filep, off_t length);
+
+
+
+  int (*poll)( struct file *filep, struct pollfd *fds,
+                       _Bool setup);
+
+  int (*unlink)( struct inode *inode);
+
+};
+
+
+
+
+struct geometry
+{
+  _Bool geo_available;
+  _Bool geo_mediachanged;
+  _Bool geo_writeenabled;
+  blkcnt_t geo_nsectors;
+  blksize_t geo_sectorsize;
+
+
+
+  char geo_model[32 + 1];
+};
+
+struct partition_info_s
+{
+  size_t numsectors;
+  size_t sectorsize;
+  off_t startsector;
+
+
+
+
+
+
+  char parent[32 + 1];
+};
+
+
+
+
+
+
+
+struct inode;
+struct block_operations
+{
+  int (*open)( struct inode *inode);
+  int (*close)( struct inode *inode);
+  ssize_t (*read)( struct inode *inode, unsigned char *buffer,
+                       blkcnt_t start_sector, unsigned int nsectors);
+  ssize_t (*write)( struct inode *inode,
+                        const unsigned char *buffer,
+                        blkcnt_t start_sector, unsigned int nsectors);
+  int (*geometry)( struct inode *inode,
+                           struct geometry *geometry);
+  int (*ioctl)( struct inode *inode, int cmd, unsigned long arg);
+
+  int (*unlink)( struct inode *inode);
+
+};
+
+
+
+
+
+
+
+struct mountpt_operations
+{
+
+
+
+
+
+
+  int (*open)( struct file *filep, const char *relpath,
+                       int oflags, mode_t mode);
+
+
+
+
+
+
+  int (*close)( struct file *filep);
+  ssize_t (*read)( struct file *filep, char *buffer,
+                       size_t buflen);
+  ssize_t (*write)( struct file *filep, const char *buffer,
+                        size_t buflen);
+  off_t (*seek)( struct file *filep, off_t offset, int whence);
+  int (*ioctl)( struct file *filep, int cmd, unsigned long arg);
+  int (*mmap)( struct file *filep,
+                       struct mm_map_entry_s *map);
+  int (*truncate)( struct file *filep, off_t length);
+  int (*poll)( struct file *filep, struct pollfd *fds,
+                       _Bool setup);
+
+
+
+
+
+
+
+  int (*sync)( struct file *filep);
+  int (*dup)( const struct file *oldp, struct file *newp);
+  int (*fstat)( const struct file *filep, struct stat *buf);
+  int (*fchstat)( const struct file *filep,
+                          const struct stat *buf, int flags);
+
+
+
+  int (*opendir)( struct inode *mountpt, const char *relpath,
+                          struct fs_dirent_s **dir);
+  int (*closedir)( struct inode *mountpt,
+                           struct fs_dirent_s *dir);
+  int (*readdir)( struct inode *mountpt,
+                          struct fs_dirent_s *dir,
+                          struct dirent *entry);
+  int (*rewinddir)( struct inode *mountpt,
+                            struct fs_dirent_s *dir);
+
+
+
+  int (*bind)( struct inode *blkdriver, const void *data,
+                       void **handle);
+  int (*unbind)( void *handle, struct inode **blkdriver,
+                         unsigned int flags);
+  int (*statfs)( struct inode *mountpt, struct statfs *buf);
+
+
+
+  int (*unlink)( struct inode *mountpt, const char *relpath);
+  int (*mkdir)( struct inode *mountpt, const char *relpath,
+                        mode_t mode);
+  int (*rmdir)( struct inode *mountpt, const char *relpath);
+  int (*rename)( struct inode *mountpt,
+                         const char *oldrelpath,
+                         const char *newrelpath);
+  int (*stat)( struct inode *mountpt, const char *relpath,
+                       struct stat *buf);
+  int (*chstat)( struct inode *mountpt, const char *relpath,
+                         const struct stat *buf, int flags);
+  int (*syncfs)( struct inode *mountpt);
+};
+# 389 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+union inode_ops_u
+{
+  const struct file_operations *i_ops;
+
+  const struct block_operations *i_bops;
+  struct mtd_dev_s *i_mtd;
+  const struct mountpt_operations *i_mops;
+
+
+
+
+
+
+
+};
+
+
+
+struct inode
+{
+  struct inode *i_parent;
+  struct inode *i_peer;
+  struct inode *i_child;
+  int16_t i_crefs;
+  uint16_t i_flags;
+  union inode_ops_u u;
+  ino_t i_ino;
+# 427 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+  void *i_private;
+  char i_name[1];
+};
+# 442 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+typedef ssize_t cookie_read_function_t( void *cookie, char *buf,
+                                            size_t size);
+typedef ssize_t cookie_write_function_t( void *cookie,
+                                             const char *buf,
+                                             size_t size);
+typedef off_t cookie_seek_function_t( void *cookie,
+                                          off_t *offset,
+                                          int whence);
+typedef int cookie_close_function_t( void *cookie);
+
+typedef struct cookie_io_functions_t
+{
+  cookie_read_function_t *read;
+  cookie_write_function_t *write;
+  cookie_seek_function_t *seek;
+  cookie_close_function_t *close;
+} cookie_io_functions_t;
+
+
+
+
+
+
+struct file
+{
+  int f_oflags;
+  off_t f_pos;
+  struct inode *f_inode;
+  void *f_priv;
+
+
+
+
+
+
+
+};
+# 487 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+struct filelist
+{
+  spinlock_t fl_lock;
+  uint8_t fl_rows;
+  struct file **fl_files;
+
+
+
+
+
+
+
+  struct file *fl_prefile;
+  struct file fl_prefiles[8];
+};
+# 540 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+struct file_struct
+{
+  sq_entry_t fs_entry;
+  rmutex_t fs_lock;
+  cookie_io_functions_t fs_iofunc;
+  void *fs_cookie;
+
+  char *fs_bufstart;
+  char *fs_bufend;
+  char *fs_bufpos;
+  char *fs_bufread;
+
+  char fs_buffer[64];
+
+
+  uint16_t fs_oflags;
+  uint8_t fs_flags;
+
+  uint8_t fs_nungotten;
+  char fs_ungotten[2];
+
+};
+
+struct streamlist
+{
+  mutex_t sl_lock;
+  struct file_struct sl_std[3];
+  sq_queue_t sl_queue;
+};
+# 593 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+void fs_initialize(void);
+# 618 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int register_driver( const char *path,
+                    const struct file_operations *fops, mode_t mode,
+                    void *priv);
+# 646 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int register_blockdriver( const char *path,
+                         const struct block_operations *bops,
+                         mode_t mode, void *priv);
+# 675 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int register_blockpartition( const char *partition,
+                            mode_t mode, const char *parent,
+                            off_t firstsector, off_t nsectors);
+# 688 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int unregister_driver( const char *path);
+# 698 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int unregister_blockdriver( const char *path);
+# 826 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_mount( const char *source, const char *target,
+             const char *filesystemtype, unsigned long mountflags,
+             const void *data);
+# 847 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_umount2( const char *target, unsigned int flags);
+# 858 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+void files_initlist( struct filelist *list);
+# 868 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+void files_releaselist( struct filelist *list);
+# 881 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int files_countlist( struct filelist *list);
+# 895 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int files_duplist( struct filelist *plist, struct filelist *clist,
+                  const posix_spawn_file_actions_t *actions,
+                  _Bool cloexec);
+# 914 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ struct file *files_fget( struct filelist *list, int fd);
+# 929 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_allocate_from_tcb( struct tcb_s *tcb, struct inode *inode,
+                           int oflags, off_t pos, void *priv, int minfd,
+                           _Bool addref);
+# 946 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_allocate( struct inode *inode, int oflags, off_t pos,
+                  void *priv, int minfd, _Bool addref);
+# 962 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_dup( struct file *filep, int minfd, int flags);
+# 980 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_dup2( struct file *filep1, struct file *filep2);
+# 1001 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_dup2_from_tcb( struct tcb_s *tcb, int fd1, int fd2);
+# 1019 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_dup2(int fd1, int fd2);
+# 1037 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_dup3( struct file *filep1, struct file *filep2, int flags);
+# 1060 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_open( struct file *filep, const char *path, int oflags, ...);
+# 1085 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_open_from_tcb( struct tcb_s *tcb,
+                     const char *path, int oflags, ...);
+# 1104 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_open( const char *path, int oflags, ...);
+# 1124 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int fs_getfilep(int fd, struct file **filep);
+# 1142 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_close( struct file *filep);
+# 1161 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_close_without_clear( struct file *filep);
+# 1186 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_close_from_tcb( struct tcb_s *tcb, int fd);
+# 1204 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_close(int fd);
+# 1229 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int open_blockdriver( const char *pathname, int mountflags,
+                     struct inode **ppinode);
+# 1250 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int close_blockdriver( struct inode *inode);
+# 1274 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int find_blockdriver( const char *pathname, int mountflags,
+                     struct inode **ppinode);
+# 1295 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int find_mtddriver( const char *pathname, struct inode **ppinode);
+# 1313 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int close_mtddriver( struct inode *pinode);
+# 1338 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t file_read( struct file *filep, void *buf, size_t nbytes);
+# 1361 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t nx_read(int fd, void *buf, size_t nbytes);
+# 1389 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t file_write( struct file *filep, const void *buf,
+                   size_t nbytes);
+# 1417 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t nx_write(int fd, const void *buf, size_t nbytes);
+# 1429 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t file_pread( struct file *filep, void *buf, size_t nbytes,
+                   off_t offset);
+# 1442 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t file_pwrite( struct file *filep, const void *buf,
+                    size_t nbytes, off_t offset);
+# 1454 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+ssize_t file_sendfile( struct file *outfile, struct file *infile,
+                      off_t *offset, size_t count);
+# 1467 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+off_t file_seek( struct file *filep, off_t offset, int whence);
+# 1483 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+off_t nx_seek(int fd, off_t offset, int whence);
+# 1495 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_fsync( struct file *filep);
+# 1507 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_syncfs( struct file *filep);
+# 1519 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_truncate( struct file *filep, off_t length);
+# 1531 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_mmap( struct file *filep, void *start, size_t length,
+              int prot, int flags, off_t offset, void **mapped);
+# 1543 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_munmap( void *start, size_t length);
+# 1563 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_ioctl( struct file *filep, int req, ...);
+# 1584 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_fcntl( struct file *filep, int cmd, ...);
+# 1605 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_poll( struct file *filep, struct pollfd *fds, _Bool setup);
+# 1630 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_fstat( struct file *filep, struct stat *buf);
+# 1647 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_fstat(int fd, struct stat *buf);
+# 1664 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_stat( const char *path, struct stat *buf, int resolve);
+# 1689 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int file_fchstat( struct file *filep, struct stat *buf, int flags);
+# 1706 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/fs.h" 3 4
+int nx_unlink( const char *pathname);
+# 35 "/workspaces/nuttx-external/nuttx/include/stdio.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/lib/lib.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/lib/lib.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/kmalloc.h" 1 3 4
+# 34 "/workspaces/nuttx-external/nuttx/include/nuttx/kmalloc.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 1 3 4
+# 28 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/addrenv.h" 1 3 4
+# 37 "/workspaces/nuttx-external/nuttx/include/nuttx/addrenv.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 1 3 4
+# 35 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 1 3 4
+# 52 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+typedef uintptr_t wdparm_t;
+# 61 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+typedef void (*wdentry_t)(wdparm_t arg);
+# 70 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+struct wdog_s
+{
+  struct wdog_s *next;
+  wdparm_t arg;
+  wdentry_t func;
+
+
+
+  sclock_t lag;
+};
+# 129 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+int wd_start( struct wdog_s *wdog, sclock_t delay,
+             wdentry_t wdentry, wdparm_t arg);
+# 148 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+int wd_cancel( struct wdog_s *wdog);
+# 167 "/workspaces/nuttx-external/nuttx/include/nuttx/wdog.h" 3 4
+sclock_t wd_gettime( struct wdog_s *wdog);
+# 36 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 2 3 4
+# 237 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+typedef void (*worker_t)( void *arg);
+
+
+
+
+
+
+struct work_s
+{
+  union
+  {
+    struct
+    {
+      struct dq_entry_s dq;
+      clock_t qtime;
+    } s;
+    struct wdog_s timer;
+  } u;
+  worker_t worker;
+  void *arg;
+};
+
+
+
+
+
+enum work_evtype_e
+{
+  WORK_IOB_AVAIL = 1,
+  WORK_NET_DOWN,
+  WORK_TCP_READAHEAD,
+  WORK_TCP_WRITEBUFFER,
+  WORK_TCP_DISCONNECT,
+  WORK_UDP_READAHEAD,
+  WORK_UDP_WRITEBUFFER,
+  WORK_NETLINK_RESPONSE,
+  WORK_CAN_READAHEAD,
+  WORK_USB_MSC_CONNECT,
+  WORK_USB_MSC_DISCONNECT
+};
+
+
+
+
+
+
+
+struct work_notifier_s
+{
+  uint8_t evtype;
+  uint8_t qid;
+  void *qualifier;
+  void *arg;
+  worker_t worker;
+};
+
+
+
+typedef void (*work_foreach_t)(int tid, void *arg);
+# 361 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+int work_queue(int qid, struct work_s *work, worker_t worker,
+               void *arg, clock_t delay);
+# 384 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+int work_cancel(int qid, struct work_s *work);
+# 407 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+int work_cancel_sync(int qid, struct work_s *work);
+# 426 "/workspaces/nuttx-external/nuttx/include/nuttx/wqueue.h" 3 4
+void work_foreach(int qid, work_foreach_t handler, void *arg);
+# 38 "/workspaces/nuttx-external/nuttx/include/nuttx/addrenv.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/arch/arch.h" 1 3 4
+# 40 "/workspaces/nuttx-external/nuttx/include/nuttx/addrenv.h" 2 3 4
+# 29 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/userspace.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/nuttx/userspace.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/pthread.h" 1 3 4
+# 34 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/unistd.h" 1 3 4
+# 323 "/workspaces/nuttx-external/nuttx/include/unistd.h" 3 4
+pid_t fork(void);
+pid_t vfork(void);
+pid_t getpid(void);
+pid_t getpgid(pid_t pid);
+pid_t getpgrp(void);
+pid_t gettid(void);
+pid_t getppid(void);
+void _exit(int status) __attribute__((noreturn));
+unsigned int sleep(unsigned int seconds);
+int usleep(useconds_t usec);
+int pause(void);
+int nice(int inc);
+
+int daemon(int nochdir, int noclose);
+
+
+
+int close(int fd);
+int dup(int fd);
+int dup2(int fd1, int fd2);
+int dup3(int fd1, int fd2, int flags);
+int fsync(int fd);
+off_t lseek(int fd, off_t offset, int whence);
+ssize_t read(int fd, void *buf, size_t nbytes);
+ssize_t write(int fd, const void *buf, size_t nbytes);
+ssize_t pread(int fd, void *buf, size_t nbytes, off_t offset);
+ssize_t pwrite(int fd, const void *buf, size_t nbytes, off_t offset);
+int ftruncate(int fd, off_t length);
+int fchown(int fd, uid_t owner, gid_t group);
+int lockf(int fd, int cmd, off_t len);
+
+
+
+int isatty(int fd);
+
+ char *ttyname(int fd);
+int ttyname_r(int fd, char *buf, size_t buflen);
+# 371 "/workspaces/nuttx-external/nuttx/include/unistd.h" 3 4
+int pipe2(int pipefd[2], int flags);
+
+
+
+unsigned int alarm(unsigned int seconds);
+
+
+
+int chdir( const char *path);
+int fchdir(int fd);
+ char *getcwd( char *buf, size_t size);
+
+
+
+int access( const char *path, int amode);
+int faccessat(int dirfd, const char *path, int mode, int flags);
+int rmdir( const char *pathname);
+int unlink( const char *pathname);
+int unlinkat(int dirfd, const char *pathname, int flags);
+int truncate( const char *path, off_t length);
+int link( const char *path1, const char *path2);
+int linkat(int olddirfd, const char *path1,
+               int newdirfd, const char *path2, int flags);
+int symlink( const char *path1, const char *path2);
+int symlinkat( const char *path1, int dirfd,
+                  const char *path2);
+ssize_t readlink( const char *path, char *buf, size_t bufsize);
+ssize_t readlinkat(int dirfd, const char *path, char *buf,
+                   size_t bufsize);
+int chown( const char *path, uid_t owner, gid_t group);
+int lchown( const char *path, uid_t owner, gid_t group);
+int fchownat(int dirfd, const char *path, uid_t owner,
+                 gid_t group, int flags);
+# 417 "/workspaces/nuttx-external/nuttx/include/unistd.h" 3 4
+void swab( const void *src, void *dest, ssize_t nbytes);
+
+
+
+int getopt(int argc, char * const argv[], const char *optstring);
+
+
+
+ char **getoptargp(void);
+ int *getopterrp(void);
+ int *getoptindp(void);
+ int *getoptoptp(void);
+
+int gethostname( char *name, size_t namelen);
+int sethostname( const char *name, size_t namelen);
+
+
+
+long sysconf(int name);
+long fpathconf(int fildes, int name);
+long pathconf( const char *path, int name);
+
+
+
+int setuid(uid_t uid);
+uid_t getuid(void);
+int setgid(gid_t gid);
+gid_t getgid(void);
+
+int seteuid(uid_t uid);
+uid_t geteuid(void);
+int setegid(gid_t gid);
+gid_t getegid(void);
+
+int setreuid(uid_t ruid, uid_t euid);
+int setregid(gid_t rgid, gid_t egid);
+
+int getentropy( void *buffer, size_t length);
+
+void sync(void);
+int syncfs(int fd);
+# 35 "/workspaces/nuttx-external/nuttx/include/pthread.h" 2 3 4
+# 207 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+typedef int pthread_key_t;
+
+
+
+
+typedef void *pthread_addr_t;
+
+
+
+typedef pthread_addr_t (*pthread_startroutine_t)(pthread_addr_t);
+typedef pthread_startroutine_t pthread_func_t;
+
+typedef void (*pthread_trampoline_t)(pthread_startroutine_t, pthread_addr_t);
+
+struct pthread_attr_s
+{
+  uint8_t priority;
+  uint8_t policy;
+  uint8_t inheritsched;
+  uint8_t detachstate;
+# 236 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+  void *stackaddr;
+  size_t stacksize;
+
+
+
+
+
+};
+
+
+typedef struct pthread_attr_s pthread_attr_t;
+
+
+
+
+typedef pid_t pthread_t;
+
+
+
+struct pthread_condattr_s
+{
+  int pshared;
+  clockid_t clockid;
+};
+
+
+typedef struct pthread_condattr_s pthread_condattr_t;
+
+
+
+struct pthread_cond_s
+{
+  sem_t sem;
+  clockid_t clockid;
+};
+
+
+typedef struct pthread_cond_s pthread_cond_t;
+
+
+
+
+
+struct pthread_mutexattr_s
+{
+  uint8_t pshared : 1;
+# 291 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+};
+
+
+typedef struct pthread_mutexattr_s pthread_mutexattr_t;
+
+
+
+struct pthread_mutex_s
+{
+
+
+
+  struct pthread_mutex_s *flink;
+
+
+
+
+  sem_t sem;
+  pid_t pid;
+
+  uint8_t flags;
+
+
+
+
+
+};
+
+
+typedef struct pthread_mutex_s pthread_mutex_t;
+# 353 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+struct pthread_barrierattr_s
+{
+  int pshared;
+};
+
+
+typedef struct pthread_barrierattr_s pthread_barrierattr_t;
+
+
+
+struct pthread_barrier_s
+{
+  sem_t sem;
+  unsigned int count;
+};
+
+
+typedef struct pthread_barrier_s pthread_barrier_t;
+
+
+
+struct pthread_once_s
+{
+  _Bool done;
+  pthread_mutex_t mutex;
+};
+
+
+typedef struct pthread_once_s pthread_once_t;
+
+
+
+struct pthread_rwlockattr_s
+{
+  int pshared;
+};
+
+
+typedef struct pthread_rwlockattr_s pthread_rwlockattr_t;
+
+
+
+struct pthread_rwlock_s
+{
+  pthread_mutex_t lock;
+  pthread_cond_t cv;
+  unsigned int num_readers;
+  unsigned int num_writers;
+  _Bool write_in_progress;
+};
+
+
+typedef struct pthread_rwlock_s pthread_rwlock_t;
+# 439 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+struct sched_param;
+# 449 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_attr_init( pthread_attr_t *attr);
+
+
+
+int pthread_attr_destroy( pthread_attr_t *attr);
+
+
+
+int pthread_attr_setschedpolicy( pthread_attr_t *attr, int policy);
+int pthread_attr_getschedpolicy( const pthread_attr_t *attr,
+                                int *policy);
+int pthread_attr_setschedparam( pthread_attr_t *attr,
+                               const struct sched_param *param);
+int pthread_attr_getschedparam( const pthread_attr_t *attr,
+                               struct sched_param *param);
+int pthread_attr_setinheritsched( pthread_attr_t *attr,
+                                 int inheritsched);
+int pthread_attr_getinheritsched( const pthread_attr_t *attr,
+                                 int *inheritsched);
+int pthread_attr_getdetachstate( const pthread_attr_t *attr,
+                                int *detachstate);
+int pthread_attr_setdetachstate( pthread_attr_t *attr,
+                                int detachstate);
+# 485 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_attr_setstackaddr( pthread_attr_t *attr, void *stackaddr);
+int pthread_attr_getstackaddr( const pthread_attr_t *attr,
+                              void **stackaddr);
+
+
+
+int pthread_attr_setstacksize( pthread_attr_t *attr, size_t stacksize);
+int pthread_attr_getstacksize( const pthread_attr_t *attr,
+                              size_t *stacksize);
+
+
+
+int pthread_attr_setstack( pthread_attr_t *attr,
+                          void *stackaddr, size_t stacksize);
+int pthread_attr_getstack( const pthread_attr_t *attr,
+                          void **stackaddr, size_t *stacksize);
+
+
+
+int pthread_attr_setscope( pthread_attr_t *attr, int scope);
+int pthread_attr_getscope( const pthread_attr_t *attr, int *scope);
+
+
+
+int pthread_setname_np(pthread_t thread, const char *name);
+int pthread_getname_np(pthread_t thread, char *name, size_t len);
+
+
+
+ void *pthread_get_stackaddr_np(pthread_t thread);
+ssize_t pthread_get_stacksize_np(pthread_t thread);
+# 524 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_create( pthread_t *thread, const pthread_attr_t *attr,
+                   pthread_startroutine_t startroutine, pthread_addr_t arg);
+
+
+
+
+
+int pthread_detach(pthread_t thread);
+
+
+
+
+
+void pthread_exit(pthread_addr_t value) __attribute__((noreturn));
+int pthread_cancel(pthread_t thread);
+int pthread_setcancelstate(int state, int *oldstate);
+int pthread_setcanceltype(int type, int *oldtype);
+void pthread_testcancel(void);
+# 556 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_join(pthread_t thread, pthread_addr_t *value);
+
+
+
+
+
+void pthread_yield(void);
+# 575 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_getschedparam(pthread_t thread, int *policy,
+                          struct sched_param *param);
+int pthread_setschedparam(pthread_t thread, int policy,
+                          const struct sched_param *param);
+int pthread_setschedprio(pthread_t thread, int prio);
+# 592 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_key_create( pthread_key_t *key,
+                       void (*destructor)( void *));
+int pthread_setspecific(pthread_key_t key, const void *value);
+ void *pthread_getspecific(pthread_key_t key);
+int pthread_key_delete(pthread_key_t key);
+
+
+
+int pthread_mutexattr_init( pthread_mutexattr_t *attr);
+int pthread_mutexattr_destroy( pthread_mutexattr_t *attr);
+int pthread_mutexattr_getpshared( const pthread_mutexattr_t *attr,
+                                 int *pshared);
+int pthread_mutexattr_setpshared( pthread_mutexattr_t *attr,
+                                 int pshared);
+int pthread_mutexattr_gettype( const pthread_mutexattr_t *attr,
+                              int *type);
+int pthread_mutexattr_settype( pthread_mutexattr_t *attr, int type);
+int pthread_mutexattr_getprotocol( const pthread_mutexattr_t *attr,
+                                  int *protocol);
+int pthread_mutexattr_setprotocol( pthread_mutexattr_t *attr,
+                                  int protocol);
+int pthread_mutexattr_getrobust( const pthread_mutexattr_t *attr,
+                                int *robust);
+int pthread_mutexattr_setrobust( pthread_mutexattr_t *attr,
+                                int robust);
+
+
+
+int pthread_mutex_init( pthread_mutex_t *mutex,
+                       const pthread_mutexattr_t *attr);
+int pthread_mutex_destroy( pthread_mutex_t *mutex);
+int pthread_mutex_lock( pthread_mutex_t *mutex);
+int pthread_mutex_timedlock( pthread_mutex_t *mutex,
+                            const struct timespec *abs_timeout);
+int pthread_mutex_trylock( pthread_mutex_t *mutex);
+int pthread_mutex_unlock( pthread_mutex_t *mutex);
+
+
+
+
+int pthread_mutex_consistent( pthread_mutex_t *mutex);
+
+
+
+
+int pthread_condattr_init( pthread_condattr_t *attr);
+int pthread_condattr_destroy( pthread_condattr_t *attr);
+int pthread_condattr_getpshared( const pthread_condattr_t *attr,
+                                int *pshared);
+int pthread_condattr_setpshared( pthread_condattr_t *attr, int pshared);
+int pthread_condattr_getclock( const pthread_condattr_t *attr,
+                              clockid_t *clock_id);
+int pthread_condattr_setclock( pthread_condattr_t *attr,
+                              clockid_t clock_id);
+
+
+
+int pthread_cond_init( pthread_cond_t *cond,
+                      const pthread_condattr_t *attr);
+int pthread_cond_destroy( pthread_cond_t *cond);
+
+
+
+int pthread_cond_broadcast( pthread_cond_t *cond);
+int pthread_cond_signal( pthread_cond_t *cond);
+
+
+
+int pthread_cond_wait( pthread_cond_t *cond, pthread_mutex_t *mutex);
+
+
+
+int pthread_cond_timedwait( pthread_cond_t *cond,
+                           pthread_mutex_t *mutex,
+                           const struct timespec *abstime);
+
+int pthread_cond_clockwait( pthread_cond_t *cond,
+                           pthread_mutex_t *mutex,
+                           clockid_t clockid,
+                           const struct timespec *abstime);
+
+
+
+int pthread_barrierattr_destroy( pthread_barrierattr_t *attr);
+int pthread_barrierattr_init( pthread_barrierattr_t *attr);
+int pthread_barrierattr_getpshared( const pthread_barrierattr_t *attr,
+                                   int *pshared);
+int pthread_barrierattr_setpshared( pthread_barrierattr_t *attr,
+                                   int pshared);
+
+
+
+int pthread_barrier_destroy( pthread_barrier_t *barrier);
+int pthread_barrier_init( pthread_barrier_t *barrier,
+                         const pthread_barrierattr_t *attr,
+                         unsigned int count);
+int pthread_barrier_wait( pthread_barrier_t *barrier);
+
+
+
+int pthread_once( pthread_once_t *once_control,
+                 void (*init_routine)(void));
+
+
+
+int pthread_rwlockattr_init( pthread_rwlockattr_t *attr);
+int pthread_rwlockattr_destroy( pthread_rwlockattr_t *attr);
+int pthread_rwlockattr_getpshared( const pthread_rwlockattr_t *attr,
+                                  int *pshared);
+int pthread_rwlockattr_setpshared( pthread_rwlockattr_t *attr,
+                                  int pshared);
+
+
+
+int pthread_rwlock_destroy( pthread_rwlock_t *rw_lock);
+int pthread_rwlock_init( pthread_rwlock_t *rw_lock,
+                        const pthread_rwlockattr_t *attr);
+int pthread_rwlock_rdlock(pthread_rwlock_t *lock);
+int pthread_rwlock_timedrdlock( pthread_rwlock_t *lock,
+                               const struct timespec *abstime);
+int pthread_rwlock_clockrdlock( pthread_rwlock_t *lock,
+                               clockid_t clockid,
+                               const struct timespec *abstime);
+int pthread_rwlock_tryrdlock( pthread_rwlock_t *lock);
+int pthread_rwlock_wrlock( pthread_rwlock_t *lock);
+int pthread_rwlock_timedwrlock( pthread_rwlock_t *lock,
+                               const struct timespec *abstime);
+int pthread_rwlock_clockwrlock( pthread_rwlock_t *lock,
+                               clockid_t clockid,
+                               const struct timespec *abstime);
+int pthread_rwlock_trywrlock( pthread_rwlock_t *lock);
+int pthread_rwlock_unlock( pthread_rwlock_t *lock);
+
+
+
+int pthread_kill(pthread_t thread, int sig);
+int pthread_sigmask(int how, const sigset_t *set, sigset_t *oset);
+# 740 "/workspaces/nuttx-external/nuttx/include/pthread.h" 3 4
+int pthread_getcpuclockid(pthread_t thread_id, clockid_t *clock_id);
+
+int pthread_atfork( void (*prepare)(void),
+                   void (*parent)(void),
+                   void (*child)(void));
+# 34 "/workspaces/nuttx-external/nuttx/include/nuttx/userspace.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 1 3 4
+# 86 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/cache.h" 1 3 4
+# 87 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 2 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 1 3 4
+# 35 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/pthread.h" 1 3 4
+# 36 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 2 3 4
+# 46 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/socket.h" 1 3 4
+# 29 "/workspaces/nuttx-external/nuttx/include/sys/socket.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/uio.h" 1 3 4
+# 60 "/workspaces/nuttx-external/nuttx/include/sys/uio.h" 3 4
+struct iovec
+{
+  void *iov_base;
+  size_t iov_len;
+};
+# 115 "/workspaces/nuttx-external/nuttx/include/sys/uio.h" 3 4
+ssize_t readv(int fildes, const struct iovec *iov, int iovcnt);
+# 157 "/workspaces/nuttx-external/nuttx/include/sys/uio.h" 3 4
+ssize_t writev(int fildes, const struct iovec *iov, int iovcnt);
+
+ssize_t preadv(int fildes, const struct iovec *iov, int iovcnt,
+               off_t offset);
+
+ssize_t pwritev(int fildes, const struct iovec *iov, int iovcnt,
+                off_t offset);
+# 30 "/workspaces/nuttx-external/nuttx/include/sys/socket.h" 2 3 4
+# 315 "/workspaces/nuttx-external/nuttx/include/sys/socket.h" 3 4
+struct sockaddr_storage
+{
+  sa_family_t ss_family;
+  char ss_data[128 - sizeof(sa_family_t)];
+}
+__attribute__((aligned((sizeof( struct sockaddr *)))));
+
+
+
+
+
+
+struct sockaddr
+{
+  sa_family_t sa_family;
+  char sa_data[14];
+};
+
+
+
+struct linger
+{
+  int l_onoff;
+  int l_linger;
+};
+
+struct msghdr
+{
+  void *msg_name;
+  socklen_t msg_namelen;
+  struct iovec *msg_iov;
+  unsigned long msg_iovlen;
+  void *msg_control;
+  unsigned long msg_controllen;
+  unsigned int msg_flags;
+};
+
+struct cmsghdr
+{
+  unsigned long cmsg_len;
+  int cmsg_level;
+  int cmsg_type;
+};
+
+struct ucred
+{
+  pid_t pid;
+  uid_t uid;
+  gid_t gid;
+};
+
+
+
+
+
+static inline struct cmsghdr *__cmsg_nxthdr( void *__ctl,
+                                                unsigned int __size,
+                                                struct cmsghdr *__cmsg)
+{
+  size_t len = (((__cmsg->cmsg_len)+sizeof(long)-1) & ~(sizeof(long)-1));
+  struct cmsghdr *__ptr =
+               ( struct cmsghdr *)((( char *)__cmsg) + len);
+
+  if (len < sizeof(*__cmsg) ||
+      (unsigned long)(( char *)(__ptr + 1) - ( char *)__ctl) > __size)
+    {
+      return ((void*)0);
+    }
+
+  return __ptr;
+}
+
+static inline struct cmsghdr *cmsg_nxthdr( struct msghdr *__msg,
+                                              struct cmsghdr *__cmsg)
+{
+  return __cmsg_nxthdr(__msg->msg_control, __msg->msg_controllen, __cmsg);
+}
+# 406 "/workspaces/nuttx-external/nuttx/include/sys/socket.h" 3 4
+int socket(int domain, int type, int protocol);
+int socketpair(int domain, int type, int protocol, int sv[2]);
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+int listen(int sockfd, int backlog);
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+int accept4(int sockfd, struct sockaddr *addr, socklen_t *addrlen,
+            int flags);
+
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
+               const struct sockaddr *to, socklen_t tolen);
+
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
+                 struct sockaddr *from, socklen_t *fromlen);
+
+int shutdown(int sockfd, int how);
+
+int setsockopt(int sockfd, int level, int option,
+               const void *value, socklen_t value_len);
+int getsockopt(int sockfd, int level, int option,
+               void *value, socklen_t *value_len);
+
+int getsockname(int sockfd, struct sockaddr *addr,
+                socklen_t *addrlen);
+int getpeername(int sockfd, struct sockaddr *addr,
+                socklen_t *addrlen);
+
+ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+ssize_t sendmsg(int sockfd, struct msghdr *msg, int flags);
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 2 3 4
+# 40 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 1 3 4
+# 101 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+typedef void (*iob_free_cb_t)( void *data);
+
+
+
+
+
+
+struct iob_s
+{
+
+
+  struct iob_s *io_flink;
+
+
+
+
+  uint8_t io_len;
+  uint8_t io_offset;
+
+
+
+
+
+
+
+  unsigned int io_pktlen;
+
+
+
+
+
+  uint8_t io_data[196];
+
+};
+
+
+
+
+
+
+struct iob_qentry_s
+{
+
+
+  struct iob_qentry_s *qe_flink;
+
+
+
+  struct iob_s *qe_head;
+};
+
+
+
+struct iob_queue_s
+{
+
+
+  struct iob_qentry_s *qh_head;
+  struct iob_qentry_s *qh_tail;
+};
+
+
+struct iob_stats_s
+{
+  int ntotal;
+  int nfree;
+  int nwait;
+  int nthrottle;
+};
+# 183 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_initialize(void);
+# 198 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_timedalloc(_Bool throttled, unsigned int timeout);
+# 209 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_alloc(_Bool throttled);
+# 220 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_tryalloc(_Bool throttled);
+# 277 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_navail(_Bool throttled);
+# 287 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_qentry_navail(void);
+# 298 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_free( struct iob_s *iob);
+# 362 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_free_chain( struct iob_s *iob);
+# 374 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_add_queue( struct iob_s *iob, struct iob_queue_s *iobq);
+# 387 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_tryadd_queue( struct iob_s *iob, struct iob_queue_s *iobq);
+# 402 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_remove_queue( struct iob_queue_s *iobq);
+# 421 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_peek_queue( struct iob_queue_s *iobq);
+# 433 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_free_queue( struct iob_queue_s *qhead);
+# 445 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_free_queue_qentry( struct iob_s *iob,
+                           struct iob_queue_s *iobq);
+# 458 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+unsigned int iob_get_queue_size( struct iob_queue_s *queue);
+# 470 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_copyin( struct iob_s *iob, const uint8_t *src,
+               unsigned int len, int offset, _Bool throttled);
+# 483 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_trycopyin( struct iob_s *iob, const uint8_t *src,
+                  unsigned int len, int offset, _Bool throttled);
+# 495 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_copyout( uint8_t *dest, const struct iob_s *iob,
+                unsigned int len, int offset);
+# 507 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+unsigned int iob_tailroom( struct iob_s *iob);
+# 517 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_clone( struct iob_s *iob1, struct iob_s *iob2,
+              _Bool throttled, _Bool block);
+# 541 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_clone_partial( struct iob_s *iob1, unsigned int len,
+                      int offset1, struct iob_s *iob2,
+                      int offset2, _Bool throttled, _Bool block);
+# 553 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_concat( struct iob_s *iob1, struct iob_s *iob2);
+# 564 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_trimhead( struct iob_s *iob, unsigned int trimlen);
+# 583 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_trimhead_queue( struct iob_queue_s *qhead,
+                                     unsigned int trimlen);
+# 597 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_trimtail( struct iob_s *iob, unsigned int trimlen);
+# 609 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+ struct iob_s *iob_pack( struct iob_s *iob);
+# 620 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_contig( struct iob_s *iob, unsigned int len);
+# 630 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_reserve( struct iob_s *iob, unsigned int reserved);
+# 645 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_update_pktlen( struct iob_s *iob, unsigned int pktlen,
+                      _Bool throttled);
+# 656 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+int iob_count( struct iob_s *iob);
+# 690 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/iob.h" 3 4
+void iob_getstats( struct iob_stats_s *stats);
+# 41 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 2 3 4
+# 103 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+enum net_lltype_e
+{
+  NET_LL_ETHERNET = 0,
+  NET_LL_LOOPBACK,
+  NET_LL_SLIP,
+  NET_LL_TUN,
+  NET_LL_BLUETOOTH,
+  NET_LL_IEEE80211,
+  NET_LL_IEEE802154,
+  NET_LL_PKTRADIO,
+  NET_LL_MBIM,
+  NET_LL_CAN,
+  NET_LL_CELL
+};
+
+
+
+typedef uint32_t sockopt_t;
+
+
+
+
+
+
+
+typedef uint16_t socktimeo_t;
+
+
+
+typedef uint8_t sockcaps_t;
+
+
+
+
+
+struct file;
+struct stat;
+struct socket;
+struct pollfd;
+
+struct sock_intf_s
+{
+  int (*si_setup)( struct socket *psock);
+  sockcaps_t (*si_sockcaps)( struct socket *psock);
+  void (*si_addref)( struct socket *psock);
+  int (*si_bind)( struct socket *psock,
+                    const struct sockaddr *addr, socklen_t addrlen);
+  int (*si_getsockname)( struct socket *psock,
+                    struct sockaddr *addr, socklen_t *addrlen);
+  int (*si_getpeername)( struct socket *psock,
+                    struct sockaddr *addr, socklen_t *addrlen);
+  int (*si_listen)( struct socket *psock, int backlog);
+  int (*si_connect)( struct socket *psock,
+                    const struct sockaddr *addr, socklen_t addrlen);
+  int (*si_accept)( struct socket *psock,
+                    struct sockaddr *addr, socklen_t *addrlen,
+                    struct socket *newsock, int flags);
+  int (*si_poll)( struct socket *psock,
+                    struct pollfd *fds, _Bool setup);
+  ssize_t (*si_sendmsg)( struct socket *psock,
+                    struct msghdr *msg, int flags);
+  ssize_t (*si_recvmsg)( struct socket *psock,
+                    struct msghdr *msg, int flags);
+  int (*si_close)( struct socket *psock);
+  int (*si_ioctl)( struct socket *psock,
+                    int cmd, unsigned long arg);
+  int (*si_socketpair)( struct socket *psocks[2]);
+  int (*si_shutdown)( struct socket *psock, int how);
+
+  int (*si_getsockopt)( struct socket *psock, int level,
+                    int option, void *value, socklen_t *value_len);
+  int (*si_setsockopt)( struct socket *psock, int level,
+                    int option, const void *value, socklen_t value_len);
+
+
+
+
+
+
+};
+# 192 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+struct devif_callback_s;
+
+struct socket_conn_s
+{
+
+
+  dq_entry_t node;
+
+
+
+
+
+  struct devif_callback_s *list;
+  struct devif_callback_s *list_tail;
+
+
+
+
+  int16_t s_error;
+  sockopt_t s_options;
+  socktimeo_t s_rcvtimeo;
+  socktimeo_t s_sndtimeo;
+
+
+
+
+  uint8_t s_boundto;
+
+
+
+
+
+
+  uint8_t s_flags;
+
+
+
+  uint8_t s_tos;
+
+
+  uint8_t ttl;
+
+
+
+};
+
+
+
+
+
+struct devif_callback_s;
+
+struct socket
+{
+  uint8_t s_domain;
+  uint8_t s_type;
+  uint8_t s_proto;
+  void *s_conn;
+
+
+
+  const struct sock_intf_s *s_sockif;
+};
+# 295 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+void net_initialize(void);
+# 312 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t net_ioctl_arglen(uint8_t domain, int cmd);
+# 344 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_lock(void);
+# 363 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_trylock(void);
+# 379 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+void net_unlock(void);
+# 403 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_sem_timedwait(sem_t *sem, unsigned int timeout);
+# 427 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_mutex_timedlock(mutex_t *mutex, unsigned int timeout);
+# 449 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_sem_wait(sem_t *sem);
+# 471 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_mutex_lock(mutex_t *mutex);
+# 490 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_sem_timedwait_uninterruptible(sem_t *sem, unsigned int timeout);
+# 508 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int net_sem_wait_uninterruptible(sem_t *sem);
+# 536 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ struct iob_s *net_iobtimedalloc(_Bool throttled, unsigned int timeout);
+# 559 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ struct iob_s *net_ioballoc(_Bool throttled);
+# 578 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int sockfd_allocate( struct socket *psock, int oflags);
+# 599 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ struct socket *file_socket( struct file *filep);
+int sockfd_socket(int sockfd, struct socket **socketp);
+# 640 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_socket(int domain, int type, int protocol,
+                 struct socket *psock);
+# 658 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_close( struct socket *psock);
+# 689 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+struct sockaddr;
+
+int psock_bind( struct socket *psock, const struct sockaddr *addr,
+               socklen_t addrlen);
+# 723 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_listen( struct socket *psock, int backlog);
+# 793 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_accept( struct socket *psock, struct sockaddr *addr,
+                 socklen_t *addrlen, struct socket *newsock,
+                 int flags);
+# 865 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_connect( struct socket *psock, const struct sockaddr *addr,
+                  socklen_t addrlen);
+# 894 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t psock_sendmsg( struct socket *psock, struct msghdr *msg,
+                      int flags);
+# 925 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t psock_recvmsg( struct socket *psock, struct msghdr *msg,
+                      int flags);
+# 958 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t psock_send( struct socket *psock, const void *buf, size_t len,
+                   int flags);
+# 1024 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t psock_sendto( struct socket *psock, const void *buf,
+                     size_t len, int flags, const struct sockaddr *to,
+                     socklen_t tolen);
+# 1059 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+ssize_t psock_recvfrom( struct socket *psock, void *buf, size_t len,
+                       int flags, struct sockaddr *from,
+                       socklen_t *fromlen);
+# 1109 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_getsockopt( struct socket *psock, int level, int option,
+                     void *value, socklen_t *value_len);
+# 1158 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_setsockopt( struct socket *psock, int level, int option,
+                     const void *value, socklen_t value_len);
+# 1198 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_getsockname( struct socket *psock, struct sockaddr *addr,
+                      socklen_t *addrlen);
+# 1238 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_getpeername( struct socket *psock, struct sockaddr *addr,
+                      socklen_t *addrlen);
+# 1272 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_vioctl( struct socket *psock, int cmd, va_list ap);
+int psock_ioctl( struct socket *psock, int cmd, ...);
+# 1307 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_shutdown( struct socket *psock, int how);
+# 1327 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+struct pollfd;
+int psock_poll( struct socket *psock, struct pollfd *fds, _Bool setup);
+# 1342 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_dup2( struct socket *psock1, struct socket *psock2);
+# 1360 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_fstat( struct socket *psock, struct stat *buf);
+# 1447 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int psock_socketpair(int domain, int type, int protocol,
+                     struct socket *psocks[2]);
+# 1475 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+struct net_driver_s;
+int netdev_register( struct net_driver_s *dev, enum net_lltype_e lltype);
+# 1496 "/workspaces/nuttx-external/nuttx/include/nuttx/net/net.h" 3 4
+int netdev_unregister( struct net_driver_s *dev);
+# 47 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 1 3 4
+# 38 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/atexit.h" 1 3 4
+# 44 "/workspaces/nuttx-external/nuttx/include/nuttx/atexit.h" 3 4
+enum atexit_type_e
+{
+  ATTYPE_NONE,
+  ATTYPE_ATEXIT,
+  ATTYPE_ATQUICKEXIT,
+  ATTYPE_ONEXIT,
+  ATTYPE_CXA
+};
+
+struct atexit_s
+{
+  int type;
+  void (*func)(void);
+  void *arg;
+};
+
+struct atexit_list_s
+{
+  int nfuncs;
+  struct atexit_s funcs[(0)];
+};
+# 39 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 2 3 4
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/list.h" 1 3 4
+# 299 "/workspaces/nuttx-external/nuttx/include/nuttx/list.h" 3 4
+struct list_node
+{
+  struct list_node *prev;
+  struct list_node *next;
+};
+
+
+
+
+
+static inline struct list_node *
+list_remove_head( struct list_node *list)
+{
+  if (list->next != list)
+    {
+      struct list_node *item = list->next;
+      do { struct list_node *__item = (item); __item->next->prev = __item->prev; __item->prev->next = __item->next; __item->prev = __item->next = ((void*)0); } while (0);
+      return item;
+    }
+  else
+    {
+      return ((void*)0);
+    }
+}
+
+static inline struct list_node *
+list_remove_tail( struct list_node *list)
+{
+  if (list->prev != list)
+    {
+      struct list_node *item = list->prev;
+      do { struct list_node *__item = (item); __item->next->prev = __item->prev; __item->prev->next = __item->next; __item->prev = __item->next = ((void*)0); } while (0);
+      return item;
+    }
+  else
+    {
+      return ((void*)0);
+    }
+}
+
+static inline size_t list_length( struct list_node *list)
+{
+  struct list_node *node = list;
+  size_t cnt = 0;
+
+  for(node = (list)->next; node != (list); node = node->next)
+    {
+      cnt++;
+    }
+
+  return cnt;
+}
+# 41 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 2 3 4
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/pthread.h" 1 3 4
+# 44 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 2 3 4
+# 88 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+typedef void (*tls_dtor_t)( void *);
+
+
+
+struct getopt_s
+{
+
+
+  char *go_optarg;
+  int go_opterr;
+  int go_optind;
+  int go_optopt;
+
+
+
+  char *go_optptr;
+  _Bool go_binitialized;
+};
+# 122 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+struct task_info_s
+{
+  mutex_t ta_lock;
+  int ta_argc;
+  char **ta_argv;
+
+
+
+
+
+
+
+  struct getopt_s ta_getopt;
+  mode_t ta_umask;
+# 144 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+  struct streamlist ta_streamlist;
+
+
+
+
+
+};
+# 198 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+struct tls_info_s
+{
+  struct task_info_s * tl_task;
+# 216 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+  uint8_t tl_cpstate;
+
+
+
+
+
+  int tl_errno;
+};
+# 326 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+ struct tls_info_s *tls_get_info(void);
+# 362 "/workspaces/nuttx-external/nuttx/include/nuttx/tls.h" 3 4
+ struct task_info_s *task_get_info(void);
+# 49 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 2 3 4
+# 223 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+enum tstate_e
+{
+  TSTATE_TASK_INVALID = 0,
+  TSTATE_TASK_PENDING,
+  TSTATE_TASK_READYTORUN,
+
+
+
+  TSTATE_TASK_RUNNING,
+
+  TSTATE_TASK_INACTIVE,
+  TSTATE_WAIT_SEM,
+  TSTATE_WAIT_SIG,
+
+  TSTATE_WAIT_MQNOTEMPTY,
+  TSTATE_WAIT_MQNOTFULL,
+# 247 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  NUM_TASK_STATES
+};
+
+typedef enum tstate_e tstate_t;
+# 265 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+typedef void (*start_t)(void);
+
+
+
+
+
+union entry_u
+{
+  pthread_startroutine_t pthread;
+  main_t ;
+};
+
+typedef union entry_u entry_t;
+# 380 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+struct stackinfo_s
+{
+  size_t adj_stack_size;
+
+
+  void *stack_alloc_ptr;
+
+  void *stack_base_ptr;
+
+
+};
+
+
+
+
+
+struct task_join_s
+{
+  sq_entry_t entry;
+  pid_t pid;
+  pthread_addr_t exit_value;
+};
+# 432 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+struct task_group_s
+{
+  pid_t tg_pid;
+  pid_t tg_ppid;
+  uint8_t tg_flags;
+# 450 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  sq_queue_t tg_members;
+# 477 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  uint8_t tg_nwaiters;
+  uint8_t tg_waitflags;
+  sem_t tg_exitsem;
+  int *tg_statloc;
+
+
+
+
+
+  rmutex_t tg_joinlock;
+  sq_queue_t tg_joinqueue;
+
+
+
+
+
+  struct task_info_s tg_info_;
+
+  struct task_info_s *tg_info;
+
+
+
+  sq_queue_t tg_sigactionq;
+  sq_queue_t tg_sigpendingq;
+
+
+
+
+
+
+
+  char **tg_envp;
+  ssize_t tg_envpc;
+  ssize_t tg_envc;
+
+
+
+
+
+  timer_t itimer;
+# 528 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  struct filelist tg_filelist;
+
+
+
+  struct mm_map_s tg_mm_map;
+};
+# 543 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+struct tcb_s
+{
+
+
+  struct tcb_s *flink;
+  struct tcb_s *blink;
+
+
+
+  struct task_group_s *group;
+
+
+
+
+  sq_entry_t member;
+
+
+
+
+
+  sq_queue_t join_queue;
+  sq_entry_t join_entry;
+  sem_t join_sem;
+  pthread_addr_t join_val;
+# 578 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  pid_t pid;
+  uint8_t sched_priority;
+  uint8_t init_priority;
+
+  start_t start;
+  entry_t entry;
+
+  uint8_t task_state;
+# 597 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  uint32_t flags;
+  int16_t lockcount;
+
+
+
+  int16_t errcode;
+
+
+  int32_t timeslice;
+
+
+
+
+
+
+  struct wdog_s waitdog;
+
+
+
+  size_t adj_stack_size;
+
+
+  void *stack_alloc_ptr;
+
+  void *stack_base_ptr;
+# 633 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  void *waitobj;
+
+
+
+  sigset_t sigprocmask;
+  sigset_t sigwaitmask;
+  sq_queue_t sigpendactionq;
+  sq_queue_t sigpostedq;
+  siginfo_t *sigunbinfo;
+
+
+
+
+  struct pthread_mutex_s *mhead;
+# 671 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+  struct xcptcontext xcp;
+
+
+  char name[31 + 1];
+# 687 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+};
+# 701 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+struct task_tcb_s
+{
+
+
+  struct tcb_s cmn;
+
+
+
+  struct task_group_s group;
+
+
+
+
+
+
+
+};
+# 731 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+struct pthread_tcb_s
+{
+
+
+  struct tcb_s cmn;
+
+
+
+  pthread_trampoline_t trampoline;
+  pthread_addr_t arg;
+};
+# 750 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct tcbinfo_s
+{
+  uint16_t pid_off;
+  uint16_t state_off;
+  uint16_t pri_off;
+  uint16_t name_off;
+  uint16_t stack_off;
+  uint16_t stack_size_off;
+  uint16_t regs_off;
+  uint16_t regs_num;
+# 769 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ 
+  union
+  {
+    uint8_t u[8];
+    const uint16_t *p;
+  }
+  __attribute__((packed)) reg_off;
+} __attribute__((packed));
+
+
+
+typedef void (*nxsched_foreach_t)( struct tcb_s *tcb, void *arg);
+# 811 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+extern const struct tcbinfo_s g_tcbinfo;
+# 827 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct tcb_s *nxsched_self(void);
+# 852 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+void nxsched_foreach(nxsched_foreach_t handler, void *arg);
+# 870 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct tcb_s *nxsched_get_tcb(pid_t pid);
+# 881 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_release_tcb( struct tcb_s *tcb, uint8_t ttype);
+# 905 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct filelist *nxsched_get_files_from_tcb( struct tcb_s *tcb);
+# 923 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct filelist *nxsched_get_files(void);
+# 964 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxtask_init( struct task_tcb_s *tcb, const char *name, int priority,
+                void *stack, uint32_t stack_size, main_t entry,
+                char * const argv[], char * const envp[],
+                const posix_spawn_file_actions_t *actions);
+# 988 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+void nxtask_uninit( struct task_tcb_s *tcb);
+# 1030 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxtask_create( const char *name, int priority,
+                  void *stack_addr, int stack_size, main_t entry,
+                  char * const argv[], char * const envp[]);
+# 1059 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxtask_delete(pid_t pid);
+# 1077 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+void nxtask_activate( struct tcb_s *tcb);
+# 1120 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+void nxtask_startup(main_t entrypt, int argc, char *argv[]);
+# 1148 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+ struct task_tcb_s *nxtask_setup_fork(start_t retaddr);
+pid_t nxtask_start_fork( struct task_tcb_s *child);
+void nxtask_abort_fork( struct task_tcb_s *child, int errcode);
+# 1169 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+size_t group_argvstr( struct tcb_s *tcb, char *args, size_t size);
+# 1270 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_get_param(pid_t pid, struct sched_param *param);
+# 1306 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_set_param(pid_t pid, const struct sched_param *param);
+# 1337 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_get_scheduler(pid_t pid);
+# 1373 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_set_scheduler(pid_t pid, int policy,
+                          const struct sched_param *param);
+# 1466 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+int nxsched_get_stackinfo(pid_t pid, struct stackinfo_s *stackinfo);
+# 1481 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+void nxsched_get_stateinfo( struct tcb_s *tcb, char *state,
+                           size_t length);
+# 1531 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+pid_t nxsched_waitpid(pid_t pid, int *stat_loc, int options);
+# 1548 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+pid_t nxsched_gettid(void);
+# 1567 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+pid_t nxsched_getpid(void);
+# 1593 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+pid_t nxsched_getppid(void);
+# 1610 "/workspaces/nuttx-external/nuttx/include/nuttx/sched.h" 3 4
+size_t nxsched_collect_deadlock( pid_t *pid, size_t count);
+# 88 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 2 3 4
+# 104 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+typedef void (*sig_deliver_t)( struct tcb_s *tcb);
+typedef void (*phy_enable_t)(_Bool enable);
+typedef void (*initializer_t)(void);
+typedef void (*debug_callback_t)(int type, void *addr, size_t size,
+                                      void *arg);
+# 167 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+extern initializer_t _sinit[];
+extern initializer_t _einit[];
+# 195 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+pid_t up_fork(void);
+# 214 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_initialize(void);
+# 226 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_systemreset(void) __attribute__((noreturn));
+# 241 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_idle(void);
+# 257 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_initial_state( struct tcb_s *tcb);
+# 297 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_create_stack( struct tcb_s *tcb, size_t stack_size, uint8_t ttype);
+# 328 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_use_stack( struct tcb_s *tcb, void *stack, size_t stack_size);
+# 377 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+ void *up_stack_frame( struct tcb_s *tcb, size_t frame_size);
+# 410 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_release_stack( struct tcb_s *dtcb, uint8_t ttype);
+# 430 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_switch_context( struct tcb_s *tcb, struct tcb_s *rtcb);
+# 447 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_exit(int status) __attribute__((noreturn));
+# 459 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_dump_register( void *regs);
+# 488 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_backtrace( struct tcb_s *tcb,
+                 void **buffer, int size, int skip);
+# 525 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_schedule_sigaction( struct tcb_s *tcb, sig_deliver_t sigdeliver);
+# 662 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_allocate_heap( void **heap_start, size_t *heap_size);
+# 1535 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+ void *up_addrenv_pa_to_va(uintptr_t pa);
+# 1555 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+uintptr_t up_addrenv_va_to_pa( void *va);
+# 1616 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_irqinitialize(void);
+# 1638 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_enable_irq(int irq);
+# 1656 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_disable_irq(int irq);
+# 1767 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_timer_initialize(void);
+# 2034 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+uintptr_t up_getusrsp( void *regs);
+# 2223 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_cpu_idlestack(int cpu, struct tcb_s *tcb, size_t stack_size);
+# 2452 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_mdelay(unsigned int milliseconds);
+void up_udelay(useconds_t microseconds);
+# 2473 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void nxsched_process_timer(void);
+# 2561 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void irq_dispatch(int irq, void *context);
+# 2836 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_putc(int ch);
+# 2847 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_nputs( const char *str, size_t len);
+# 2892 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+void up_perf_init( void *arg);
+unsigned long up_perf_gettime(void);
+unsigned long up_perf_getfreq(void);
+void up_perf_convert(unsigned long elapsed, struct timespec *ts);
+# 2914 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+ssize_t up_show_cpuinfo( char *buf, size_t buf_size, off_t file_off);
+# 2924 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+int up_saveusercontext( void *saveregs);
+# 2942 "/workspaces/nuttx-external/nuttx/include/nuttx/arch.h" 3 4
+_Bool up_fpucmp( const void *saveregs1, const void *saveregs2);
+# 36 "/workspaces/nuttx-external/nuttx/include/nuttx/userspace.h" 2 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 2 3 4
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/malloc.h" 1 3 4
+# 60 "/workspaces/nuttx-external/nuttx/include/malloc.h" 3 4
+struct mallinfo
+{
+  int arena;
+
+  int ordblks;
+  int aordblks;
+  int mxordblk;
+  int uordblks;
+
+  int fordblks;
+
+  int usmblks;
+};
+
+struct malltask
+{
+  pid_t pid;
+
+
+
+
+};
+
+struct mallinfo_task
+{
+  int aordblks;
+  int uordblks;
+};
+# 98 "/workspaces/nuttx-external/nuttx/include/malloc.h" 3 4
+int mallopt(int param, int value);
+struct mallinfo mallinfo(void);
+size_t malloc_size( void *ptr);
+struct mallinfo_task mallinfo_task( const struct malltask *task);
+# 35 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 2 3 4
+# 150 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+struct mm_heap_s;
+# 195 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+extern struct mm_heap_s *g_mmheap;
+# 210 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ struct mm_heap_s *mm_initialize( const char *name,
+                                    void *heap_start, size_t heap_size);
+void mm_addregion( struct mm_heap_s *heap, void *heapstart,
+                  size_t heapsize);
+void mm_uninitialize( struct mm_heap_s *heap);
+
+
+
+void umm_initialize( void *heap_start, size_t heap_size);
+# 228 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+void umm_addregion( void *heapstart, size_t heapsize);
+# 238 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_malloc( struct mm_heap_s *heap, size_t size) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(2)));
+# 248 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+size_t mm_malloc_size( struct mm_heap_s *heap, void *mem);
+# 258 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+void mm_free( struct mm_heap_s *heap, void *mem);
+# 268 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_realloc( struct mm_heap_s *heap, void *oldmem,
+                     size_t size) __attribute__((__alloc_size__(3)));
+# 279 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_calloc( struct mm_heap_s *heap, size_t n,
+                    size_t elem_size) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(2, 3)));
+# 290 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_zalloc( struct mm_heap_s *heap, size_t size) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(2)));
+# 306 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_memalign( struct mm_heap_s *heap, size_t alignment,
+                      size_t size) __attribute__((__malloc__(__builtin_free, 1))) __attribute__((__alloc_size__(3)));
+# 317 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+_Bool mm_heapmember( struct mm_heap_s *heap, void *mem);
+
+
+
+_Bool umm_heapmember( void *mem);
+# 331 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+ void *mm_brkaddr( struct mm_heap_s *heap, int region);
+
+
+
+ void *umm_brkaddr(int region);
+# 345 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+void mm_extend( struct mm_heap_s *heap, void *mem, size_t size,
+               int region);
+
+
+
+void umm_extend( void *mem, size_t size, int region);
+# 360 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+struct mallinfo mm_mallinfo( struct mm_heap_s *heap);
+struct mallinfo_task mm_mallinfo_task( struct mm_heap_s *heap,
+                                      const struct malltask *task);
+# 375 "/workspaces/nuttx-external/nuttx/include/nuttx/mm/mm.h" 3 4
+void mm_memdump( struct mm_heap_s *heap,
+                const struct malltask *dump);
+
+
+
+void umm_memdump( const struct malltask *dump);
+# 35 "/workspaces/nuttx-external/nuttx/include/nuttx/kmalloc.h" 2 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/lib/lib.h" 2 3 4
+# 111 "/workspaces/nuttx-external/nuttx/include/nuttx/lib/lib.h" 3 4
+ struct streamlist *lib_get_streams(void);
+ struct file_struct *lib_get_stream(int fd);
+
+
+
+
+unsigned long nrand(unsigned long limit);
+# 36 "/workspaces/nuttx-external/nuttx/include/stdio.h" 2 3 4
+# 112 "/workspaces/nuttx-external/nuttx/include/stdio.h" 3 4
+typedef struct file_struct FILE;
+
+struct va_format
+{
+  const char *fmt;
+  va_list *va;
+};
+# 141 "/workspaces/nuttx-external/nuttx/include/stdio.h" 3 4
+void clearerr( FILE *stream);
+void clearerr_unlocked( FILE *stream);
+int fclose( FILE *stream);
+int fflush( FILE *stream);
+int fflush_unlocked( FILE *stream);
+int feof( FILE *stream);
+int ferror( FILE *stream);
+int fileno( FILE *stream);
+int fgetc( FILE *stream);
+int fgetc_unlocked( FILE *stream);
+int fgetpos( FILE *stream, fpos_t *pos);
+ char *fgets( char *s, int n, FILE *stream);
+ char *fgets_unlocked( char *s, int n, FILE *stream);
+ FILE *fopen( const char *path, const char *type) __attribute__((__malloc__(fclose, 1)));
+int fprintf( FILE *stream, const char *format, ...)
+       __attribute__((__format__(__printf__, 2, 3)));
+int fputc(int c, FILE *stream);
+int fputc_unlocked(int c, FILE *stream);
+int fputs( const char *s, FILE *stream);
+int fputs_unlocked( const char *s, FILE *stream);
+size_t fread( void *ptr, size_t size, size_t n_items, FILE *stream);
+size_t fread_unlocked( void *ptr, size_t size, size_t n_items,
+                      FILE *stream);
+ FILE *freopen( const char *path, const char *mode,
+                  FILE *stream);
+int fscanf( FILE *stream, const char *fmt, ...)
+       __attribute__((__format__(__scanf__, 2, 3)));
+int fseek( FILE *stream, long int offset, int whence);
+int fseeko( FILE *stream, off_t offset, int whence);
+int fsetpos( FILE *stream, fpos_t *pos);
+long ftell( FILE *stream);
+off_t ftello( FILE *stream);
+size_t fwrite( const void *ptr, size_t size, size_t n_items,
+              FILE *stream);
+size_t fwrite_unlocked( const void *ptr, size_t size, size_t n_items,
+                       FILE *stream);
+int getc( FILE *stream);
+int getc_unlocked( FILE *stream);
+int getchar(void);
+int getchar_unlocked(void);
+ssize_t getdelim( char **lineptr, size_t *n, int delimiter,
+                 FILE *stream);
+ssize_t getline( char **lineptr, size_t *n, FILE *stream);
+ char *gets( char *s);
+ char *gets_s( char *s, rsize_t n);
+void rewind( FILE *stream);
+
+void setbuf( FILE *stream, char *buf);
+int setvbuf( FILE *stream, char *buffer, int mode, size_t size);
+void setbuffer( FILE *stream, char *buf, size_t size);
+
+int ungetc(int c, FILE *stream);
+
+void flockfile( FILE *stream);
+int ftrylockfile( FILE *stream);
+void funlockfile( FILE *stream);
+
+
+
+
+
+void perror( const char *s);
+int printf( const char *fmt, ...) __attribute__((__format__(__printf__, 1, 2)));
+int putc(int c, FILE *stream);
+int putc_unlocked(int c, FILE *stream);
+int putchar(int c);
+int putchar_unlocked(int c);
+int puts( const char *s);
+int rename( const char *oldpath, const char *newpath);
+int renameat(int olddirfd, const char *oldpath,
+                int newdirfd, const char *newpath);
+int sprintf( char *buf, const char *fmt, ...)
+       __attribute__((__format__(__printf__, 2, 3)));
+int asprintf( char **ptr, const char *fmt, ...)
+       __attribute__((__format__(__printf__, 2, 3)));
+int snprintf( char *buf, size_t size,
+                const char *fmt, ...) __attribute__((__format__(__printf__, 3, 4)));
+int sscanf( const char *buf, const char *fmt, ...)
+       __attribute__((__format__(__scanf__, 2, 3)));
+
+int scanf( const char *fmt, ...) __attribute__((__format__(__scanf__, 1, 2)));
+int vasprintf( char **ptr, const char *fmt, va_list ap)
+       __attribute__((__format__(__printf__, 2, 0)));
+int vfprintf( FILE *stream, const char *fmt,
+                va_list ap) __attribute__((__format__(__printf__, 2, 0)));
+int vfscanf( FILE *stream, const char *fmt, va_list ap)
+       __attribute__((__format__(__scanf__, 2, 0)));
+int vprintf( const char *fmt, va_list ap) __attribute__((__format__(__printf__, 1, 0)));
+int vscanf( const char *fmt, va_list ap) __attribute__((__format__(__scanf__, 1, 0)));
+int vsnprintf( char *buf, size_t size, const char *fmt,
+                 va_list ap) __attribute__((__format__(__printf__, 3, 0)));
+int vsprintf( char *buf, const char *fmt, va_list ap)
+       __attribute__((__format__(__printf__, 2, 0)));
+int vsscanf( const char *buf, const char *fmt, va_list ap)
+       __attribute__((__format__(__scanf__, 2, 0)));
+# 244 "/workspaces/nuttx-external/nuttx/include/stdio.h" 3 4
+ FILE *fdopen(int fd, const char *type) __attribute__((__malloc__(fclose, 1)));
+int dprintf(int fd, const char *fmt, ...) __attribute__((__format__(__printf__, 2, 3)));
+int vdprintf(int fd, const char *fmt, va_list ap)
+       __attribute__((__format__(__printf__, 2, 0)));
+
+
+
+ FILE *fopencookie( void *cookie, const char *mode,
+                      cookie_io_functions_t io_funcs);
+
+
+
+ FILE *fmemopen( void *buf, size_t size, const char *mode);
+ FILE *open_memstream( char **bufp, size_t *sizep);
+
+
+
+ FILE *tmpfile(void) __attribute__((__malloc__(fclose, 1)));
+ char *tmpnam( char *s);
+ char *tempnam( const char *dir, const char *pfx) __attribute__((__malloc__(__builtin_free, 1)));
+int remove( const char *path);
+
+
+
+
+
+
+int pclose(FILE *stream);
+FILE *popen( const char *command, const char *mode) __attribute__((__malloc__(pclose, 1)));
+# 26 "tinyemu-2019-12-21/temu.c" 2
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/inttypes.h" 1 3 4
+# 351 "/workspaces/nuttx-external/nuttx/include/inttypes.h" 3 4
+struct imaxdiv_s
+{
+  intmax_t quot;
+  intmax_t rem;
+};
+
+typedef struct imaxdiv_s imaxdiv_t;
+# 375 "/workspaces/nuttx-external/nuttx/include/inttypes.h" 3 4
+intmax_t imaxabs(intmax_t j);
+imaxdiv_t imaxdiv(intmax_t number, intmax_t denom);
+intmax_t strtoimax( const char *nptr, char **endptr, int base);
+uintmax_t strtoumax( const char *nptr, char **endptr, int base);
+
+intmax_t wcstoimax( const wchar_t *nptr, wchar_t **endptr, int base);
+uintmax_t wcstoumax( const wchar_t *nptr, wchar_t **endptr, int base);
+# 29 "tinyemu-2019-12-21/temu.c" 2
+
+# 1 "/workspaces/nuttx-external/nuttx/include/fcntl.h" 1 3 4
+# 172 "/workspaces/nuttx-external/nuttx/include/fcntl.h" 3 4
+struct flock
+{
+  int16_t l_type;
+  int16_t l_whence;
+  off_t l_start;
+  off_t l_len;
+  pid_t l_pid;
+};
+# 200 "/workspaces/nuttx-external/nuttx/include/fcntl.h" 3 4
+int open( const char *path, int oflag, ...);
+int openat(int dirfd, const char *path, int oflag, ...);
+int fcntl(int fd, int cmd, ...);
+
+int posix_fallocate(int fd, off_t offset, off_t len);
+# 31 "tinyemu-2019-12-21/temu.c" 2
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/getopt.h" 1 3 4
+# 54 "/workspaces/nuttx-external/nuttx/include/getopt.h" 3 4
+struct option
+{
+  const char *name;
+  int has_arg;
+  int *flag;
+  int val;
+};
+# 78 "/workspaces/nuttx-external/nuttx/include/getopt.h" 3 4
+int getopt_long(int argc, char * const argv[],
+                const char *optstring,
+                const struct option *longopts,
+                int *longindex);
+# 94 "/workspaces/nuttx-external/nuttx/include/getopt.h" 3 4
+int getopt_long_only(int argc, char * const argv[],
+                     const char *optstring,
+                     const struct option *longopts,
+                     int *longindex);
+# 35 "tinyemu-2019-12-21/temu.c" 2
+
+# 1 "/workspaces/nuttx-external/nuttx/include/termios.h" 1 3 4
+# 218 "/workspaces/nuttx-external/nuttx/include/termios.h" 3 4
+typedef unsigned long speed_t;
+
+
+
+typedef unsigned int tcflag_t;
+typedef unsigned char cc_t;
+
+
+
+struct termios
+{
+
+
+  tcflag_t c_iflag;
+  tcflag_t c_oflag;
+  tcflag_t c_cflag;
+  tcflag_t c_lflag;
+  cc_t c_cc[12];
+
+
+
+
+
+
+  speed_t c_speed;
+};
+# 265 "/workspaces/nuttx-external/nuttx/include/termios.h" 3 4
+speed_t cfgetspeed( const struct termios *termiosp);
+# 277 "/workspaces/nuttx-external/nuttx/include/termios.h" 3 4
+int cfsetspeed( struct termios *termiosp, speed_t speed);
+
+
+
+
+
+
+
+void cfmakeraw( struct termios *termiosp);
+
+
+
+int tcdrain(int fd);
+
+
+
+int tcflow(int fd, int action);
+
+
+
+int tcflush(int fd, int cmd);
+
+
+
+int tcgetattr(int fd, struct termios *termiosp);
+
+
+
+pid_t tcgetsid(int fd);
+
+
+
+int tcsendbreak(int fd, int duration);
+
+
+
+int tcsetattr(int fd, int options, const struct termios *termiosp);
+# 37 "tinyemu-2019-12-21/temu.c" 2
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/ioctl.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/sys/ioctl.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/ioctl.h" 1 3 4
+# 131 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/ioctl.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/serial/tioctl.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/nuttx/serial/tioctl.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/ioctl.h" 1 3 4
+# 33 "/workspaces/nuttx-external/nuttx/include/nuttx/serial/tioctl.h" 2 3 4
+# 211 "/workspaces/nuttx-external/nuttx/include/nuttx/serial/tioctl.h" 3 4
+struct winsize
+{
+  uint16_t ws_row;
+  uint16_t ws_col;
+
+  uint16_t ws_xpixel;
+  uint16_t ws_ypixel;
+};
+
+
+
+struct serial_rs485
+{
+  uint32_t flags;
+  uint32_t delay_rts_before_send;
+  uint32_t delay_rts_after_send;
+};
+# 132 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/ioctl.h" 2 3 4
+# 707 "/workspaces/nuttx-external/nuttx/include/nuttx/fs/ioctl.h" 3 4
+struct pipe_peek_s
+{
+  void *buf;
+  size_t size;
+};
+# 32 "/workspaces/nuttx-external/nuttx/include/sys/ioctl.h" 2 3 4
+
+
+
+
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/net/ioctl.h" 1 3 4
+# 37 "/workspaces/nuttx-external/nuttx/include/sys/ioctl.h" 2 3 4
+# 114 "/workspaces/nuttx-external/nuttx/include/sys/ioctl.h" 3 4
+int ioctl(int fd, int req, ...);
+# 38 "tinyemu-2019-12-21/temu.c" 2
+# 1 "/workspaces/nuttx-external/nuttx/include/net/if.h" 1 3 4
+# 131 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+enum
+{
+  IF_OPER_UNKNOWN,
+  IF_OPER_NOTPRESENT,
+  IF_OPER_DOWN,
+  IF_OPER_LOWERLAYERDOWN,
+  IF_OPER_TESTING,
+  IF_OPER_DORMANT,
+  IF_OPER_UP,
+};
+
+
+
+
+
+struct if_nameindex
+{
+  unsigned int if_index;
+  char *if_name;
+};
+
+
+
+
+
+struct mii_ioctl_notify_s
+{
+  pid_t pid;
+  struct sigevent event;
+};
+
+
+
+
+
+struct mii_ioctl_data_s
+{
+  uint16_t phy_id;
+  uint16_t reg_num;
+  uint16_t val_in;
+  uint16_t val_out;
+};
+
+
+
+
+
+struct can_ioctl_data_s
+{
+  uint16_t arbi_bitrate;
+  uint16_t arbi_samplep;
+  uint16_t data_bitrate;
+  uint16_t data_samplep;
+};
+
+
+
+
+
+struct can_ioctl_filter_s
+{
+  uint32_t fid1;
+
+  uint32_t fid2;
+
+  uint8_t ftype;
+  uint8_t fprio;
+};
+# 208 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+struct lifreq
+{
+  char lifr_name[16];
+  int16_t lifr_ifindex;
+  union
+  {
+    struct sockaddr_storage lifru_addr;
+    struct sockaddr_storage lifru_dstaddr;
+    struct sockaddr_storage lifru_broadaddr;
+    struct sockaddr_storage lifru_netmask;
+    struct sockaddr lifru_hwaddr;
+    int lifru_count;
+    int lifru_mtu;
+    uint32_t lifru_flags;
+    struct mii_ioctl_notify_s llfru_mii_notify;
+    struct mii_ioctl_data_s lifru_mii_data;
+    struct can_ioctl_data_s lifru_can_data;
+    struct can_ioctl_filter_s lifru_can_filter;
+  } lifr_ifru;
+};
+# 246 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+struct lifconf
+{
+  size_t lifc_len;
+  union
+  {
+    char *lifcu_buf;
+    struct lifreq *lifcu_req;
+  } lifc_ifcu;
+};
+
+
+
+
+
+
+struct ifreq
+{
+  char ifr_name[16];
+  int16_t ifr_ifindex;
+  union
+  {
+    struct sockaddr ifru_addr;
+    struct sockaddr ifru_dstaddr;
+    struct sockaddr ifru_broadaddr;
+    struct sockaddr ifru_netmask;
+    struct sockaddr ifru_hwaddr;
+    int ifru_count;
+    int ifru_mtu;
+    uint32_t ifru_flags;
+    struct mii_ioctl_notify_s ifru_mii_notify;
+    struct mii_ioctl_data_s ifru_mii_data;
+    struct can_ioctl_data_s ifru_can_data;
+    struct can_ioctl_filter_s ifru_can_filter;
+    void *ifru_data;
+  } ifr_ifru;
+};
+# 301 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+struct ifconf
+{
+  size_t ifc_len;
+  union
+  {
+    char *ifcu_buf;
+    struct ifreq *ifcu_req;
+  } ifc_ifcu;
+};
+# 342 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+unsigned int if_nametoindex( const char *ifname);
+# 364 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+ char *if_indextoname(unsigned int ifindex, char *ifname);
+# 389 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+ struct if_nameindex *if_nameindex(void);
+# 406 "/workspaces/nuttx-external/nuttx/include/net/if.h" 3 4
+void if_freenameindex( struct if_nameindex *ifn);
+# 39 "tinyemu-2019-12-21/temu.c" 2
+# 1 "/workspaces/nuttx-external/nuttx/include/nuttx/net/tun.h" 1 3 4
+# 40 "tinyemu-2019-12-21/temu.c" 2
+
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/stat.h" 1 3 4
+# 141 "/workspaces/nuttx-external/nuttx/include/sys/stat.h" 3 4
+struct stat
+{
+
+
+  dev_t st_dev;
+  ino_t st_ino;
+  mode_t st_mode;
+  nlink_t st_nlink;
+  uid_t st_uid;
+  gid_t st_gid;
+  dev_t st_rdev;
+  off_t st_size;
+  struct timespec st_atim;
+  struct timespec st_mtim;
+  struct timespec st_ctim;
+  blksize_t st_blksize;
+  blkcnt_t st_blocks;
+};
+# 173 "/workspaces/nuttx-external/nuttx/include/sys/stat.h" 3 4
+int mkdir( const char *pathname, mode_t mode);
+int mkdirat(int dirfd, const char *pathname, mode_t mode);
+int mkfifo( const char *pathname, mode_t mode);
+int mkfifoat(int dirfd, const char *pathname, mode_t mode);
+int mknod( const char *path, mode_t mode, dev_t dev);
+int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev);
+int stat( const char *path, struct stat *buf);
+int lstat( const char *path, struct stat *buf);
+int fstat(int fd, struct stat *buf);
+int fstatat(int dirfd, const char *path, struct stat *buf,
+            int flags);
+int chmod( const char *path, mode_t mode);
+int lchmod( const char *path, mode_t mode);
+int fchmod(int fd, mode_t mode);
+int fchmodat(int dirfd, const char *path, mode_t mode, int flags);
+int utimens( const char *path, const struct timespec times[2]);
+int utimensat(int dirfd, const char *path,
+              const struct timespec times[2], int flags);
+int lutimens( const char *path, const struct timespec times[2]);
+int futimens(int fd, const struct timespec times[2]);
+
+mode_t umask(mode_t mask);
+mode_t getumask(void);
+# 42 "tinyemu-2019-12-21/temu.c" 2
+
+
+# 1 "tinyemu-2019-12-21/cutils.h" 1
+# 52 "tinyemu-2019-12-21/cutils.h"
+
+# 52 "tinyemu-2019-12-21/cutils.h"
+typedef int BOOL;
+enum {
+    FALSE = 0,
+    TRUE = 1,
+};
+# 69 "tinyemu-2019-12-21/cutils.h"
+static inline int max_int(int a, int b)
+{
+    if (a > b)
+        return a;
+    else
+        return b;
+}
+
+static inline int min_int(int a, int b)
+{
+    if (a < b)
+        return a;
+    else
+        return b;
+}
+
+void *mallocz(size_t size);
+# 94 "tinyemu-2019-12-21/cutils.h"
+# 1 "/workspaces/nuttx-external/nuttx/include/byteswap.h" 1 3 4
+# 28 "/workspaces/nuttx-external/nuttx/include/byteswap.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/endian.h" 1 3 4
+# 28 "/workspaces/nuttx-external/nuttx/include/endian.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/endian.h" 1 3 4
+# 29 "/workspaces/nuttx-external/nuttx/include/endian.h" 2 3 4
+# 29 "/workspaces/nuttx-external/nuttx/include/byteswap.h" 2 3 4
+# 95 "tinyemu-2019-12-21/cutils.h" 2
+
+
+static inline uint16_t get_le16(const uint8_t *ptr)
+{
+    return ptr[0] | (ptr[1] << 8);
+}
+
+static inline uint32_t get_le32(const uint8_t *ptr)
+{
+    return ptr[0] | (ptr[1] << 8) | (ptr[2] << 16) | (ptr[3] << 24);
+}
+
+static inline uint64_t get_le64(const uint8_t *ptr)
+{
+    return get_le32(ptr) | ((uint64_t)get_le32(ptr + 4) << 32);
+}
+
+static inline void put_le16(uint8_t *ptr, uint16_t v)
+{
+    ptr[0] = v;
+    ptr[1] = v >> 8;
+}
+
+static inline void put_le32(uint8_t *ptr, uint32_t v)
+{
+    ptr[0] = v;
+    ptr[1] = v >> 8;
+    ptr[2] = v >> 16;
+    ptr[3] = v >> 24;
+}
+
+static inline void put_le64(uint8_t *ptr, uint64_t v)
+{
+    put_le32(ptr, v);
+    put_le32(ptr + 4, v >> 32);
+}
+
+static inline uint32_t get_be32(const uint8_t *d)
+{
+    return (d[0] << 24) | (d[1] << 16) | (d[2] << 8) | d[3];
+}
+
+static inline void put_be32(uint8_t *d, uint32_t v)
+{
+    d[0] = v >> 24;
+    d[1] = v >> 16;
+    d[2] = v >> 8;
+    d[3] = v >> 0;
+}
+
+static inline void put_be64(uint8_t *d, uint64_t v)
+{
+    put_be32(d, v >> 32);
+    put_be32(d + 4, v);
+}
+
+
+
+
+
+
+
+static inline uint32_t cpu_to_be32(uint32_t v)
+{
+    return 
+# 159 "tinyemu-2019-12-21/cutils.h" 3 4
+          ((uint32_t)__builtin_bswap32(
+# 159 "tinyemu-2019-12-21/cutils.h"
+          v
+# 159 "tinyemu-2019-12-21/cutils.h" 3 4
+          ))
+# 159 "tinyemu-2019-12-21/cutils.h"
+                     ;
+}
+
+
+
+static inline int ctz32(uint32_t a)
+{
+    int i;
+    if (a == 0)
+        return 32;
+    for(i = 0; i < 32; i++) {
+        if ((a >> i) & 1)
+            return i;
+    }
+    return 32;
+}
+
+
+void *mallocz(size_t size);
+void pstrcpy(char *buf, int buf_size, const char *str);
+char *pstrcat(char *buf, int buf_size, const char *s);
+int strstart(const char *str, const char *val, const char **ptr);
+
+typedef struct {
+    uint8_t *buf;
+    size_t size;
+    size_t allocated_size;
+} DynBuf;
+
+void dbuf_init(DynBuf *s);
+void dbuf_write(DynBuf *s, size_t offset, const uint8_t *data, size_t len);
+void dbuf_putc(DynBuf *s, uint8_t c);
+void dbuf_putstr(DynBuf *s, const char *str);
+void dbuf_free(DynBuf *s);
+# 45 "tinyemu-2019-12-21/temu.c" 2
+# 1 "tinyemu-2019-12-21/iomem.h" 1
+# 27 "tinyemu-2019-12-21/iomem.h"
+typedef void DeviceWriteFunc(void *opaque, uint32_t offset,
+                             uint32_t val, int size_log2);
+typedef uint32_t DeviceReadFunc(void *opaque, uint32_t offset, int size_log2);
+# 44 "tinyemu-2019-12-21/iomem.h"
+typedef struct PhysMemoryMap PhysMemoryMap;
+
+typedef struct {
+    PhysMemoryMap *map;
+    uint64_t addr;
+    uint64_t org_size;
+    uint64_t size;
+    BOOL is_ram;
+
+    int devram_flags;
+    uint8_t *phys_mem;
+    int dirty_bits_size;
+    uint32_t *dirty_bits;
+    uint32_t *dirty_bits_tab[2];
+    int dirty_bits_index;
+
+    void *opaque;
+    DeviceReadFunc *read_func;
+    DeviceWriteFunc *write_func;
+    int devio_flags;
+} PhysMemoryRange;
+
+
+
+struct PhysMemoryMap {
+    int n_phys_mem_range;
+    PhysMemoryRange phys_mem_range[32];
+    PhysMemoryRange *(*register_ram)(PhysMemoryMap *s, uint64_t addr,
+                                     uint64_t size, int devram_flags);
+    void (*free_ram)(PhysMemoryMap *s, PhysMemoryRange *pr);
+    const uint32_t *(*get_dirty_bits)(PhysMemoryMap *s, PhysMemoryRange *pr);
+    void (*set_ram_addr)(PhysMemoryMap *s, PhysMemoryRange *pr, uint64_t addr,
+                         BOOL enabled);
+    void *opaque;
+    void (*flush_tlb_write_range)(void *opaque, uint8_t *ram_addr,
+                                  size_t ram_size);
+};
+
+
+PhysMemoryMap *phys_mem_map_init(void);
+void phys_mem_map_end(PhysMemoryMap *s);
+PhysMemoryRange *register_ram_entry(PhysMemoryMap *s, uint64_t addr,
+                                    uint64_t size, int devram_flags);
+static inline PhysMemoryRange *cpu_register_ram(PhysMemoryMap *s, uint64_t addr,
+                                  uint64_t size, int devram_flags)
+{
+    return s->register_ram(s, addr, size, devram_flags);
+}
+PhysMemoryRange *cpu_register_device(PhysMemoryMap *s, uint64_t addr,
+                                     uint64_t size, void *opaque,
+                                     DeviceReadFunc *read_func, DeviceWriteFunc *write_func,
+                                     int devio_flags);
+PhysMemoryRange *get_phys_mem_range(PhysMemoryMap *s, uint64_t paddr);
+void phys_mem_set_addr(PhysMemoryRange *pr, uint64_t addr, BOOL enabled);
+
+static inline const uint32_t *phys_mem_get_dirty_bits(PhysMemoryRange *pr)
+{
+    PhysMemoryMap *map = pr->map;
+    return map->get_dirty_bits(map, pr);
+}
+
+static inline void phys_mem_set_dirty_bit(PhysMemoryRange *pr, size_t offset)
+{
+    size_t page_index;
+    uint32_t mask, *dirty_bits_ptr;
+    if (pr->dirty_bits) {
+        page_index = offset >> 12;
+        mask = 1 << (page_index & 0x1f);
+        dirty_bits_ptr = pr->dirty_bits + (page_index >> 5);
+        *dirty_bits_ptr |= mask;
+    }
+}
+
+static inline BOOL phys_mem_is_dirty_bit(PhysMemoryRange *pr, size_t offset)
+{
+    size_t page_index;
+    uint32_t *dirty_bits_ptr;
+    if (!pr->dirty_bits)
+        return TRUE;
+    page_index = offset >> 12;
+    dirty_bits_ptr = pr->dirty_bits + (page_index >> 5);
+    return (*dirty_bits_ptr >> (page_index & 0x1f)) & 1;
+}
+
+void phys_mem_reset_dirty_bit(PhysMemoryRange *pr, size_t offset);
+uint8_t *phys_mem_get_ram_ptr(PhysMemoryMap *map, uint64_t paddr, BOOL is_rw);
+
+
+
+typedef void SetIRQFunc(void *opaque, int irq_num, int level);
+
+typedef struct {
+    SetIRQFunc *set_irq;
+    void *opaque;
+    int irq_num;
+} IRQSignal;
+
+void irq_init(IRQSignal *irq, SetIRQFunc *set_irq, void *opaque, int irq_num);
+
+static inline void set_irq(IRQSignal *irq, int level)
+{
+    irq->set_irq(irq->opaque, irq->irq_num, level);
+}
+# 46 "tinyemu-2019-12-21/temu.c" 2
+# 1 "tinyemu-2019-12-21/virtio.h" 1
+# 27 "tinyemu-2019-12-21/virtio.h"
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 1 3 4
+# 34 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 1 3 4
+# 31 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+# 1 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 1 3 4
+# 32 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 2 3 4
+# 127 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+
+# 127 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+typedef clock_t hrtime_t;
+
+
+
+struct timeval
+{
+  time_t tv_sec;
+  long tv_usec;
+};
+
+
+
+
+
+struct itimerval
+{
+  struct timeval it_interval;
+  struct timeval it_value;
+};
+
+
+
+
+
+struct timezone
+{
+  int tz_minuteswest;
+  int tz_dsttime;
+};
+# 192 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int gettimeofday( struct timeval *tv, struct timezone *tz);
+# 215 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int settimeofday( const struct timeval *tv,
+                 const struct timezone *tz);
+# 288 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int getitimer(int which, struct itimerval *value);
+# 338 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int setitimer(int which, const struct itimerval *value,
+              struct itimerval *ovalue);
+# 375 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int utimes( const char *path, const struct timeval times[2]);
+int lutimes( const char *path, const struct timeval times[2]);
+int futimesat(int dirfd, const char *path,
+              const struct timeval times[2]);
+# 398 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+int futimes(int fd, const struct timeval tv[2]);
+# 411 "/workspaces/nuttx-external/nuttx/include/sys/time.h" 3 4
+hrtime_t gethrtime(void);
+# 35 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 2 3 4
+# 101 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 3 4
+struct fd_set_s
+{
+  uint32_t arr[8];
+};
+
+typedef struct fd_set_s fd_set;
+# 121 "/workspaces/nuttx-external/nuttx/include/sys/select.h" 3 4
+struct timeval;
+int select(int nfds, fd_set *readfds, fd_set *writefds,
+           fd_set *exceptfds, struct timeval *timeout);
+
+int pselect(int nfds, fd_set *readfds, fd_set *writefds,
+            fd_set *exceptfds, const struct timespec *timeout,
+            const sigset_t *sigmask);
+# 28 "tinyemu-2019-12-21/virtio.h" 2
+
+
+# 1 "tinyemu-2019-12-21/pci.h" 1
+# 29 "tinyemu-2019-12-21/pci.h"
+
+# 29 "tinyemu-2019-12-21/pci.h"
+typedef struct PCIBus PCIBus;
+typedef struct PCIDevice PCIDevice;
+# 55 "tinyemu-2019-12-21/pci.h"
+typedef void PCIBarSetFunc(void *opaque, int bar_num, uint32_t addr,
+                           BOOL enabled);
+
+PCIDevice *pci_register_device(PCIBus *b, const char *name, int devfn,
+                               uint16_t vendor_id, uint16_t device_id,
+                               uint8_t revision, uint16_t class_id);
+PhysMemoryMap *pci_device_get_mem_map(PCIDevice *d);
+PhysMemoryMap *pci_device_get_port_map(PCIDevice *d);
+void pci_register_bar(PCIDevice *d, unsigned int bar_num,
+                      uint32_t size, int type,
+                      void *opaque, PCIBarSetFunc *bar_set);
+IRQSignal *pci_device_get_irq(PCIDevice *d, unsigned int irq_num);
+uint8_t *pci_device_get_dma_ptr(PCIDevice *d, uint64_t addr, BOOL is_rw);
+void pci_device_set_config8(PCIDevice *d, uint8_t addr, uint8_t val);
+void pci_device_set_config16(PCIDevice *d, uint8_t addr, uint16_t val);
+int pci_device_get_devfn(PCIDevice *d);
+int pci_add_capability(PCIDevice *d, const uint8_t *buf, int size);
+
+typedef struct I440FXState I440FXState;
+
+I440FXState *i440fx_init(PCIBus **pbus, int *ppiix3_devfn,
+                         PhysMemoryMap *mem_map, PhysMemoryMap *port_map,
+                         IRQSignal *pic_irqs);
+void i440fx_map_interrupts(I440FXState *s, uint8_t *elcr,
+                           const uint8_t *pci_irqs);
+# 31 "tinyemu-2019-12-21/virtio.h" 2
+# 41 "tinyemu-2019-12-21/virtio.h"
+typedef uint64_t virtio_phys_addr_t;
+
+
+
+
+typedef struct {
+
+    PCIBus *pci_bus;
+
+    PhysMemoryMap *mem_map;
+    uint64_t addr;
+    IRQSignal *irq;
+} VIRTIOBusDef;
+
+typedef struct VIRTIODevice VIRTIODevice;
+
+
+
+
+void virtio_set_debug(VIRTIODevice *s, int debug_flags);
+
+
+
+typedef void BlockDeviceCompletionFunc(void *opaque, int ret);
+
+typedef struct BlockDevice BlockDevice;
+
+struct BlockDevice {
+    int64_t (*get_sector_count)(BlockDevice *bs);
+    int (*read_async)(BlockDevice *bs,
+                      uint64_t sector_num, uint8_t *buf, int n,
+                      BlockDeviceCompletionFunc *cb, void *opaque);
+    int (*write_async)(BlockDevice *bs,
+                       uint64_t sector_num, const uint8_t *buf, int n,
+                       BlockDeviceCompletionFunc *cb, void *opaque);
+    void *opaque;
+};
+
+VIRTIODevice *virtio_block_init(VIRTIOBusDef *bus, BlockDevice *bs);
+
+
+
+typedef struct EthernetDevice EthernetDevice;
+
+struct EthernetDevice {
+    uint8_t mac_addr[6];
+    void (*write_packet)(EthernetDevice *net,
+                         const uint8_t *buf, int len);
+    void *opaque;
+
+    void (*select_fill)(EthernetDevice *net, int *pfd_max,
+                        fd_set *rfds, fd_set *wfds, fd_set *efds,
+                        int *pdelay);
+    void (*select_poll)(EthernetDevice *net,
+                        fd_set *rfds, fd_set *wfds, fd_set *efds,
+                        int select_ret);
+
+
+    void *device_opaque;
+    BOOL (*device_can_write_packet)(EthernetDevice *net);
+    void (*device_write_packet)(EthernetDevice *net,
+                                const uint8_t *buf, int len);
+    void (*device_set_carrier)(EthernetDevice *net, BOOL carrier_state);
+};
+
+VIRTIODevice *virtio_net_init(VIRTIOBusDef *bus, EthernetDevice *es);
+
+
+
+typedef struct {
+    void *opaque;
+    void (*write_data)(void *opaque, const uint8_t *buf, int len);
+    int (*read_data)(void *opaque, uint8_t *buf, int len);
+} CharacterDevice;
+
+VIRTIODevice *virtio_console_init(VIRTIOBusDef *bus, CharacterDevice *cs);
+BOOL virtio_console_can_write_data(VIRTIODevice *s);
+int virtio_console_get_write_len(VIRTIODevice *s);
+int virtio_console_write_data(VIRTIODevice *s, const uint8_t *buf, int buf_len);
+void virtio_console_resize_event(VIRTIODevice *s, int width, int height);
+
+
+
+typedef enum {
+    VIRTIO_INPUT_TYPE_KEYBOARD,
+    VIRTIO_INPUT_TYPE_MOUSE,
+    VIRTIO_INPUT_TYPE_TABLET,
+} VirtioInputTypeEnum;
+
+
+
+int virtio_input_send_key_event(VIRTIODevice *s, BOOL is_down,
+                                uint16_t key_code);
+int virtio_input_send_mouse_event(VIRTIODevice *s, int dx, int dy, int dz,
+                                  unsigned int buttons);
+
+VIRTIODevice *virtio_input_init(VIRTIOBusDef *bus, VirtioInputTypeEnum type);
+
+
+
+# 1 "tinyemu-2019-12-21/fs.h" 1
+# 94 "tinyemu-2019-12-21/fs.h"
+typedef struct FSDevice FSDevice;
+typedef struct FSFile FSFile;
+
+typedef struct {
+    uint32_t f_bsize;
+    uint64_t f_blocks;
+    uint64_t f_bfree;
+    uint64_t f_bavail;
+    uint64_t f_files;
+    uint64_t f_ffree;
+} FSStatFS;
+
+typedef struct {
+    uint8_t type;
+    uint32_t version;
+    uint64_t path;
+} FSQID;
+
+typedef struct {
+    FSQID qid;
+    uint32_t st_mode;
+    uint32_t st_uid;
+    uint32_t st_gid;
+    uint64_t st_nlink;
+    uint64_t st_rdev;
+    uint64_t st_size;
+    uint64_t st_blksize;
+    uint64_t st_blocks;
+    uint64_t st_atime_sec;
+    uint32_t st_atime_nsec;
+    uint64_t st_mtime_sec;
+    uint32_t st_mtime_nsec;
+    uint64_t st_ctime_sec;
+    uint32_t st_ctime_nsec;
+} FSStat;
+# 144 "tinyemu-2019-12-21/fs.h"
+typedef struct {
+    uint8_t type;
+    uint32_t flags;
+    uint64_t start;
+    uint64_t length;
+    uint32_t proc_id;
+    char *client_id;
+} FSLock;
+
+typedef void FSOpenCompletionFunc(FSDevice *fs, FSQID *qid, int err,
+                                  void *opaque);
+
+struct FSDevice {
+    void (*fs_end)(FSDevice *s);
+    void (*fs_delete)(FSDevice *s, FSFile *f);
+    void (*fs_statfs)(FSDevice *fs, FSStatFS *st);
+    int (*fs_attach)(FSDevice *fs, FSFile **pf, FSQID *qid, uint32_t uid,
+                     const char *uname, const char *aname);
+    int (*fs_walk)(FSDevice *fs, FSFile **pf, FSQID *qids,
+                   FSFile *f, int n, char **names);
+    int (*fs_mkdir)(FSDevice *fs, FSQID *qid, FSFile *f,
+                    const char *name, uint32_t mode, uint32_t gid);
+    int (*fs_open)(FSDevice *fs, FSQID *qid, FSFile *f, uint32_t flags,
+                   FSOpenCompletionFunc *cb, void *opaque);
+    int (*fs_create)(FSDevice *fs, FSQID *qid, FSFile *f, const char *name,
+                     uint32_t flags, uint32_t mode, uint32_t gid);
+    int (*fs_stat)(FSDevice *fs, FSFile *f, FSStat *st);
+    int (*fs_setattr)(FSDevice *fs, FSFile *f, uint32_t mask,
+                      uint32_t mode, uint32_t uid, uint32_t gid,
+                      uint64_t size, uint64_t atime_sec, uint64_t atime_nsec,
+                      uint64_t mtime_sec, uint64_t mtime_nsec);
+    void (*fs_close)(FSDevice *fs, FSFile *f);
+    int (*fs_readdir)(FSDevice *fs, FSFile *f, uint64_t offset,
+                      uint8_t *buf, int count);
+    int (*fs_read)(FSDevice *fs, FSFile *f, uint64_t offset,
+            uint8_t *buf, int count);
+    int (*fs_write)(FSDevice *fs, FSFile *f, uint64_t offset,
+             const uint8_t *buf, int count);
+    int (*fs_link)(FSDevice *fs, FSFile *df, FSFile *f, const char *name);
+    int (*fs_symlink)(FSDevice *fs, FSQID *qid,
+                      FSFile *f, const char *name, const char *symgt, uint32_t gid);
+    int (*fs_mknod)(FSDevice *fs, FSQID *qid,
+                    FSFile *f, const char *name, uint32_t mode, uint32_t major,
+                    uint32_t minor, uint32_t gid);
+    int (*fs_readlink)(FSDevice *fs, char *buf, int buf_size, FSFile *f);
+    int (*fs_renameat)(FSDevice *fs, FSFile *f, const char *name,
+                       FSFile *new_f, const char *new_name);
+    int (*fs_unlinkat)(FSDevice *fs, FSFile *f, const char *name);
+    int (*fs_lock)(FSDevice *fs, FSFile *f, const FSLock *lock);
+    int (*fs_getlock)(FSDevice *fs, FSFile *f, FSLock *lock);
+};
+
+FSDevice *fs_disk_init(const char *root_path);
+FSDevice *fs_mem_init(void);
+FSDevice *fs_net_init(const char *url, void (*start)(void *opaque), void *opaque);
+void fs_net_set_pwd(FSDevice *fs, const char *pwd);
+
+
+
+void fs_export_file(const char *filename,
+                    const uint8_t *buf, int buf_len);
+void fs_end(FSDevice *fs);
+void fs_dump_cache_load(FSDevice *fs1, const char *filename);
+
+FSFile *fs_dup(FSDevice *fs, FSFile *f);
+FSFile *fs_walk_path1(FSDevice *fs, FSFile *f, const char *path,
+                      char **pname);
+FSFile *fs_walk_path(FSDevice *fs, FSFile *f, const char *path);
+# 142 "tinyemu-2019-12-21/virtio.h" 2
+
+VIRTIODevice *virtio_9p_init(VIRTIOBusDef *bus, FSDevice *fs,
+                             const char *mount_tag);
+# 47 "tinyemu-2019-12-21/temu.c" 2
+# 1 "tinyemu-2019-12-21/machine.h" 1
+# 24 "tinyemu-2019-12-21/machine.h"
+# 1 "tinyemu-2019-12-21/json.h" 1
+# 27 "tinyemu-2019-12-21/json.h"
+typedef enum {
+    JSON_STR,
+    JSON_INT,
+    JSON_OBJ,
+    JSON_ARRAY,
+    JSON_BOOL,
+    JSON_NULL,
+    JSON_UNDEFINED,
+    JSON_EXCEPTION,
+} JSONTypeEnum;
+
+typedef struct {
+    int len;
+    char data[0];
+} JSONString;
+
+typedef struct JSONValue {
+    JSONTypeEnum type;
+    union {
+        JSONString *str;
+        int int32;
+        BOOL b;
+        struct JSONObject *obj;
+        struct JSONArray *array;
+    } u;
+} JSONValue;
+
+typedef struct JSONProperty {
+    JSONValue name;
+    JSONValue value;
+} JSONProperty;
+
+typedef struct JSONObject {
+    int len;
+    int size;
+    JSONProperty *props;
+} JSONObject;
+
+typedef struct JSONArray {
+    int len;
+    int size;
+    JSONValue *tab;
+} JSONArray;
+
+JSONValue json_string_new2(const char *str, int len);
+JSONValue json_string_new(const char *str);
+JSONValue __attribute__((format(printf, 1, 2))) json_error_new(const char *fmt, ...);
+void json_free(JSONValue val);
+
+JSONValue json_object_new(void);
+JSONValue json_object_get(JSONValue val, const char *name);
+int json_object_set(JSONValue val, const char *name, JSONValue prop_val);
+
+JSONValue json_array_new(void);
+JSONValue json_array_get(JSONValue val, unsigned int idx);
+int json_array_set(JSONValue val, unsigned int idx, JSONValue prop_val);
+
+static inline BOOL json_is_error(JSONValue val)
+{
+    return val.type == JSON_EXCEPTION;
+}
+
+static inline BOOL json_is_undefined(JSONValue val)
+{
+    return val.type == JSON_UNDEFINED;
+}
+
+static inline JSONValue json_undefined_new(void)
+{
+    JSONValue val;
+    val.type = JSON_UNDEFINED;
+    val.u.int32 = 0;
+    return val;
+}
+
+static inline JSONValue json_null_new(void)
+{
+    JSONValue val;
+    val.type = JSON_NULL;
+    val.u.int32 = 0;
+    return val;
+}
+
+static inline JSONValue json_int32_new(int v)
+{
+    JSONValue val;
+    val.type = JSON_INT;
+    val.u.int32 = v;
+    return val;
+}
+
+static inline JSONValue json_bool_new(BOOL v)
+{
+    JSONValue val;
+    val.type = JSON_BOOL;
+    val.u.b = v;
+    return val;
+}
+
+const char *json_get_str(JSONValue val);
+const char *json_get_error(JSONValue val);
+
+JSONValue json_parse_value(const char *p);
+JSONValue json_parse_value_len(const char *p, int len);
+# 25 "tinyemu-2019-12-21/machine.h" 2
+
+typedef struct FBDevice FBDevice;
+
+typedef void SimpleFBDrawFunc(FBDevice *fb_dev, void *opaque,
+                              int x, int y, int w, int h);
+
+struct FBDevice {
+
+    int width;
+    int height;
+    int stride;
+    uint8_t *fb_data;
+    int fb_size;
+    void *device_opaque;
+    void (*refresh)(struct FBDevice *fb_dev,
+                    SimpleFBDrawFunc *redraw_func, void *opaque);
+};
+
+
+
+
+
+
+
+typedef enum {
+    VM_FILE_BIOS,
+    VM_FILE_VGA_BIOS,
+    VM_FILE_KERNEL,
+    VM_FILE_INITRD,
+
+    VM_FILE_COUNT,
+} VMFileTypeEnum;
+
+typedef struct {
+    char *filename;
+    uint8_t *buf;
+    int len;
+} VMFileEntry;
+
+typedef struct {
+    char *device;
+    char *filename;
+    BlockDevice *block_dev;
+} VMDriveEntry;
+
+typedef struct {
+    char *device;
+    char *tag;
+    char *filename;
+    FSDevice *fs_dev;
+} VMFSEntry;
+
+typedef struct {
+    char *driver;
+    char *ifname;
+    EthernetDevice *net;
+} VMEthEntry;
+
+typedef struct VirtMachineClass VirtMachineClass;
+
+typedef struct {
+    char *cfg_filename;
+    const VirtMachineClass *vmc;
+    char *machine_name;
+    uint64_t ram_size;
+    BOOL rtc_real_time;
+    BOOL rtc_local_time;
+    char *display_device;
+    int width, height;
+    CharacterDevice *console;
+    VMDriveEntry tab_drive[4];
+    int drive_count;
+    VMFSEntry tab_fs[4];
+    int fs_count;
+    VMEthEntry tab_eth[1];
+    int eth_count;
+
+    char *cmdline;
+    BOOL accel_enable;
+    char *input_device;
+
+
+    VMFileEntry files[VM_FILE_COUNT];
+} VirtMachineParams;
+
+typedef struct VirtMachine {
+    const VirtMachineClass *vmc;
+
+    EthernetDevice *net;
+
+    VIRTIODevice *console_dev;
+    CharacterDevice *console;
+
+    FBDevice *fb_dev;
+} VirtMachine;
+
+struct VirtMachineClass {
+    const char *machine_names;
+    void (*virt_machine_set_defaults)(VirtMachineParams *p);
+    VirtMachine *(*virt_machine_init)(const VirtMachineParams *p);
+    void (*virt_machine_end)(VirtMachine *s);
+    int (*virt_machine_get_sleep_duration)(VirtMachine *s, int delay);
+    void (*virt_machine_interp)(VirtMachine *s, int max_exec_cycle);
+    BOOL (*vm_mouse_is_absolute)(VirtMachine *s);
+    void (*vm_send_mouse_event)(VirtMachine *s1, int dx, int dy, int dz,
+                                unsigned int buttons);
+    void (*vm_send_key_event)(VirtMachine *s1, BOOL is_down, uint16_t key_code);
+};
+
+extern const VirtMachineClass riscv_machine_class;
+extern const VirtMachineClass pc_machine_class;
+
+void __attribute__((format(printf, 1, 2))) vm_error(const char *fmt, ...);
+int vm_get_int(JSONValue obj, const char *name, int *pval);
+int vm_get_int_opt(JSONValue obj, const char *name, int *pval, int def_val);
+
+void virt_machine_set_defaults(VirtMachineParams *p);
+void virt_machine_load_config_file(VirtMachineParams *p,
+                                   const char *filename,
+                                   void (*start_cb)(void *opaque),
+                                   void *opaque);
+void vm_add_cmdline(VirtMachineParams *p, const char *cmdline);
+char *get_file_path(const char *base_filename, const char *filename);
+void virt_machine_free_config(VirtMachineParams *p);
+VirtMachine *virt_machine_init(const VirtMachineParams *p);
+void virt_machine_end(VirtMachine *s);
+static inline int virt_machine_get_sleep_duration(VirtMachine *s, int delay)
+{
+    return s->vmc->virt_machine_get_sleep_duration(s, delay);
+}
+static inline void virt_machine_interp(VirtMachine *s, int max_exec_cycle)
+{
+    s->vmc->virt_machine_interp(s, max_exec_cycle);
+}
+static inline BOOL vm_mouse_is_absolute(VirtMachine *s)
+{
+    return s->vmc->vm_mouse_is_absolute(s);
+}
+static inline void vm_send_mouse_event(VirtMachine *s1, int dx, int dy, int dz,
+                                       unsigned int buttons)
+{
+    s1->vmc->vm_send_mouse_event(s1, dx, dy, dz, buttons);
+}
+static inline void vm_send_key_event(VirtMachine *s1, BOOL is_down, uint16_t key_code)
+{
+    s1->vmc->vm_send_key_event(s1, is_down, key_code);
+}
+
+
+void sdl_refresh(VirtMachine *m);
+void sdl_init(int width, int height);
+
+
+typedef struct SimpleFBState SimpleFBState;
+SimpleFBState *simplefb_init(PhysMemoryMap *map, uint64_t phys_addr,
+                             FBDevice *fb_dev, int width, int height);
+void simplefb_refresh(FBDevice *fb_dev,
+                      SimpleFBDrawFunc *redraw_func, void *opaque,
+                      PhysMemoryRange *mem_range,
+                      int fb_page_count);
+
+
+typedef struct VGAState VGAState;
+VGAState *pci_vga_init(PCIBus *bus, FBDevice *fb_dev,
+                       int width, int height,
+                       const uint8_t *vga_rom_buf, int vga_rom_size);
+
+
+BlockDevice *block_device_init_http(const char *url,
+                                    int max_cache_size_kb,
+                                    void (*start_cb)(void *opaque),
+                                    void *start_opaque);
+# 48 "tinyemu-2019-12-21/temu.c" 2
+# 58 "tinyemu-2019-12-21/temu.c"
+typedef struct
+{
+    int stdin_fd;
+    int console_esc_state;
+    BOOL resize_pending;
+} STDIODevice;
+
+static struct termios oldtty;
+static int old_fd0_flags;
+static STDIODevice *global_stdio_device;
+
+static void term_exit(void)
+{
+    tcsetattr(0, 
+# 71 "tinyemu-2019-12-21/temu.c" 3 4
+                0
+# 71 "tinyemu-2019-12-21/temu.c"
+                       , &oldtty);
+    fcntl(0, 
+# 72 "tinyemu-2019-12-21/temu.c" 3 4
+            9
+# 72 "tinyemu-2019-12-21/temu.c"
+                   , old_fd0_flags);
+}
+
+static void term_init(BOOL allow_ctrlc)
+{
+    struct termios tty;
+
+    memset(&tty, 0, sizeof(tty));
+    tcgetattr(0, &tty);
+    oldtty = tty;
+    old_fd0_flags = fcntl(0, 
+# 82 "tinyemu-2019-12-21/temu.c" 3 4
+                            2
+# 82 "tinyemu-2019-12-21/temu.c"
+                                   );
+
+    tty.c_iflag &= ~(
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                    (1 << 0) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                           | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                             (1 << 1) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                    | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                      (1 << 3) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                             | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                               (1 << 5) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                                      | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                                        (1 << 6) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                                              | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                                                (1 << 7) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                                                      | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                                                        (1 << 8) 
+# 84 "tinyemu-2019-12-21/temu.c"
+                                                                              | 
+# 84 "tinyemu-2019-12-21/temu.c" 3 4
+                                                                                (1 << 10)
+# 84 "tinyemu-2019-12-21/temu.c"
+                                                                                    );
+    tty.c_oflag |= 
+# 85 "tinyemu-2019-12-21/temu.c" 3 4
+                  (1 << 0)
+# 85 "tinyemu-2019-12-21/temu.c"
+                       ;
+    tty.c_lflag &= ~(
+# 86 "tinyemu-2019-12-21/temu.c" 3 4
+                    (1 << 3) 
+# 86 "tinyemu-2019-12-21/temu.c"
+                         | 
+# 86 "tinyemu-2019-12-21/temu.c" 3 4
+                           (1 << 6) 
+# 86 "tinyemu-2019-12-21/temu.c"
+                                  | 
+# 86 "tinyemu-2019-12-21/temu.c" 3 4
+                                    (1 << 1) 
+# 86 "tinyemu-2019-12-21/temu.c"
+                                           | 
+# 86 "tinyemu-2019-12-21/temu.c" 3 4
+                                             (1 << 15)
+# 86 "tinyemu-2019-12-21/temu.c"
+                                                   );
+    if (!allow_ctrlc)
+        tty.c_lflag &= ~
+# 88 "tinyemu-2019-12-21/temu.c" 3 4
+                       (1 << 0)
+# 88 "tinyemu-2019-12-21/temu.c"
+                           ;
+    tty.c_cflag &= ~(
+# 89 "tinyemu-2019-12-21/temu.c" 3 4
+                    (3 << 4) 
+# 89 "tinyemu-2019-12-21/temu.c"
+                          | 
+# 89 "tinyemu-2019-12-21/temu.c" 3 4
+                            (1 << 8)
+# 89 "tinyemu-2019-12-21/temu.c"
+                                  );
+    tty.c_cflag |= 
+# 90 "tinyemu-2019-12-21/temu.c" 3 4
+                  (3 << 4)
+# 90 "tinyemu-2019-12-21/temu.c"
+                     ;
+    tty.c_cc[
+# 91 "tinyemu-2019-12-21/temu.c" 3 4
+            6
+# 91 "tinyemu-2019-12-21/temu.c"
+                ] = 1;
+    tty.c_cc[
+# 92 "tinyemu-2019-12-21/temu.c" 3 4
+            5
+# 92 "tinyemu-2019-12-21/temu.c"
+                 ] = 0;
+
+    tcsetattr(0, 
+# 94 "tinyemu-2019-12-21/temu.c" 3 4
+                0
+# 94 "tinyemu-2019-12-21/temu.c"
+                       , &tty);
+
+    atexit(term_exit);
+}
+
+static void console_write(void *opaque, const uint8_t *buf, int len)
+{
+    fwrite(buf, 1, len, 
+# 101 "tinyemu-2019-12-21/temu.c" 3 4
+                       lib_get_stream(1)
+# 101 "tinyemu-2019-12-21/temu.c"
+                             );
+    fflush(
+# 102 "tinyemu-2019-12-21/temu.c" 3 4
+          lib_get_stream(1)
+# 102 "tinyemu-2019-12-21/temu.c"
+                );
+}
+
+static int console_read(void *opaque, uint8_t *buf, int len)
+{
+    STDIODevice *s = opaque;
+    int ret, i, j;
+    uint8_t ch;
+
+    if (len <= 0)
+        return 0;
+
+    ret = read(s->stdin_fd, buf, len);
+    if (ret < 0)
+        return 0;
+    if (ret == 0)
+    {
+
+        exit(1);
+    }
+
+    j = 0;
+    for (i = 0; i < ret; i++)
+    {
+        ch = buf[i];
+        if (s->console_esc_state)
+        {
+            s->console_esc_state = 0;
+            switch (ch)
+            {
+            case 'x':
+                printf("Terminated\n");
+                exit(0);
+            case 'h':
+                printf("\n"
+                       "C-a h   print this help\n"
+                       "C-a x   exit emulator\n"
+                       "C-a C-a send C-a\n");
+                break;
+            case 1:
+                goto output_char;
+            default:
+                break;
+            }
+        }
+        else
+        {
+            if (ch == 1)
+            {
+                s->console_esc_state = 1;
+            }
+            else
+            {
+            output_char:
+                buf[j++] = ch;
+            }
+        }
+    }
+    return j;
+}
+
+static void term_resize_handler(int sig)
+{
+    if (global_stdio_device)
+        global_stdio_device->resize_pending = TRUE;
+}
+
+static void console_get_size(STDIODevice *s, int *pw, int *ph)
+{
+    struct winsize ws;
+    int width, height;
+
+    width = 80;
+    height = 25;
+    if (ioctl(s->stdin_fd, 
+# 176 "tinyemu-2019-12-21/temu.c" 3 4
+                          (((0x0100))|(0x000b))
+# 176 "tinyemu-2019-12-21/temu.c"
+                                    , &ws) == 0 &&
+        ws.ws_col >= 4 && ws.ws_row >= 4)
+    {
+        width = ws.ws_col;
+        height = ws.ws_row;
+    }
+    *pw = width;
+    *ph = height;
+}
+
+CharacterDevice *console_init(BOOL allow_ctrlc)
+{
+    CharacterDevice *dev;
+    STDIODevice *s;
+    struct sigaction sig;
+
+    term_init(allow_ctrlc);
+
+    dev = mallocz(sizeof(*dev));
+    s = mallocz(sizeof(*s));
+    s->stdin_fd = 0;
+
+
+    fcntl(s->stdin_fd, 
+# 199 "tinyemu-2019-12-21/temu.c" 3 4
+                      9
+# 199 "tinyemu-2019-12-21/temu.c"
+                             , 
+# 199 "tinyemu-2019-12-21/temu.c" 3 4
+                               (1 << 6)
+# 199 "tinyemu-2019-12-21/temu.c"
+                                         );
+
+    s->resize_pending = TRUE;
+    global_stdio_device = s;
+
+
+    sig.
+# 205 "tinyemu-2019-12-21/temu.c" 3 4
+       sa_u._sa_handler 
+# 205 "tinyemu-2019-12-21/temu.c"
+                  = term_resize_handler;
+    sigemptyset(&sig.sa_mask);
+    sig.sa_flags = 0;
+    sigaction(
+# 208 "tinyemu-2019-12-21/temu.c" 3 4
+             28
+# 208 "tinyemu-2019-12-21/temu.c"
+                     , &sig, 
+# 208 "tinyemu-2019-12-21/temu.c" 3 4
+                             ((void*)0)
+# 208 "tinyemu-2019-12-21/temu.c"
+                                 );
+
+    dev->opaque = s;
+    dev->write_data = console_write;
+    dev->read_data = console_read;
+    return dev;
+}
+
+
+
+typedef enum
+{
+    BF_MODE_RO,
+    BF_MODE_RW,
+    BF_MODE_SNAPSHOT,
+} BlockDeviceModeEnum;
+
+
+
+typedef struct BlockDeviceFile
+{
+    FILE *f;
+    int64_t nb_sectors;
+    BlockDeviceModeEnum mode;
+    uint8_t **sector_table;
+} BlockDeviceFile;
+
+static int64_t bf_get_sector_count(BlockDevice *bs)
+{
+    BlockDeviceFile *bf = bs->opaque;
+    return bf->nb_sectors;
+}
+
+
+
+static int bf_read_async(BlockDevice *bs,
+                         uint64_t sector_num, uint8_t *buf, int n,
+                         BlockDeviceCompletionFunc *cb, void *opaque)
+{
+    BlockDeviceFile *bf = bs->opaque;
+# 257 "tinyemu-2019-12-21/temu.c"
+    if (!bf->f)
+        return -1;
+    if (bf->mode == BF_MODE_SNAPSHOT)
+    {
+        int i;
+        for (i = 0; i < n; i++)
+        {
+            if (!bf->sector_table[sector_num])
+            {
+                fseek(bf->f, sector_num * 512, 
+# 266 "tinyemu-2019-12-21/temu.c" 3 4
+                                                      0
+# 266 "tinyemu-2019-12-21/temu.c"
+                                                              );
+                fread(buf, 1, 512, bf->f);
+            }
+            else
+            {
+                memcpy(buf, bf->sector_table[sector_num], 512);
+            }
+            sector_num++;
+            buf += 512;
+        }
+    }
+    else
+    {
+        fseek(bf->f, sector_num * 512, 
+# 279 "tinyemu-2019-12-21/temu.c" 3 4
+                                              0
+# 279 "tinyemu-2019-12-21/temu.c"
+                                                      );
+        fread(buf, 1, n * 512, bf->f);
+    }
+
+    return 0;
+}
+
+static int bf_write_async(BlockDevice *bs,
+                          uint64_t sector_num, const uint8_t *buf, int n,
+                          BlockDeviceCompletionFunc *cb, void *opaque)
+{
+    BlockDeviceFile *bf = bs->opaque;
+    int ret;
+
+    switch (bf->mode)
+    {
+    case BF_MODE_RO:
+        ret = -1;
+        break;
+    case BF_MODE_RW:
+        fseek(bf->f, sector_num * 512, 
+# 299 "tinyemu-2019-12-21/temu.c" 3 4
+                                              0
+# 299 "tinyemu-2019-12-21/temu.c"
+                                                      );
+        fwrite(buf, 1, n * 512, bf->f);
+        ret = 0;
+        break;
+    case BF_MODE_SNAPSHOT:
+    {
+        int i;
+        if ((sector_num + n) > bf->nb_sectors)
+            return -1;
+        for (i = 0; i < n; i++)
+        {
+            if (!bf->sector_table[sector_num])
+            {
+                bf->sector_table[sector_num] = malloc(512);
+            }
+            memcpy(bf->sector_table[sector_num], buf, 512);
+            sector_num++;
+            buf += 512;
+        }
+        ret = 0;
+    }
+    break;
+    default:
+        abort();
+    }
+
+    return ret;
+}
+
+static BlockDevice *block_device_init(const char *filename,
+                                      BlockDeviceModeEnum mode)
+{
+    BlockDevice *bs;
+    BlockDeviceFile *bf;
+    int64_t file_size;
+    FILE *f;
+    const char *mode_str;
+
+    if (mode == BF_MODE_RW)
+    {
+        mode_str = "r+b";
+    }
+    else
+    {
+        mode_str = "rb";
+    }
+
+    f = fopen(filename, mode_str);
+    if (!f)
+    {
+        perror(filename);
+        exit(1);
+    }
+    fseek(f, 0, 
+# 352 "tinyemu-2019-12-21/temu.c" 3 4
+               2
+# 352 "tinyemu-2019-12-21/temu.c"
+                       );
+    file_size = ftello(f);
+
+    bs = mallocz(sizeof(*bs));
+    bf = mallocz(sizeof(*bf));
+
+    bf->mode = mode;
+    bf->nb_sectors = file_size / 512;
+    bf->f = f;
+
+    if (mode == BF_MODE_SNAPSHOT)
+    {
+        bf->sector_table = mallocz(sizeof(bf->sector_table[0]) *
+                                   bf->nb_sectors);
+    }
+
+    bs->opaque = bf;
+    bs->get_sector_count = bf_get_sector_count;
+    bs->read_async = bf_read_async;
+    bs->write_async = bf_write_async;
+    return bs;
+}
+
+
+
+typedef struct
+{
+    int fd;
+    BOOL select_filled;
+} TunState;
+
+static void tun_write_packet(EthernetDevice *net,
+                             const uint8_t *buf, int len)
+{
+    TunState *s = net->opaque;
+    write(s->fd, buf, len);
+}
+
+static void tun_select_fill(EthernetDevice *net, int *pfd_max,
+                            fd_set *rfds, fd_set *wfds, fd_set *efds,
+                            int *pdelay)
+{
+    TunState *s = net->opaque;
+    int net_fd = s->fd;
+
+    s->select_filled = net->device_can_write_packet(net);
+    if (s->select_filled)
+    {
+        
+# 400 "tinyemu-2019-12-21/temu.c" 3 4
+       ((((fd_set*)(
+# 400 "tinyemu-2019-12-21/temu.c"
+       rfds
+# 400 "tinyemu-2019-12-21/temu.c" 3 4
+       ))->arr)[((
+# 400 "tinyemu-2019-12-21/temu.c"
+       net_fd
+# 400 "tinyemu-2019-12-21/temu.c" 3 4
+       ) >> 5)] |= (1u << ((
+# 400 "tinyemu-2019-12-21/temu.c"
+       net_fd
+# 400 "tinyemu-2019-12-21/temu.c" 3 4
+       ) & 0x1f)))
+# 400 "tinyemu-2019-12-21/temu.c"
+                           ;
+        *pfd_max = max_int(*pfd_max, net_fd);
+    }
+}
+
+static void tun_select_poll(EthernetDevice *net,
+                            fd_set *rfds, fd_set *wfds, fd_set *efds,
+                            int select_ret)
+{
+    TunState *s = net->opaque;
+    int net_fd = s->fd;
+    uint8_t buf[2048];
+    int ret;
+
+    if (select_ret <= 0)
+        return;
+    if (s->select_filled && 
+# 416 "tinyemu-2019-12-21/temu.c" 3 4
+                           (((((fd_set*)(
+# 416 "tinyemu-2019-12-21/temu.c"
+                           rfds
+# 416 "tinyemu-2019-12-21/temu.c" 3 4
+                           ))->arr)[((
+# 416 "tinyemu-2019-12-21/temu.c"
+                           net_fd
+# 416 "tinyemu-2019-12-21/temu.c" 3 4
+                           ) >> 5)] & (1u << ((
+# 416 "tinyemu-2019-12-21/temu.c"
+                           net_fd
+# 416 "tinyemu-2019-12-21/temu.c" 3 4
+                           ) & 0x1f))) != 0)
+# 416 "tinyemu-2019-12-21/temu.c"
+                                                 )
+    {
+        ret = read(net_fd, buf, sizeof(buf));
+        if (ret > 0)
+            net->device_write_packet(net, buf, ret);
+    }
+}
+# 442 "tinyemu-2019-12-21/temu.c"
+static EthernetDevice *tun_open(const char *ifname)
+{
+    struct ifreq ifr;
+    int fd, ret;
+    EthernetDevice *net;
+    TunState *s;
+
+    fd = open("/dev/net/tun", 
+# 449 "tinyemu-2019-12-21/temu.c" 3 4
+                             ((1 << 0)|(1 << 1))
+# 449 "tinyemu-2019-12-21/temu.c"
+                                   );
+    if (fd < 0)
+    {
+        fprintf(
+# 452 "tinyemu-2019-12-21/temu.c" 3 4
+               lib_get_stream(2)
+# 452 "tinyemu-2019-12-21/temu.c"
+                     , "Error: could not open /dev/net/tun\n");
+        return 
+# 453 "tinyemu-2019-12-21/temu.c" 3 4
+              ((void*)0)
+# 453 "tinyemu-2019-12-21/temu.c"
+                  ;
+    }
+    memset(&ifr, 0, sizeof(ifr));
+    ifr.
+# 456 "tinyemu-2019-12-21/temu.c" 3 4
+       ifr_ifru.ifru_flags 
+# 456 "tinyemu-2019-12-21/temu.c"
+                 = 
+# 456 "tinyemu-2019-12-21/temu.c" 3 4
+                   0x02 
+# 456 "tinyemu-2019-12-21/temu.c"
+                           | 
+# 456 "tinyemu-2019-12-21/temu.c" 3 4
+                             0x80
+# 456 "tinyemu-2019-12-21/temu.c"
+                                      ;
+    pstrcpy(ifr.ifr_name, sizeof(ifr.ifr_name), ifname);
+    ret = ioctl(fd, 
+# 458 "tinyemu-2019-12-21/temu.c" 3 4
+                   (((0x0700))|(0x0028))
+# 458 "tinyemu-2019-12-21/temu.c"
+                            , (void *)&ifr);
+    if (ret != 0)
+    {
+        fprintf(
+# 461 "tinyemu-2019-12-21/temu.c" 3 4
+               lib_get_stream(2)
+# 461 "tinyemu-2019-12-21/temu.c"
+                     , "Error: could not configure /dev/net/tun\n");
+        close(fd);
+        return 
+# 463 "tinyemu-2019-12-21/temu.c" 3 4
+              ((void*)0)
+# 463 "tinyemu-2019-12-21/temu.c"
+                  ;
+    }
+    fcntl(fd, 
+# 465 "tinyemu-2019-12-21/temu.c" 3 4
+             9
+# 465 "tinyemu-2019-12-21/temu.c"
+                    , 
+# 465 "tinyemu-2019-12-21/temu.c" 3 4
+                      (1 << 6)
+# 465 "tinyemu-2019-12-21/temu.c"
+                                );
+
+    net = mallocz(sizeof(*net));
+    net->mac_addr[0] = 0x02;
+    net->mac_addr[1] = 0x00;
+    net->mac_addr[2] = 0x00;
+    net->mac_addr[3] = 0x00;
+    net->mac_addr[4] = 0x00;
+    net->mac_addr[5] = 0x01;
+    s = mallocz(sizeof(*s));
+    s->fd = fd;
+    net->opaque = s;
+    net->write_packet = tun_write_packet;
+    net->select_fill = tun_select_fill;
+    net->select_poll = tun_select_poll;
+    return net;
+}
+# 568 "tinyemu-2019-12-21/temu.c"
+void virt_machine_run(VirtMachine *m)
+{
+    fd_set rfds, wfds, efds;
+    int fd_max, ret, delay;
+    struct timeval tv;
+
+    int stdin_fd;
+
+
+    delay = virt_machine_get_sleep_duration(m, 10);
+
+
+    
+# 580 "tinyemu-2019-12-21/temu.c" 3 4
+   memset((
+# 580 "tinyemu-2019-12-21/temu.c"
+   &rfds
+# 580 "tinyemu-2019-12-21/temu.c" 3 4
+   ), 0, sizeof(fd_set))
+# 580 "tinyemu-2019-12-21/temu.c"
+                 ;
+    
+# 581 "tinyemu-2019-12-21/temu.c" 3 4
+   memset((
+# 581 "tinyemu-2019-12-21/temu.c"
+   &wfds
+# 581 "tinyemu-2019-12-21/temu.c" 3 4
+   ), 0, sizeof(fd_set))
+# 581 "tinyemu-2019-12-21/temu.c"
+                 ;
+    
+# 582 "tinyemu-2019-12-21/temu.c" 3 4
+   memset((
+# 582 "tinyemu-2019-12-21/temu.c"
+   &efds
+# 582 "tinyemu-2019-12-21/temu.c" 3 4
+   ), 0, sizeof(fd_set))
+# 582 "tinyemu-2019-12-21/temu.c"
+                 ;
+    fd_max = -1;
+
+    if (m->console_dev && virtio_console_can_write_data(m->console_dev))
+    {
+        STDIODevice *s = m->console->opaque;
+        stdin_fd = s->stdin_fd;
+        
+# 589 "tinyemu-2019-12-21/temu.c" 3 4
+       ((((fd_set*)(
+# 589 "tinyemu-2019-12-21/temu.c"
+       &rfds
+# 589 "tinyemu-2019-12-21/temu.c" 3 4
+       ))->arr)[((
+# 589 "tinyemu-2019-12-21/temu.c"
+       stdin_fd
+# 589 "tinyemu-2019-12-21/temu.c" 3 4
+       ) >> 5)] |= (1u << ((
+# 589 "tinyemu-2019-12-21/temu.c"
+       stdin_fd
+# 589 "tinyemu-2019-12-21/temu.c" 3 4
+       ) & 0x1f)))
+# 589 "tinyemu-2019-12-21/temu.c"
+                              ;
+        fd_max = stdin_fd;
+
+        if (s->resize_pending)
+        {
+            int width, height;
+            console_get_size(s, &width, &height);
+            virtio_console_resize_event(m->console_dev, width, height);
+            s->resize_pending = FALSE;
+        }
+    }
+
+    if (m->net)
+    {
+        m->net->select_fill(m->net, &fd_max, &rfds, &wfds, &efds, &delay);
+    }
+
+
+
+    tv.tv_sec = delay / 1000;
+    tv.tv_usec = (delay % 1000) * 1000;
+    ret = select(fd_max + 1, &rfds, &wfds, &efds, &tv);
+    if (m->net)
+    {
+        m->net->select_poll(m->net, &rfds, &wfds, &efds, ret);
+    }
+    if (ret > 0)
+    {
+
+        if (m->console_dev && 
+# 618 "tinyemu-2019-12-21/temu.c" 3 4
+                             (((((fd_set*)(
+# 618 "tinyemu-2019-12-21/temu.c"
+                             &rfds
+# 618 "tinyemu-2019-12-21/temu.c" 3 4
+                             ))->arr)[((
+# 618 "tinyemu-2019-12-21/temu.c"
+                             stdin_fd
+# 618 "tinyemu-2019-12-21/temu.c" 3 4
+                             ) >> 5)] & (1u << ((
+# 618 "tinyemu-2019-12-21/temu.c"
+                             stdin_fd
+# 618 "tinyemu-2019-12-21/temu.c" 3 4
+                             ) & 0x1f))) != 0)
+# 618 "tinyemu-2019-12-21/temu.c"
+                                                      )
+        {
+            uint8_t buf[128];
+            int ret, len;
+            len = virtio_console_get_write_len(m->console_dev);
+            len = min_int(len, sizeof(buf));
+            ret = m->console->read_data(m->console->opaque, buf, len);
+            if (ret > 0)
+            {
+                virtio_console_write_data(m->console_dev, buf, ret);
+            }
+        }
+
+    }
+
+
+
+
+
+    virt_machine_interp(m, 500000);
+}
+
+
+
+static struct option options[] = {
+    {"help", 
+# 643 "tinyemu-2019-12-21/temu.c" 3 4
+            0
+# 643 "tinyemu-2019-12-21/temu.c"
+                       , 
+# 643 "tinyemu-2019-12-21/temu.c" 3 4
+                         ((void*)0)
+# 643 "tinyemu-2019-12-21/temu.c"
+                             , 'h'},
+    {"ctrlc", 
+# 644 "tinyemu-2019-12-21/temu.c" 3 4
+             0
+# 644 "tinyemu-2019-12-21/temu.c"
+                        },
+    {"rw", 
+# 645 "tinyemu-2019-12-21/temu.c" 3 4
+          0
+# 645 "tinyemu-2019-12-21/temu.c"
+                     },
+    {"ro", 
+# 646 "tinyemu-2019-12-21/temu.c" 3 4
+          0
+# 646 "tinyemu-2019-12-21/temu.c"
+                     },
+    {"append", 
+# 647 "tinyemu-2019-12-21/temu.c" 3 4
+              1
+# 647 "tinyemu-2019-12-21/temu.c"
+                               },
+    {"no-accel", 
+# 648 "tinyemu-2019-12-21/temu.c" 3 4
+                0
+# 648 "tinyemu-2019-12-21/temu.c"
+                           },
+    {"build-preload", 
+# 649 "tinyemu-2019-12-21/temu.c" 3 4
+                     1
+# 649 "tinyemu-2019-12-21/temu.c"
+                                      },
+    {
+# 650 "tinyemu-2019-12-21/temu.c" 3 4
+    ((void*)0)
+# 650 "tinyemu-2019-12-21/temu.c"
+        },
+};
+
+void help(void)
+{
+    printf("temu version " "v1.2.3" ", Copyright (c) 2016-2018 Fabrice Bellard\n"
+           "usage: riscvemu [options] config_file\n"
+           "options are:\n"
+           "-m ram_size       set the RAM size in MB\n"
+           "-rw               allow write access to the disk image (default=snapshot)\n"
+           "-ctrlc            the C-c key stops the emulator instead of being sent to the\n"
+           "                  emulated software\n"
+           "-append cmdline   append cmdline to the kernel command line\n"
+           "-no-accel         disable VM acceleration (KVM, x86 machine only)\n"
+           "\n"
+           "Console keys:\n"
+           "Press C-a x to exit the emulator, C-a h to get some help.\n");
+    exit(1);
+}
+# 686 "tinyemu-2019-12-21/temu.c"
+int (int argc, char *argv[])
+{
+    VirtMachine *s;
+    const char *path, *cmdline, *build_preload_file;
+    int c, option_index, i, ram_size, accel_enable;
+    BOOL allow_ctrlc;
+    BlockDeviceModeEnum drive_mode;
+    VirtMachineParams p_s, *p = &p_s;
+
+    ram_size = -1;
+    allow_ctrlc = FALSE;
+    (void)allow_ctrlc;
+    drive_mode = BF_MODE_SNAPSHOT;
+    accel_enable = -1;
+    cmdline = 
+# 700 "tinyemu-2019-12-21/temu.c" 3 4
+             ((void*)0)
+# 700 "tinyemu-2019-12-21/temu.c"
+                 ;
+    build_preload_file = 
+# 701 "tinyemu-2019-12-21/temu.c" 3 4
+                        ((void*)0)
+# 701 "tinyemu-2019-12-21/temu.c"
+                            ;
+    for (;;)
+    {
+        c = getopt_long_only(argc, argv, "hm:", options, &option_index);
+        if (c == -1)
+            break;
+        switch (c)
+        {
+        case 0:
+            switch (option_index)
+            {
+            case 1:
+                allow_ctrlc = TRUE;
+                break;
+            case 2:
+                drive_mode = BF_MODE_RW;
+                break;
+            case 3:
+                drive_mode = BF_MODE_RO;
+                break;
+            case 4:
+                cmdline = 
+# 722 "tinyemu-2019-12-21/temu.c" 3 4
+                         (*(getoptargp()))
+# 722 "tinyemu-2019-12-21/temu.c"
+                               ;
+                break;
+            case 5:
+                accel_enable = FALSE;
+                break;
+            case 6:
+                build_preload_file = 
+# 728 "tinyemu-2019-12-21/temu.c" 3 4
+                                    (*(getoptargp()))
+# 728 "tinyemu-2019-12-21/temu.c"
+                                          ;
+                break;
+            default:
+                fprintf(
+# 731 "tinyemu-2019-12-21/temu.c" 3 4
+                       lib_get_stream(2)
+# 731 "tinyemu-2019-12-21/temu.c"
+                             , "unknown option index: %d\n", option_index);
+                exit(1);
+            }
+            break;
+        case 'h':
+            help();
+            break;
+        case 'm':
+            ram_size = strtoul(
+# 739 "tinyemu-2019-12-21/temu.c" 3 4
+                              (*(getoptargp()))
+# 739 "tinyemu-2019-12-21/temu.c"
+                                    , 
+# 739 "tinyemu-2019-12-21/temu.c" 3 4
+                                      ((void*)0)
+# 739 "tinyemu-2019-12-21/temu.c"
+                                          , 0);
+            break;
+        default:
+            exit(1);
+        }
+    }
+
+    if (
+# 746 "tinyemu-2019-12-21/temu.c" 3 4
+       (*(getoptindp())) 
+# 746 "tinyemu-2019-12-21/temu.c"
+              >= argc)
+    {
+        help();
+    }
+
+    path = argv[
+# 751 "tinyemu-2019-12-21/temu.c" 3 4
+               (*(getoptindp()))
+# 751 "tinyemu-2019-12-21/temu.c"
+                     ++];
+
+    virt_machine_set_defaults(p);
+
+
+
+    virt_machine_load_config_file(p, path, 
+# 757 "tinyemu-2019-12-21/temu.c" 3 4
+                                          ((void*)0)
+# 757 "tinyemu-2019-12-21/temu.c"
+                                              , 
+# 757 "tinyemu-2019-12-21/temu.c" 3 4
+                                                ((void*)0)
+# 757 "tinyemu-2019-12-21/temu.c"
+                                                    );
+
+
+
+
+
+
+    if (ram_size > 0)
+    {
+        p->ram_size = (uint64_t)ram_size << 20;
+    }
+    if (accel_enable != -1)
+        p->accel_enable = accel_enable;
+    if (cmdline)
+    {
+        vm_add_cmdline(p, cmdline);
+    }
+
+
+    for (i = 0; i < p->drive_count; i++)
+    {
+        BlockDevice *drive;
+        char *fname;
+        fname = get_file_path(p->cfg_filename, p->tab_drive[i].filename);
+# 792 "tinyemu-2019-12-21/temu.c"
+        {
+            drive = block_device_init(fname, drive_mode);
+        }
+        free(fname);
+        p->tab_drive[i].block_dev = drive;
+    }
+
+    for (i = 0; i < p->fs_count; i++)
+    {
+        FSDevice *fs;
+        const char *path;
+        path = p->tab_fs[i].filename;
+# 816 "tinyemu-2019-12-21/temu.c"
+        {
+
+
+
+
+            char *fname;
+            fname = get_file_path(p->cfg_filename, path);
+            fs = fs_disk_init(fname);
+            if (!fs)
+            {
+                fprintf(
+# 826 "tinyemu-2019-12-21/temu.c" 3 4
+                       lib_get_stream(2)
+# 826 "tinyemu-2019-12-21/temu.c"
+                             , "%s: must be a directory\n", fname);
+                exit(1);
+            }
+            free(fname);
+
+        }
+        p->tab_fs[i].fs_dev = fs;
+    }
+
+    for (i = 0; i < p->eth_count; i++)
+    {
+# 847 "tinyemu-2019-12-21/temu.c"
+            if (!strcmp(p->tab_eth[i].driver, "tap"))
+        {
+            p->tab_eth[i].net = tun_open(p->tab_eth[i].ifname);
+            if (!p->tab_eth[i].net)
+                exit(1);
+        }
+        else
+
+        {
+            fprintf(
+# 856 "tinyemu-2019-12-21/temu.c" 3 4
+                   lib_get_stream(2)
+# 856 "tinyemu-2019-12-21/temu.c"
+                         , "Unsupported network driver '%s'\n",
+                    p->tab_eth[i].driver);
+            exit(1);
+        }
+    }
+# 869 "tinyemu-2019-12-21/temu.c"
+    {
+
+
+
+
+        p->console = console_init(allow_ctrlc);
+
+    }
+    p->rtc_real_time = TRUE;
+
+    s = virt_machine_init(p);
+    if (!s)
+        exit(1);
+
+    virt_machine_free_config(p);
+
+    if (s->net)
+    {
+        s->net->device_set_carrier(s->net, TRUE);
+    }
+
+    for (;;)
+    {
+        virt_machine_run(s);
+    }
+    virt_machine_end(s);
+    return 0;
+}
