@@ -112,57 +112,23 @@ static int getpid_callback(FAR struct nsh_vtbl_s *vtbl,
  ****************************************************************************/
 
 /****************************************************************************
- * Name: nsh_catfile
+ * Name: nsh_catfd
  *
  * Description:
- *   Dump the contents of a file to the current NSH terminal.
- *
- * Input Paratemets:
- *   vtbl     - session vtbl
- *   cmd      - NSH command name to use in error reporting
- *   filepath - The full path to the file to be dumped
- *
- * Returned Value:
- *   Zero (OK) on success; -1 (ERROR) on failure.
+ *   Reads from a file descriptor and dump to output
  *
  ****************************************************************************/
-
-#ifdef NSH_HAVE_CATFILE
-int nsh_catfile(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd,
-                FAR const char *filepath)
+int nsh_catfd(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd, int fd)
 {
-  FAR char *buffer;
-  int fd;
   int ret = OK;
 
-  /* Open the file for reading */
-
-  fd = open(filepath, O_RDONLY);
-  if (fd < 0)
-    {
-#if defined(CONFIG_NSH_PROC_MOUNTPOINT)
-      if (strncmp(filepath, CONFIG_NSH_PROC_MOUNTPOINT,
-                  sizeof(CONFIG_NSH_PROC_MOUNTPOINT) - 1) == 0)
-        {
-          nsh_error(vtbl,
-                    "nsh: %s: Could not open %s (is procfs mounted?)\n",
-                    cmd, filepath);
-        }
-#endif
-
-      nsh_error(vtbl, g_fmtcmdfailed, cmd, "open", NSH_ERRNO);
-      return ERROR;
-    }
-
-  buffer = (FAR char *)malloc(IOBUFFERSIZE);
+  char *buffer = (FAR char *)malloc(IOBUFFERSIZE);
   if (buffer == NULL)
     {
       close(fd);
       nsh_error(vtbl, g_fmtcmdfailed, cmd, "malloc", NSH_ERRNO);
       return ERROR;
     }
-
-  /* And just dump it byte for byte into stdout */
 
   for (; ; )
     {
@@ -233,6 +199,56 @@ int nsh_catfile(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd,
           break;
         }
     }
+  
+    free(buffer);
+    return ret;
+}
+
+/****************************************************************************
+ * Name: nsh_catfile
+ *
+ * Description:
+ *   Dump the contents of a file to the current NSH terminal.
+ *
+ * Input Paratemets:
+ *   vtbl     - session vtbl
+ *   cmd      - NSH command name to use in error reporting
+ *   filepath - The full path to the file to be dumped
+ *
+ * Returned Value:
+ *   Zero (OK) on success; -1 (ERROR) on failure.
+ *
+ ****************************************************************************/
+
+#ifdef NSH_HAVE_CATFILE
+int nsh_catfile(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd,
+                FAR const char *filepath)
+{
+  int fd;
+  int ret = OK;
+
+  /* Open the file for reading */
+
+  fd = open(filepath, O_RDONLY);
+  if (fd < 0)
+    {
+#if defined(CONFIG_NSH_PROC_MOUNTPOINT)
+      if (strncmp(filepath, CONFIG_NSH_PROC_MOUNTPOINT,
+                  sizeof(CONFIG_NSH_PROC_MOUNTPOINT) - 1) == 0)
+        {
+          nsh_error(vtbl,
+                    "nsh: %s: Could not open %s (is procfs mounted?)\n",
+                    cmd, filepath);
+        }
+#endif
+
+      nsh_error(vtbl, g_fmtcmdfailed, cmd, "open", NSH_ERRNO);
+      return ERROR;
+    }
+
+  /* And just dump it byte for byte into stdout */
+
+  nsh_catfd(vtbl, cmd, fd);
 
   /* NOTE that the following NSH prompt may appear on the same line as file
    * content.  The IEEE Std requires that "The standard output shall
@@ -244,7 +260,6 @@ int nsh_catfile(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd,
   /* Close the input file and return the result */
 
   close(fd);
-  free(buffer);
   return ret;
 }
 #endif

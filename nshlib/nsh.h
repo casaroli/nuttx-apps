@@ -656,7 +656,8 @@ struct nsh_parser_s
 #ifndef CONFIG_NSH_DISABLEBG
   bool     np_bg;       /* true: The last command executed in background */
 #endif
-  bool     np_redirect; /* true: Output from the last command was re-directed */
+  bool     np_redir_out;/* true: Output from the last command was re-directed */
+  bool     np_redir_in; /* true: Input from the last command was re-directed */
   bool     np_fail;     /* true: The last command failed */
 #ifndef CONFIG_NSH_DISABLESCRIPT
   uint8_t  np_flags;    /* See nsh_npflags_e above */
@@ -852,7 +853,8 @@ int nsh_command(FAR struct nsh_vtbl_s *vtbl, int argc, FAR char *argv[]);
 
 #ifdef CONFIG_NSH_BUILTIN_APPS
 int nsh_builtin(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd,
-                FAR char **argv, FAR const char *redirfile, int oflags);
+                FAR char **argv, FAR const char *redirfile_in,
+                FAR const char *redirfile_out, int oflags);
 #endif
 
 #ifdef CONFIG_NSH_FILE_APPS
@@ -1263,6 +1265,26 @@ int nsh_extmatch_count(FAR char *name, FAR int *matches, int namelen);
 #if defined(CONFIG_NSH_READLINE) && defined(CONFIG_READLINE_TABCOMPLETION) && \
     defined(CONFIG_READLINE_HAVE_EXTMATCH)
 FAR const char *nsh_extmatch_getname(int index);
+#endif
+
+/****************************************************************************
+ * Name: nsh_catfd
+ *
+ * Description:
+ *   Dump the contents of a file descriptor to the current NSH terminal.
+ *
+ * Input Paratemets:
+ *   vtbl     - The console vtable
+ *   cmd      - NSH command name to use in error reporting
+ *   fd       - The file descriptor
+ *
+ * Returned Value:
+ *   Zero (OK) on success; -1 (ERROR) on failure.
+ *
+ ****************************************************************************/
+
+#ifdef NSH_HAVE_CATFILE
+int nsh_catfd(FAR struct nsh_vtbl_s *vtbl, FAR const char *cmd, int fd);
 #endif
 
 /****************************************************************************

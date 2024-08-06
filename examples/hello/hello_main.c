@@ -35,6 +35,9 @@
 
 int main(int argc, FAR char *argv[])
 {
-  printf("Hello, World!!\n");
+  char buf[128];
+  printf("What is yo name?\n");
+  gets(buf);
+  printf("Hello, %s!!\n", buf);
   return 0;
 }

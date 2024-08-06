@@ -790,6 +790,18 @@ int cmd_cat(FAR struct nsh_vtbl_s *vtbl, int argc, FAR char **argv)
           nsh_freefullpath(fullpath);
         }
     }
+  if (argc == 1)
+    {
+
+      /* Dump from stdin (0) */
+
+      ret = nsh_catfd(vtbl, argv[0], 0);
+
+      // while(true) {
+      //   char *line = nsh_linebuffer(vtbl);
+      //   nsh_write(vtbl, line, strlen(line));
+      // }
+    }
 
   return ret;
 }
