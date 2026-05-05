@@ -1,0 +1,30 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config SYSTEM_PKG
+	tristate "'pkg' lifecycle helper"
+	default n
+	---help---
+		Enable the thin package lifecycle helper proposed for the
+		Dynamic ELF distribution work.
+
+if SYSTEM_PKG
+
+config SYSTEM_PKG_PROGNAME
+	string "Program name"
+	default "pkg"
+	---help---
+		This is the name of the program that will be used when the
+		pkg tool is installed.
+
+config SYSTEM_PKG_PRIORITY
+	int "'pkg' task priority"
+	default 100
+
+config SYSTEM_PKG_STACKSIZE
+	int "'pkg' stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
