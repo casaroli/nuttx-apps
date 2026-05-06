@@ -6,6 +6,7 @@
 config SYSTEM_PKG
 	tristate "'pkg' lifecycle helper"
 	default n
+	select NETUTILS_CJSON
 	---help---
 		Enable the thin package lifecycle helper proposed for the
 		Dynamic ELF distribution work.

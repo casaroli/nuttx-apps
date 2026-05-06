@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg_txn.c
+ * apps/system/pkg/pkg_compat.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -25,7 +25,7 @@
  ****************************************************************************/
 
 #include <errno.h>
-#include <stdio.h>
+#include <string.h>
 
 #include "pkg.h"
 
@@ -33,78 +33,32 @@
  * Public Functions
  ****************************************************************************/
 
-const char *pkg_txn_state_str(enum pkg_txn_state_e state)
+const char *pkg_runtime_arch(void)
 {
-  switch (state)
-    {
-      case PKG_TXN_IDLE:
-        return "IDLE";
-
-      case PKG_TXN_FETCHING:
-        return "FETCHING";
-
-      case PKG_TXN_VERIFIED:
-        return "VERIFIED";
-
-      case PKG_TXN_STAGED:
-        return "STAGED";
-
-      case PKG_TXN_COMPAT_OK:
-        return "COMPAT_OK";
-
-      case PKG_TXN_ACTIVATED:
-        return "ACTIVATED";
-
-      case PKG_TXN_CLEANUP:
-        return "CLEANUP";
-
-      case PKG_TXN_FAILED:
-        return "FAILED";
-
-      case PKG_TXN_RESTORE:
-        return "RESTORE";
-
-      default:
-        return "UNKNOWN";
-    }
+  return CONFIG_ARCH;
 }
 
-int pkg_txn_write_state(FAR const char *name, enum pkg_txn_state_e state)
+const char *pkg_runtime_compat(void)
 {
-  char path[PATH_MAX];
-  char text[32];
-  int ret;
-
-  ret = pkg_store_format_txn_path(path, sizeof(path), name);
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  ret = snprintf(text, sizeof(text), "%s\n", pkg_txn_state_str(state));
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  if ((size_t)ret >= sizeof(text))
-    {
-      return -ENAMETOOLONG;
-    }
-
-  return pkg_store_write_text_atomic(path, text);
+  return CONFIG_ARCH_BOARD;
 }
 
-int pkg_txn_clear_state(FAR const char *name)
+int pkg_compat_check(FAR const struct pkg_manifest_s *manifest)
 {
-  char path[PATH_MAX];
-  int ret;
-
-  ret = pkg_store_format_txn_path(path, sizeof(path), name);
-  if (ret < 0)
+  if (manifest == NULL)
     {
-      return ret;
+      return -EINVAL;
     }
 
-  return pkg_store_remove_file(path);
+  if (strcmp(manifest->arch, pkg_runtime_arch()) != 0)
+    {
+      return -EXDEV;
+    }
+
+  if (strcmp(manifest->compat, pkg_runtime_compat()) != 0)
+    {
+      return -EXDEV;
+    }
+
+  return 0;
 }

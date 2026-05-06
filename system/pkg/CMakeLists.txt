@@ -32,8 +32,12 @@ if(CONFIG_SYSTEM_PKG)
     ${CONFIG_SYSTEM_PKG_PRIORITY}
     SRCS
     pkg_main.c
+    pkg_compat.c
+    pkg_hash.c
+    pkg_install.c
     pkg_log.c
     pkg_manifest.c
+    pkg_metadata.c
     pkg_store.c
     pkg_txn.c)
 endif()

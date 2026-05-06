@@ -128,3 +128,28 @@ int pkg_manifest_validate(FAR const struct pkg_manifest_s *manifest)
 
   return 0;
 }
+
+int pkg_manifest_parse_type(FAR const char *value,
+                            FAR enum pkg_payload_type_e *type)
+{
+  if (value == NULL || type == NULL)
+    {
+      return -EINVAL;
+    }
+
+  if (strcmp(value, "elf") == 0)
+    {
+      *type = PKG_PAYLOAD_ELF;
+      return 0;
+    }
+
+  if (strcmp(value, "shared-lib") == 0 ||
+      strcmp(value, "shared_lib") == 0 ||
+      strcmp(value, "shared") == 0)
+    {
+      *type = PKG_PAYLOAD_SHARED_LIB;
+      return 0;
+    }
+
+  return -EINVAL;
+}

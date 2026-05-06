@@ -42,12 +42,6 @@ static void pkg_show_usage(FAR FILE *stream, FAR const char *progname)
           progname);
 }
 
-static int pkg_not_implemented(FAR const char *cmd)
-{
-  pkg_error("'%s' is not implemented yet in the current unit", cmd);
-  return EXIT_FAILURE;
-}
-
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
@@ -73,22 +67,38 @@ int main(int argc, FAR char *argv[])
 
   if (strcmp(cmd, "install") == 0)
     {
-      return pkg_not_implemented("install");
+      if (argc != 3)
+        {
+          pkg_error("install expects exactly one package name");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_install(argv[2]);
     }
 
   if (strcmp(cmd, "update") == 0)
     {
-      return pkg_not_implemented("update");
+      pkg_error("'update' is not implemented yet in the current unit");
+      return EXIT_FAILURE;
     }
 
   if (strcmp(cmd, "list") == 0)
     {
-      return pkg_not_implemented("list");
+      if (argc != 2)
+        {
+          pkg_error("list does not take additional arguments");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_list(stdout);
     }
 
   if (strcmp(cmd, "rollback") == 0)
     {
-      return pkg_not_implemented("rollback");
+      pkg_error("'rollback' is not implemented yet in the current unit");
+      return EXIT_FAILURE;
     }
 
   fprintf(stderr, "ERROR: Unknown subcommand '%s'\n", cmd);
