@@ -31,5 +31,9 @@ if(CONFIG_SYSTEM_PKG)
     PRIORITY
     ${CONFIG_SYSTEM_PKG_PRIORITY}
     SRCS
-    pkg_main.c)
+    pkg_main.c
+    pkg_log.c
+    pkg_manifest.c
+    pkg_store.c
+    pkg_txn.c)
 endif()

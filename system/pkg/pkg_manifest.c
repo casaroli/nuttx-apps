@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg_main.c
+ * apps/system/pkg/pkg_manifest.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -24,9 +24,8 @@
  * Included Files
  ****************************************************************************/
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <ctype.h>
+#include <errno.h>
 #include <string.h>
 
 #include "pkg.h"
@@ -35,63 +34,97 @@
  * Private Functions
  ****************************************************************************/
 
-static void pkg_show_usage(FAR FILE *stream, FAR const char *progname)
+static bool pkg_has_nonspace(FAR const char *value)
 {
-  fprintf(stream,
-          "Usage: %s <install|update|list|rollback|help> [args]\n",
-          progname);
+  while (*value != '\0')
+    {
+      if (!isspace((unsigned char)*value))
+        {
+          return true;
+        }
+
+      value++;
+    }
+
+  return false;
 }
 
-static int pkg_not_implemented(FAR const char *cmd)
+static int pkg_validate_required(FAR const char *value)
 {
-  pkg_error("'%s' is not implemented yet in the current unit", cmd);
-  return EXIT_FAILURE;
+  if (value == NULL || value[0] == '\0' || !pkg_has_nonspace(value))
+    {
+      return -EINVAL;
+    }
+
+  return 0;
+}
+
+static bool pkg_validate_hex(FAR const char *value)
+{
+  while (*value != '\0')
+    {
+      if (!isxdigit((unsigned char)*value))
+        {
+          return false;
+        }
+
+      value++;
+    }
+
+  return true;
 }
 
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
 
-int main(int argc, FAR char *argv[])
+const char *pkg_manifest_type_str(enum pkg_payload_type_e type)
 {
-  FAR const char *cmd;
-
-  if (argc < 2)
+  switch (type)
     {
-      pkg_show_usage(stderr, argv[0]);
-      return EXIT_FAILURE;
+      case PKG_PAYLOAD_ELF:
+        return "elf";
+
+      case PKG_PAYLOAD_SHARED_LIB:
+        return "shared-lib";
+
+      default:
+        return "unknown";
+    }
+}
+
+int pkg_manifest_validate(FAR const struct pkg_manifest_s *manifest)
+{
+  if (manifest == NULL)
+    {
+      return -EINVAL;
     }
 
-  cmd = argv[1];
-
-  if (strcmp(cmd, "help") == 0 || strcmp(cmd, "--help") == 0 ||
-      strcmp(cmd, "-h") == 0)
+  if (pkg_validate_required(manifest->name) < 0 ||
+      pkg_validate_required(manifest->version) < 0 ||
+      pkg_validate_required(manifest->arch) < 0 ||
+      pkg_validate_required(manifest->compat) < 0 ||
+      pkg_validate_required(manifest->artifact) < 0 ||
+      pkg_validate_required(manifest->sha256) < 0)
     {
-      pkg_show_usage(stdout, argv[0]);
-      return EXIT_SUCCESS;
+      return -EINVAL;
     }
 
-  if (strcmp(cmd, "install") == 0)
+  if (strlen(manifest->sha256) != PKG_HASH_HEX_LEN)
     {
-      return pkg_not_implemented("install");
+      return -EINVAL;
     }
 
-  if (strcmp(cmd, "update") == 0)
+  if (!pkg_validate_hex(manifest->sha256))
     {
-      return pkg_not_implemented("update");
+      return -EINVAL;
     }
 
-  if (strcmp(cmd, "list") == 0)
+  if (manifest->type != PKG_PAYLOAD_ELF &&
+      manifest->type != PKG_PAYLOAD_SHARED_LIB)
     {
-      return pkg_not_implemented("list");
+      return -EINVAL;
     }
 
-  if (strcmp(cmd, "rollback") == 0)
-    {
-      return pkg_not_implemented("rollback");
-    }
-
-  fprintf(stderr, "ERROR: Unknown subcommand '%s'\n", cmd);
-  pkg_show_usage(stderr, argv[0]);
-  return EXIT_FAILURE;
+  return 0;
 }

@@ -27,6 +27,7 @@ PRIORITY  = $(CONFIG_SYSTEM_PKG_PRIORITY)
 STACKSIZE = $(CONFIG_SYSTEM_PKG_STACKSIZE)
 MODULE    = $(CONFIG_SYSTEM_PKG)
 
+CSRCS = pkg_log.c pkg_manifest.c pkg_store.c pkg_txn.c
 MAINSRC = pkg_main.c
 
 include $(APPDIR)/Application.mk
