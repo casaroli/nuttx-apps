@@ -4,7 +4,7 @@
 #
 
 config GAMES_CGOL
-	bool "Conway's Game of Life"
+	tristate "Conway's Game of Life"
 	depends on VIDEO_FB
 	default n
 	---help---

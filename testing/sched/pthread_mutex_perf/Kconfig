@@ -4,7 +4,7 @@
 #
 
 config TESTING_PTHREAD_MUTEX_PERF
-	bool "Pthread Mutex Performance (pmutexp) testing"
+	tristate "Pthread Mutex Performance (pmutexp) testing"
 	default n
 	---help---
 		Pthread Mutex Performance (pmp) helps to analyze the pthread

@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_SENSOR_FUSION
-	bool "Sensor Fusion Example"
+	tristate "Sensor Fusion Example"
 	default n
 	---help---
 		Sensor fusion example that combines gyro and accelerometer data

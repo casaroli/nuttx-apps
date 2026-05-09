@@ -4,7 +4,7 @@
 #
 
 config SYSTEM_LSAN
-	bool "lsan memory leak detection"
+	tristate "lsan memory leak detection"
 	default y
 	depends on SIM_ASAN
 	---help---

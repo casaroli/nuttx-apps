@@ -4,7 +4,7 @@
 #
 
 config TESTING_FF
-	bool "Force feedback test"
+	tristate "Force feedback test"
 	default n
 
 if TESTING_FF

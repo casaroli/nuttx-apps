@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_SIXAXIS
-	bool "BMI160 sensor example"
+	tristate "BMI160 sensor example"
 	default n
 	depends on SENSORS_BMI160
 	---help---

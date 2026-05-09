@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_POSIX_STDIO
-	bool "Posix stdio example"
+	tristate "Posix stdio example"
 	default n
 	---help---
 		Enable POSIX stdio example that shows how to use open(), write() and

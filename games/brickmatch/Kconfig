@@ -4,7 +4,7 @@
 #
 
 config GAMES_BRICKMATCH
-	bool "Brickmatch Game"
+	tristate "Brickmatch Game"
 	default n
 	---help---
 		Enable Brickmatch games. Brickmatch is like a mix

@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_AUDIO_SOUND
-	bool "Audio tone generator example (RTTL player)"
+	tristate "Audio tone generator example (RTTL player)"
 	default n
 	---help---
 		Enable the audio RTTL player example

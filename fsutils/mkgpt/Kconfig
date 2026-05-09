@@ -4,7 +4,7 @@
 #
 
 config FSUTILS_MKGPT
-	bool "mkgpt utility"
+	tristate "mkgpt utility"
 	default n
 	select BCH
 	select DEV_URANDOM

@@ -26,6 +26,6 @@ config SYSTEM_PKG_PRIORITY
 
 config SYSTEM_PKG_STACKSIZE
 	int "'pkg' stack size"
-	default DEFAULT_TASK_STACKSIZE
+	default 16384
 
 endif

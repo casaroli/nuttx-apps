@@ -4,7 +4,7 @@
 #
 
 config NETUTILS_IPERF
-	bool "iperf example"
+	tristate "iperf example"
 	default n
 	depends on NET
 	select NETUTILS_NETLIB

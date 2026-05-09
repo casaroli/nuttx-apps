@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_FXOS8700CQ
-	bool "FXOS8700CQ motion sensor example"
+	tristate "FXOS8700CQ motion sensor example"
 	default n
 	select SENSORS
 	select SENSORS_FXOS8700CQ

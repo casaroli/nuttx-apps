@@ -4,7 +4,7 @@
 #
 
 config FSUTILS_MKMBR
-	bool "mkmbr utility"
+	tristate "mkmbr utility"
 	default n
 	select BCH
 	---help---

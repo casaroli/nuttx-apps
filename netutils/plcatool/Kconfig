@@ -4,7 +4,7 @@
 #
 
 config NETUTILS_PLCATOOL
-	bool "plcatool support"
+	tristate "plcatool support"
 	default n
 	---help---
 		Build in support for the plcatool command. This command allows configuring

@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_HTS221_READER
-	bool "HTS221 reader example"
+	tristate "HTS221 reader example"
 	default n
 	depends on SENSORS_HTS221
 	---help---

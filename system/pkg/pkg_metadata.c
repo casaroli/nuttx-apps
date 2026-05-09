@@ -377,6 +377,7 @@ int pkg_metadata_load_index(FAR struct pkg_index_s *index)
   FAR char *text;
   char path[PATH_MAX];
   size_t count = 0;
+  size_t textlen;
   int ret;
 
   if (index == NULL)
@@ -392,13 +393,19 @@ int pkg_metadata_load_index(FAR struct pkg_index_s *index)
       return ret;
     }
 
+  pkg_info("loading index from %s", path);
+
   ret = pkg_store_read_text(path, &text);
   if (ret < 0)
     {
       return ret;
     }
 
+  textlen = strlen(text);
+  pkg_info("index read complete (%zu bytes)", textlen);
+
   root = cJSON_Parse(text);
+  pkg_info("cJSON_Parse returned %s", root != NULL ? "success" : "failure");
   free(text);
   if (root == NULL)
     {
@@ -427,6 +434,9 @@ int pkg_metadata_load_index(FAR struct pkg_index_s *index)
           return ret;
         }
 
+      pkg_info("parsed manifest %s %s",
+               index->manifests[count].name,
+               index->manifests[count].version);
       count++;
     }
 

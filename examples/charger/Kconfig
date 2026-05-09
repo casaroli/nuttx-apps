@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_CHARGER
-	bool "Battery charger example"
+	tristate "Battery charger example"
 	default n
 	---help---
 		This application is an example of using charger device.

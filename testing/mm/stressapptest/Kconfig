@@ -4,7 +4,7 @@
 #
 
 config TESTING_STRESSAPPTEST
-	bool "stressapptest"
+	tristate "stressapptest"
 	default n
 	---help---
 		stressapptest is a userspace memory and CPU stress test tool. It

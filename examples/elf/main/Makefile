@@ -69,8 +69,18 @@ ifeq ($(CONFIG_EXAMPLES_ELF_ROMFS),y)
 ROMFSIMG = elf_romfs.img
 ROMFSSRC = elf_romfs.c
 ROMFSOBJ = $(ROMFSSRC:.c=$(OBJEXT))
+ifdef CONFIG_SYSTEM_PKG
+PKGINDEX = $(BINDIR)/index.json
+PKGTEST  = $(BINDIR)/pkgtest.nsh
+PKG_FIXTURE_GEN = $(APPDIR)/examples/elf/main/mk_pkg_fixture.py
 
-$(ROMFSIMG):
+$(PKGINDEX) $(PKGTEST): $(BINDIR)/hello $(PKG_FIXTURE_GEN)
+	$(Q) python3 $(PKG_FIXTURE_GEN) \
+		$(BINDIR)/hello $(PKGINDEX) $(PKGTEST) \
+		$(CONFIG_ARCH) $(CONFIG_ARCH_BOARD)
+endif
+
+$(ROMFSIMG): $(PKGINDEX) $(PKGTEST)
 	$(Q) genromfs -d $(BINDIR) -f $@
 
 $(ROMFSSRC): $(ROMFSIMG)

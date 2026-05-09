@@ -4,7 +4,7 @@
 #
 
 config SYSTEM_NXCODEC
-	bool "NxCodec test application"
+	tristate "NxCodec test application"
 	default n
 	---help---
 		This application is a command-line tool that verifies the functionality

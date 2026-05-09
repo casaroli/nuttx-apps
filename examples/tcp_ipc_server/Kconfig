@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_TCP_IPC_SERVER
-	bool "Server for TCP IPC NuttX"
+	tristate "Server for TCP IPC NuttX"
 	default n
 	select ARCH_HAVE_NET
 	select ARCH_HAVE_NETDEV_STATISTICS

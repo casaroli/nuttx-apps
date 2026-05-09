@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_LSM6DSL_READER
-	bool "LSM6DSL reader example"
+	tristate "LSM6DSL reader example"
 	default n
 	depends on SENSORS_LSM6DSL
 	---help---

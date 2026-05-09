@@ -4,7 +4,7 @@
 #
 
 config GRAPHICS_JPGRESIZETOOL
-	bool "JPGResizeTool"
+	tristate "JPGResizeTool"
 	default n
 	depends on libjpeg
 	---help---

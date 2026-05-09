@@ -237,8 +237,8 @@ static int pkg_install_write_pointers(FAR const struct pkg_installed_db_s *db,
 
 int pkg_install(FAR const char *name)
 {
-  struct pkg_index_s index;
-  struct pkg_installed_db_s installed;
+  FAR struct pkg_index_s *index;
+  FAR struct pkg_installed_db_s *installed;
   FAR const struct pkg_manifest_s *manifest;
   char source[PATH_MAX];
   char tmp[PATH_MAX] = "";
@@ -248,26 +248,46 @@ int pkg_install(FAR const char *name)
   char digest[PKG_HASH_HEX_LEN + 1];
   int ret;
 
+  index = malloc(sizeof(*index));
+  installed = malloc(sizeof(*installed));
+  if (index == NULL || installed == NULL)
+    {
+      free(index);
+      free(installed);
+      pkg_error("unable to allocate package metadata buffers");
+      return EXIT_FAILURE;
+    }
+
   ret = pkg_store_prepare_layout();
   if (ret < 0)
     {
+      free(index);
+      free(installed);
       pkg_error("unable to prepare package layout: %d", ret);
       return EXIT_FAILURE;
     }
 
-  ret = pkg_metadata_load_index(&index);
+  pkg_info("layout prepared");
+
+  ret = pkg_metadata_load_index(index);
   if (ret < 0)
     {
+      free(index);
+      free(installed);
       pkg_error("unable to load local index metadata: %d", ret);
       return EXIT_FAILURE;
     }
 
-  manifest = pkg_metadata_find_latest(&index, name);
+  manifest = pkg_metadata_find_latest(index, name);
   if (manifest == NULL)
     {
+      free(index);
+      free(installed);
       pkg_error("package '%s' not found in local index", name);
       return EXIT_FAILURE;
     }
+
+  pkg_info("selected %s version %s", manifest->name, manifest->version);
 
   ret = pkg_install_resolve_artifact(source, sizeof(source), manifest);
   if (ret < 0)
@@ -275,6 +295,8 @@ int pkg_install(FAR const char *name)
       pkg_error("artifact path for '%s' is too long", name);
       return EXIT_FAILURE;
     }
+
+  pkg_info("artifact source %s", source);
 
   ret = pkg_install_acquire_lock(name, lock, sizeof(lock));
   if (ret < 0)
@@ -302,17 +324,23 @@ int pkg_install(FAR const char *name)
       goto errout;
     }
 
+  pkg_info("artifact copied to staging");
+
   ret = pkg_hash_file_sha256(tmp, digest);
   if (ret < 0)
     {
       goto errout;
     }
 
+  pkg_info("sha256 computed: %s", digest);
+
   if (strcasecmp(digest, manifest->sha256) != 0)
     {
       ret = -EILSEQ;
       goto errout;
     }
+
+  pkg_info("sha256 verified");
 
   ret = pkg_txn_write_state(name, PKG_TXN_VERIFIED);
   if (ret < 0)
@@ -339,6 +367,8 @@ int pkg_install(FAR const char *name)
       goto errout;
     }
 
+  pkg_info("payload staged at %s", payload);
+
   ret = pkg_store_format_manifest_path(manifest_path, sizeof(manifest_path),
                                        manifest->name, manifest->version);
   if (ret < 0)
@@ -352,6 +382,8 @@ int pkg_install(FAR const char *name)
       goto errout;
     }
 
+  pkg_info("manifest written");
+
   ret = pkg_txn_write_state(name, PKG_TXN_STAGED);
   if (ret < 0)
     {
@@ -364,35 +396,39 @@ int pkg_install(FAR const char *name)
       goto errout;
     }
 
+  pkg_info("compatibility check passed");
+
   ret = pkg_txn_write_state(name, PKG_TXN_COMPAT_OK);
   if (ret < 0)
     {
       goto errout;
     }
 
-  ret = pkg_metadata_load_installed(&installed);
+  ret = pkg_metadata_load_installed(installed);
   if (ret < 0)
     {
       goto errout;
     }
 
-  ret = pkg_install_update_installed(&installed, manifest);
+  ret = pkg_install_update_installed(installed, manifest);
   if (ret < 0)
     {
       goto errout;
     }
 
-  ret = pkg_install_write_pointers(&installed, manifest);
+  ret = pkg_install_write_pointers(installed, manifest);
   if (ret < 0)
     {
       goto errout;
     }
 
-  ret = pkg_metadata_save_installed(&installed);
+  ret = pkg_metadata_save_installed(installed);
   if (ret < 0)
     {
       goto errout;
     }
+
+  pkg_info("installed metadata updated");
 
   ret = pkg_txn_write_state(name, PKG_TXN_ACTIVATED);
   if (ret < 0)
@@ -413,6 +449,8 @@ int pkg_install(FAR const char *name)
     }
 
   pkg_info("installed %s version %s", manifest->name, manifest->version);
+  free(index);
+  free(installed);
   return EXIT_SUCCESS;
 
 errout:
@@ -428,35 +466,48 @@ errout:
       pkg_store_remove_file(lock);
     }
 
+  free(index);
+  free(installed);
   pkg_error("install failed for '%s': %d", name, ret);
   return EXIT_FAILURE;
 }
 
 int pkg_list(FAR FILE *stream)
 {
-  struct pkg_installed_db_s db;
+  FAR struct pkg_installed_db_s *db;
   int ret;
+
+  db = malloc(sizeof(*db));
+  if (db == NULL)
+    {
+      pkg_error("unable to allocate installed metadata buffer");
+      return EXIT_FAILURE;
+    }
 
   ret = pkg_store_prepare_layout();
   if (ret < 0)
     {
+      free(db);
       pkg_error("unable to prepare package layout: %d", ret);
       return EXIT_FAILURE;
     }
 
-  ret = pkg_metadata_load_installed(&db);
+  ret = pkg_metadata_load_installed(db);
   if (ret < 0)
     {
+      free(db);
       pkg_error("unable to load installed metadata: %d", ret);
       return EXIT_FAILURE;
     }
 
-  ret = pkg_metadata_print_installed(stream, &db);
+  ret = pkg_metadata_print_installed(stream, db);
   if (ret < 0)
     {
+      free(db);
       pkg_error("unable to print installed metadata: %d", ret);
       return EXIT_FAILURE;
     }
 
+  free(db);
   return EXIT_SUCCESS;
 }

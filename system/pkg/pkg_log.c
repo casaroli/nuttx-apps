@@ -39,6 +39,7 @@ static void pkg_vlog(FAR FILE *stream, FAR const char *level,
   fprintf(stream, "pkg: %s: ", level);
   vfprintf(stream, fmt, ap);
   fputc('\n', stream);
+  fflush(stream);
 }
 
 /****************************************************************************
