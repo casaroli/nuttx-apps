@@ -47,8 +47,8 @@ def write_script(path: pathlib.Path) -> None:
             "mount -t tmpfs /data",
             "mkdir /data/repo",
             "cp /mnt/elf/romfs/index.json /data/repo/index.json",
-            "pkg install hello",
-            "pkg list",
+            "nxpkg install hello",
+            "nxpkg list",
             "",
         ]
     )

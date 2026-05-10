@@ -1,5 +1,5 @@
 ############################################################################
-# apps/system/pkg/Make.defs
+# apps/system/nxpkg/Make.defs
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -20,6 +20,6 @@
 #
 ############################################################################
 
-ifneq ($(CONFIG_SYSTEM_PKG),)
-CONFIGURED_APPS += $(APPDIR)/system/pkg
+ifneq ($(CONFIG_SYSTEM_NXPKG),)
+CONFIGURED_APPS += $(APPDIR)/system/nxpkg
 endif

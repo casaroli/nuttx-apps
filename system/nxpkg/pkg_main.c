@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg_log.c
+ * apps/system/nxpkg/pkg_main.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -24,8 +24,10 @@
  * Included Files
  ****************************************************************************/
 
-#include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "pkg.h"
 
@@ -33,33 +35,73 @@
  * Private Functions
  ****************************************************************************/
 
-static void pkg_vlog(FAR FILE *stream, FAR const char *level,
-                     FAR const char *fmt, va_list ap)
+static void pkg_show_usage(FAR FILE *stream, FAR const char *progname)
 {
-  fprintf(stream, "pkg: %s: ", level);
-  vfprintf(stream, fmt, ap);
-  fputc('\n', stream);
-  fflush(stream);
+  fprintf(stream,
+          "Usage: %s <install|update|list|rollback|help> [args]\n",
+          progname);
 }
 
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
 
-void pkg_error(FAR const char *fmt, ...)
+int main(int argc, FAR char *argv[])
 {
-  va_list ap;
+  FAR const char *cmd;
 
-  va_start(ap, fmt);
-  pkg_vlog(stderr, "error", fmt, ap);
-  va_end(ap);
-}
+  if (argc < 2)
+    {
+      pkg_show_usage(stderr, argv[0]);
+      return EXIT_FAILURE;
+    }
 
-void pkg_info(FAR const char *fmt, ...)
-{
-  va_list ap;
+  cmd = argv[1];
 
-  va_start(ap, fmt);
-  pkg_vlog(stdout, "info", fmt, ap);
-  va_end(ap);
+  if (strcmp(cmd, "help") == 0 || strcmp(cmd, "--help") == 0 ||
+      strcmp(cmd, "-h") == 0)
+    {
+      pkg_show_usage(stdout, argv[0]);
+      return EXIT_SUCCESS;
+    }
+
+  if (strcmp(cmd, "install") == 0)
+    {
+      if (argc != 3)
+        {
+          pkg_error("install expects exactly one package name");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_install(argv[2]);
+    }
+
+  if (strcmp(cmd, "update") == 0)
+    {
+      pkg_error("'update' is not implemented yet in the current unit");
+      return EXIT_FAILURE;
+    }
+
+  if (strcmp(cmd, "list") == 0)
+    {
+      if (argc != 2)
+        {
+          pkg_error("list does not take additional arguments");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_list(stdout);
+    }
+
+  if (strcmp(cmd, "rollback") == 0)
+    {
+      pkg_error("'rollback' is not implemented yet in the current unit");
+      return EXIT_FAILURE;
+    }
+
+  fprintf(stderr, "ERROR: Unknown subcommand '%s'\n", cmd);
+  pkg_show_usage(stderr, argv[0]);
+  return EXIT_FAILURE;
 }

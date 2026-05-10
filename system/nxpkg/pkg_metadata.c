@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg_metadata.c
+ * apps/system/nxpkg/pkg_metadata.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *

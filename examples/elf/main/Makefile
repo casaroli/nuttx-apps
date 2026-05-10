@@ -69,7 +69,7 @@ ifeq ($(CONFIG_EXAMPLES_ELF_ROMFS),y)
 ROMFSIMG = elf_romfs.img
 ROMFSSRC = elf_romfs.c
 ROMFSOBJ = $(ROMFSSRC:.c=$(OBJEXT))
-ifdef CONFIG_SYSTEM_PKG
+ifdef CONFIG_SYSTEM_NXPKG
 PKGINDEX = $(BINDIR)/index.json
 PKGTEST  = $(BINDIR)/pkgtest.nsh
 PKG_FIXTURE_GEN = $(APPDIR)/examples/elf/main/mk_pkg_fixture.py

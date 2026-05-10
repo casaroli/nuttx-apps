@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg.h
+ * apps/system/nxpkg/pkg.h
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -20,8 +20,8 @@
  *
  ****************************************************************************/
 
-#ifndef __APPS_SYSTEM_PKG_PKG_H
-#define __APPS_SYSTEM_PKG_PKG_H
+#ifndef __APPS_SYSTEM_NXPKG_PKG_H
+#define __APPS_SYSTEM_NXPKG_PKG_H
 
 /****************************************************************************
  * Included Files
@@ -184,4 +184,4 @@ int pkg_list(FAR FILE *stream);
 void pkg_error(FAR const char *fmt, ...);
 void pkg_info(FAR const char *fmt, ...);
 
-#endif /* __APPS_SYSTEM_PKG_PKG_H */
+#endif /* __APPS_SYSTEM_NXPKG_PKG_H */

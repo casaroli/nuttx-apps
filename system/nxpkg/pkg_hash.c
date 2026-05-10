@@ -1,5 +1,5 @@
 /****************************************************************************
- * apps/system/pkg/pkg_hash.c
+ * apps/system/nxpkg/pkg_hash.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *

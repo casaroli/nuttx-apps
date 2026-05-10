@@ -3,29 +3,29 @@
 # see the file kconfig-language.txt in the NuttX tools repository.
 #
 
-config SYSTEM_PKG
-	tristate "'pkg' lifecycle helper"
+config SYSTEM_NXPKG
+	tristate "'nxpkg' lifecycle helper"
 	default n
 	select NETUTILS_CJSON
 	---help---
 		Enable the thin package lifecycle helper proposed for the
 		Dynamic ELF distribution work.
 
-if SYSTEM_PKG
+if SYSTEM_NXPKG
 
-config SYSTEM_PKG_PROGNAME
+config SYSTEM_NXPKG_PROGNAME
 	string "Program name"
-	default "pkg"
+	default "nxpkg"
 	---help---
 		This is the name of the program that will be used when the
-		pkg tool is installed.
+		nxpkg tool is installed.
 
-config SYSTEM_PKG_PRIORITY
-	int "'pkg' task priority"
+config SYSTEM_NXPKG_PRIORITY
+	int "'nxpkg' task priority"
 	default 100
 
-config SYSTEM_PKG_STACKSIZE
-	int "'pkg' stack size"
+config SYSTEM_NXPKG_STACKSIZE
+	int "'nxpkg' stack size"
 	default 16384
 
 endif

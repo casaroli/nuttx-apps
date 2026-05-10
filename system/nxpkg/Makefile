@@ -1,5 +1,5 @@
 ############################################################################
-# apps/system/pkg/Makefile
+# apps/system/nxpkg/Makefile
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -22,10 +22,10 @@
 
 include $(APPDIR)/Make.defs
 
-PROGNAME  = $(CONFIG_SYSTEM_PKG_PROGNAME)
-PRIORITY  = $(CONFIG_SYSTEM_PKG_PRIORITY)
-STACKSIZE = $(CONFIG_SYSTEM_PKG_STACKSIZE)
-MODULE    = $(CONFIG_SYSTEM_PKG)
+PROGNAME  = $(CONFIG_SYSTEM_NXPKG_PROGNAME)
+PRIORITY  = $(CONFIG_SYSTEM_NXPKG_PRIORITY)
+STACKSIZE = $(CONFIG_SYSTEM_NXPKG_STACKSIZE)
+MODULE    = $(CONFIG_SYSTEM_NXPKG)
 
 CSRCS = pkg_compat.c pkg_hash.c pkg_install.c pkg_log.c pkg_manifest.c
 CSRCS += pkg_metadata.c pkg_store.c pkg_txn.c

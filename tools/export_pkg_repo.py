@@ -21,7 +21,7 @@
 
 The script copies built application or library artifacts into a server-friendly
 repository directory, computes SHA-256 digests, and emits an `index.json`
-compatible with the current `pkg` metadata parser.
+compatible with the current `nxpkg` metadata parser.
 
 The repository can then be served by FTP, HTTP, or any static file transport.
 """
