@@ -14,7 +14,7 @@ config NETUTILS_BARE
 if NETUTILS_BARE
 
 config NETUTILS_BARE_TEST
-	bool "Enable baretest"
+	tristate "Enable baretest"
 	default n
 	---help---
 		Enable baretest -- BARE test application.

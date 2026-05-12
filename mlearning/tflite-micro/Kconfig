@@ -29,7 +29,7 @@ config TFLITEMICRO_DEBUG
 	default n
 
 config TFLITEMICRO_TOOL
-	bool "tflite-micro cmdline tool"
+	tristate "tflite-micro cmdline tool"
 	default n
 
 config TFLITEMICRO_SYSLOG

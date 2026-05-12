@@ -209,6 +209,8 @@ if(CONFIG_TFLITEMICRO)
 
   if(CONFIG_TFLITEMICRO_TOOL)
     nuttx_add_application(
+      MODULE
+      ${CONFIG_TFLITEMICRO_TOOL}
       NAME
       tflm
       STACKSIZE
