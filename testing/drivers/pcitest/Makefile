@@ -29,6 +29,6 @@ MAINSRC = pcitest.c
 
 PROGNAME = pcitest
 
-MODULE = pcitest
+MODULE = $(CONFIG_TESTING_PCITEST)
 
 include $(APPDIR)/Application.mk

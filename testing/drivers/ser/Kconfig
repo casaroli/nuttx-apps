@@ -4,7 +4,7 @@
 #
 
 config TESTING_SERIAL
-	bool "Serial Error Report (ser)"
+	tristate "Serial Error Report (ser)"
 	default n
 	depends on SERIAL_TIOCGICOUNT
 	---help---

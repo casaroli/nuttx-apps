@@ -27,5 +27,6 @@ MAINSRC   += confirm_main.c set_img_main.c version_main.c
 PROGNAME  += mcuboot_confirm mcuboot_set_img mcuboot_version
 PRIORITY  += SCHED_PRIORITY_DEFAULT
 STACKSIZE += $(CONFIG_DEFAULT_TASK_STACKSIZE)
+MODULE    += $(CONFIG_EXAMPLES_MCUBOOT_SWAP_TEST)
 
 include $(APPDIR)/Application.mk

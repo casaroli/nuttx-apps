@@ -56,7 +56,8 @@ from typing import Dict, Iterable, Optional
 
 CONFIG_RE = re.compile(r"^config\s+([A-Z0-9_]+)$")
 TYPE_RE = re.compile(r"^\s*(bool|tristate)\b")
-MODULE_RE = re.compile(r"^MODULE\s*=\s*\$\((CONFIG_[A-Z0-9_]+)\)", re.M)
+MODULE_RE = re.compile(r"^MODULE\s*(?::=|\+=|=)\s*\$\((CONFIG_[A-Z0-9_]+)\)",
+                       re.M)
 
 
 @dataclass

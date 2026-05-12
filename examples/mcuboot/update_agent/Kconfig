@@ -4,7 +4,7 @@
 #
 
 config EXAMPLES_MCUBOOT_UPDATE_AGENT
-	bool "MCUboot update agent example"
+	tristate "MCUboot update agent example"
 	default n
 	select BOOT_MCUBOOT
 	depends on NET_TCP

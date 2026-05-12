@@ -27,5 +27,6 @@ MAINSRC   += mcuboot_confirm_main.c
 PROGNAME  += mcuboot_confirm
 PRIORITY  += SCHED_PRIORITY_DEFAULT
 STACKSIZE += $(CONFIG_DEFAULT_TASK_STACKSIZE)
+MODULE    += $(CONFIG_EXAMPLES_MCUBOOT_SLOT_CONFIRM)
 
 include $(APPDIR)/Application.mk

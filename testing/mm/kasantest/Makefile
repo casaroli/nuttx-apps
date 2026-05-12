@@ -28,6 +28,7 @@ MAINSRC   = kasantest.c
 PROGNAME  = kasantest
 PRIORITY  = $(CONFIG_TESTING_KASAN_PRIORITY)
 STACKSIZE = $(CONFIG_TESTING_KASAN_STACKSIZE)
+MODULE    = $(CONFIG_TESTING_KASAN)
 
 CFLAGS += -Wno-error -Wno-use-after-free -Wno-stringop-overflow
 CFLAGS += -Wno-array-bounds -Wno-free-nonheap-object

@@ -4,7 +4,7 @@
 #
 
 config TESTING_SETEST
-	bool "Secure Element driver test"
+	tristate "Secure Element driver test"
 	default n
 	depends on DEV_SE05X
 	---help---

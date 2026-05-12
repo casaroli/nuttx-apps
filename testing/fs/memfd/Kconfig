@@ -4,7 +4,7 @@
 #
 
 config TESTING_MEMFD
-	bool "Testing the stability of memfd"
+	tristate "Testing the stability of memfd"
 	depends on !LIBC_MEMFD_ERROR && MM_KASAN
 	default n
 	---help---
