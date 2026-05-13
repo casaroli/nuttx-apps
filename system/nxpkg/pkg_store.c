@@ -68,7 +68,12 @@ static int pkg_store_mkdir(FAR const char *path)
   ret = stat(path, &st);
   if (ret == 0)
     {
-      return S_ISDIR(st.st_mode) ? 0 : -ENOTDIR;
+      if (!S_ISDIR(st.st_mode))
+        {
+          return -ENOTDIR;
+        }
+
+      return 0;
     }
 
   if (errno != ENOENT)
@@ -83,6 +88,42 @@ static int pkg_store_mkdir(FAR const char *path)
     }
 
   return 0;
+}
+
+static int pkg_store_mkdirs(FAR const char *path)
+{
+  char buffer[PATH_MAX];
+  FAR char *cursor;
+  int ret;
+
+  ret = snprintf(buffer, sizeof(buffer), "%s", path);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  if ((size_t)ret >= sizeof(buffer))
+    {
+      return -ENAMETOOLONG;
+    }
+
+  for (cursor = buffer + 1; *cursor != '\0'; cursor++)
+    {
+      if (*cursor != '/')
+        {
+          continue;
+        }
+
+      *cursor = '\0';
+      ret = pkg_store_mkdir(buffer);
+      *cursor = '/';
+      if (ret < 0)
+        {
+          return ret;
+        }
+    }
+
+  return pkg_store_mkdir(buffer);
 }
 
 static int pkg_store_write_all(int fd, FAR const char *buffer, size_t length)
@@ -126,31 +167,25 @@ int pkg_store_prepare_layout(void)
 {
   int ret;
 
-  ret = pkg_store_mkdir("/data");
+  ret = pkg_store_mkdirs(PKG_REPO_DIR);
   if (ret < 0)
     {
       return ret;
     }
 
-  ret = pkg_store_mkdir(PKG_REPO_DIR);
+  ret = pkg_store_mkdirs(PKG_STORE_DIR);
   if (ret < 0)
     {
       return ret;
     }
 
-  ret = pkg_store_mkdir(PKG_STORE_DIR);
+  ret = pkg_store_mkdirs(PKG_TMP_DIR);
   if (ret < 0)
     {
       return ret;
     }
 
-  ret = pkg_store_mkdir(PKG_TMP_DIR);
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  return pkg_store_mkdir(PKG_TMP_PKG_DIR);
+  return pkg_store_mkdirs(PKG_TMP_PKG_DIR);
 }
 
 int pkg_store_ensure_package_root(FAR const char *name)
@@ -164,7 +199,7 @@ int pkg_store_ensure_package_root(FAR const char *name)
       return ret;
     }
 
-  return pkg_store_mkdir(path);
+  return pkg_store_mkdirs(path);
 }
 
 int pkg_store_ensure_version_dir(FAR const char *name,
@@ -185,7 +220,7 @@ int pkg_store_ensure_version_dir(FAR const char *name,
       return ret;
     }
 
-  return pkg_store_mkdir(path);
+  return pkg_store_mkdirs(path);
 }
 
 int pkg_store_format_index_path(FAR char *buffer, size_t size)

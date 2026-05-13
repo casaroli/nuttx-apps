@@ -43,10 +43,10 @@ def write_index(path: pathlib.Path, arch: str, compat: str,
 def write_script(path: pathlib.Path) -> None:
     script = "\n".join(
         [
-            "mkdir /data",
-            "mount -t tmpfs /data",
-            "mkdir /data/repo",
-            "cp /mnt/elf/romfs/index.json /data/repo/index.json",
+            "mount -t tmpfs /etc",
+            "mount -t tmpfs /var",
+            "mkdir /etc/nxpkg",
+            "cp /mnt/elf/romfs/index.json /etc/nxpkg/index.json",
             "nxpkg install hello",
             "nxpkg list",
             "",

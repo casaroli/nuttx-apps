@@ -52,7 +52,7 @@ int pkg_compat_check(FAR const struct pkg_manifest_s *manifest)
 
   if (strcmp(manifest->arch, pkg_runtime_arch()) != 0)
     {
-      return -EXDEV;
+      return -ENOEXEC;
     }
 
   if (strcmp(manifest->compat, pkg_runtime_compat()) != 0)

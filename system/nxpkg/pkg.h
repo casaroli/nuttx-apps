@@ -36,12 +36,12 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
-#define PKG_REPO_DIR          "/data/repo"
-#define PKG_REPO_INDEX        "/data/repo/index.json"
-#define PKG_REPO_INSTALLED    "/data/repo/installed.json"
-#define PKG_STORE_DIR         "/data/pkgs"
-#define PKG_TMP_DIR           "/data/tmp"
-#define PKG_TMP_PKG_DIR       "/data/tmp/pkg"
+#define PKG_REPO_DIR          "/etc/nxpkg"
+#define PKG_REPO_INDEX        "/etc/nxpkg/index.json"
+#define PKG_REPO_INSTALLED    "/var/lib/nxpkg/installed.json"
+#define PKG_STORE_DIR         "/var/lib/nxpkg/pkgs"
+#define PKG_TMP_DIR           "/var/cache/nxpkg"
+#define PKG_TMP_PKG_DIR       "/var/cache/nxpkg/pkg"
 
 #define PKG_NAME_MAX          63
 #define PKG_VERSION_MAX       31
