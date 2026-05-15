@@ -34,6 +34,7 @@ import json
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict
 from typing import List
 
 
@@ -83,9 +84,43 @@ def parse_package_spec(value: str) -> PackageSpec:
                        source=source_path)
 
 
-def artifact_relpath(compat: str, spec: PackageSpec) -> Path:
+def artifact_relpath(arch: str, chip: str, compat: str,
+                     spec: PackageSpec) -> Path:
     filename = spec.source.name
-    return Path("artifacts") / compat / spec.name / spec.version / filename
+    return (Path("artifacts") / arch / chip / compat /
+            spec.name / spec.version / filename)
+
+
+def package_identity(package: Dict[str, str]) -> tuple:
+    return (
+        package["name"],
+        package["version"],
+        package["arch"],
+        package["compat"],
+        package["type"],
+    )
+
+
+def load_existing_packages(repo_dir: Path) -> List[dict]:
+    index_path = repo_dir / "index.json"
+
+    if not index_path.exists():
+        return []
+
+    root = json.loads(index_path.read_text(encoding="utf-8"))
+    if isinstance(root, list):
+        packages = root
+    else:
+        packages = root.get("packages")
+
+    if not isinstance(packages, list):
+        raise ValueError(f"invalid repository index format in {index_path}")
+
+    for item in packages:
+        if not isinstance(item, dict):
+            raise ValueError(f"invalid repository index entry in {index_path}")
+
+    return packages
 
 
 def emit_index(repo_dir: Path, packages: List[dict]) -> None:
@@ -101,6 +136,8 @@ def main() -> int:
                         help="Destination repository directory")
     parser.add_argument("--arch", required=True,
                         help="Target architecture string, for example xtensa")
+    parser.add_argument("--chip", required=True,
+                        help="Target chip/family string, for example esp32s3")
     parser.add_argument("--compat", required=True,
                         help="Target board/runtime identity, for example esp32s3-xiao")
     parser.add_argument("--artifact-prefix", default="",
@@ -114,11 +151,12 @@ def main() -> int:
     repo_dir = args.repo_dir.expanduser().resolve()
     repo_dir.mkdir(parents=True, exist_ok=True)
 
-    packages = []
+    packages = load_existing_packages(repo_dir)
+    packages_by_id = {package_identity(package): package for package in packages}
     prefix = args.artifact_prefix.rstrip("/")
 
     for spec in args.package:
-        relpath = artifact_relpath(args.compat, spec)
+        relpath = artifact_relpath(args.arch, args.chip, args.compat, spec)
         destination = repo_dir / relpath
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(spec.source, destination)
@@ -127,19 +165,27 @@ def main() -> int:
         if prefix:
             artifact = f"{prefix}/{artifact}"
 
-        packages.append(
-            {
-                "name": spec.name,
-                "version": spec.version,
-                "arch": args.arch,
-                "compat": args.compat,
-                "artifact": artifact,
-                "sha256": sha256_file(destination),
-                "type": spec.payload_type,
-            }
-        )
+        package = {
+            "name": spec.name,
+            "version": spec.version,
+            "arch": args.arch,
+            "compat": args.compat,
+            "artifact": artifact,
+            "sha256": sha256_file(destination),
+            "type": spec.payload_type,
+        }
+        packages_by_id[package_identity(package)] = package
 
-    packages.sort(key=lambda item: (item["name"], item["version"]))
+    packages = sorted(
+        packages_by_id.values(),
+        key=lambda item: (
+            item["name"],
+            item["version"],
+            item["arch"],
+            item["compat"],
+            item["type"],
+        ),
+    )
     emit_index(repo_dir, packages)
 
     print(f"exported {len(packages)} package(s) to {repo_dir}")

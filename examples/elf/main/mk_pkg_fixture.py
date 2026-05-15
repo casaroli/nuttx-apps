@@ -32,6 +32,15 @@ def write_index(path: pathlib.Path, arch: str, compat: str,
                 "artifact": artifact,
                 "sha256": digest,
                 "type": "elf",
+            },
+            {
+                "name": "hello",
+                "version": "9.9.9",
+                "arch": "arm",
+                "compat": "stm32f4discovery",
+                "artifact": artifact,
+                "sha256": digest,
+                "type": "elf",
             }
         ]
     }

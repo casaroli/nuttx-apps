@@ -450,6 +450,8 @@ pkg_metadata_find_latest(FAR const struct pkg_index_s *index,
                          FAR const char *name)
 {
   FAR const struct pkg_manifest_s *best = NULL;
+  FAR const char *arch;
+  FAR const char *compat;
   size_t i;
 
   if (index == NULL || name == NULL)
@@ -457,11 +459,20 @@ pkg_metadata_find_latest(FAR const struct pkg_index_s *index,
       return NULL;
     }
 
+  arch = pkg_runtime_arch();
+  compat = pkg_runtime_compat();
+
   for (i = 0; i < index->count; i++)
     {
       FAR const struct pkg_manifest_s *candidate = &index->manifests[i];
 
       if (strcmp(candidate->name, name) != 0)
+        {
+          continue;
+        }
+
+      if (strcmp(candidate->arch, arch) != 0 ||
+          strcmp(candidate->compat, compat) != 0)
         {
           continue;
         }

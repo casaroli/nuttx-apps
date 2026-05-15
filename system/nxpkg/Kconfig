@@ -4,7 +4,7 @@
 #
 
 config SYSTEM_NXPKG
-	tristate "'nxpkg' lifecycle helper"
+	bool "'nxpkg' lifecycle helper"
 	default n
 	select NETUTILS_CJSON
 	---help---
