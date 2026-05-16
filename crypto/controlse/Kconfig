@@ -4,7 +4,7 @@
 #
 
 config CRYPTO_CONTROLSE
-	bool "Control Secure Element device"
+	tristate "Control Secure Element device"
 	default n
 	depends on DEV_SE05X
 	depends on CRYPTO_MBEDTLS

@@ -56,8 +56,11 @@ from typing import Dict, Iterable, Optional
 
 CONFIG_RE = re.compile(r"^config\s+([A-Z0-9_]+)$")
 TYPE_RE = re.compile(r"^\s*(bool|tristate)\b")
-MODULE_RE = re.compile(r"^MODULE\s*(?::=|\+=|=)\s*\$\((CONFIG_[A-Z0-9_]+)\)",
+MODULE_RE = re.compile(r"^\s*MODULE\s*(?::=|\+=|=)\s*\$\((CONFIG_[A-Z0-9_]+)\)",
                        re.M)
+EXCLUDED_BOOL_MODULE_SYMBOLS = {
+    "SYSTEM_NXPKG",
+}
 
 
 @dataclass
@@ -170,7 +173,10 @@ def classify_makefile(makefile: Path, config_index: Dict[str, ConfigDef]) -> Opt
         if config_def.cfg_type == "tristate":
             status = "READY"
         elif config_def.cfg_type == "bool":
-            status = "BOOL_NEEDS_TRISTATE"
+            if config_def.symbol in EXCLUDED_BOOL_MODULE_SYMBOLS:
+                status = "READY"
+            else:
+                status = "BOOL_NEEDS_TRISTATE"
         else:
             status = "NO_CONFIG_SYMBOL"
     else:

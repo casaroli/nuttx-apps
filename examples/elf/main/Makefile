@@ -71,16 +71,18 @@ ROMFSSRC = elf_romfs.c
 ROMFSOBJ = $(ROMFSSRC:.c=$(OBJEXT))
 ifdef CONFIG_SYSTEM_NXPKG
 PKGINDEX = $(BINDIR)/index.json
+PKGBADINDEX = $(BINDIR)/bad-index.json
 PKGTEST  = $(BINDIR)/pkgtest.nsh
+PKGFAIL  = $(BINDIR)/pkgfail.nsh
 PKG_FIXTURE_GEN = $(APPDIR)/examples/elf/main/mk_pkg_fixture.py
 
-$(PKGINDEX) $(PKGTEST): $(BINDIR)/hello $(PKG_FIXTURE_GEN)
+$(PKGINDEX) $(PKGBADINDEX) $(PKGTEST) $(PKGFAIL): $(BINDIR)/hello $(PKG_FIXTURE_GEN)
 	$(Q) python3 $(PKG_FIXTURE_GEN) \
-		$(BINDIR)/hello $(PKGINDEX) $(PKGTEST) \
+		$(BINDIR)/hello $(PKGINDEX) $(PKGBADINDEX) $(PKGTEST) $(PKGFAIL) \
 		$(CONFIG_ARCH) $(CONFIG_ARCH_BOARD)
 endif
 
-$(ROMFSIMG): $(PKGINDEX) $(PKGTEST)
+$(ROMFSIMG): $(PKGINDEX) $(PKGBADINDEX) $(PKGTEST) $(PKGFAIL)
 	$(Q) genromfs -d $(BINDIR) -f $@
 
 $(ROMFSSRC): $(ROMFSIMG)

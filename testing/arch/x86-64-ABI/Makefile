@@ -83,5 +83,6 @@ BENCHMARKS := $(filter-out $(EXCLUDE), $(patsubst %.c,%,$(notdir $(ALL_CASES))))
 
 $(foreach benchmark,$(BENCHMARKS),$(eval $(call add_benchmark,$(benchmark))))
 
-include $(APPDIR)/Application.mk
+MODULE = $(CONFIG_TESTING_X86_64_ABI)
 
+include $(APPDIR)/Application.mk

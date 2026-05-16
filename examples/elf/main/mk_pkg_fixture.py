@@ -49,6 +49,25 @@ def write_index(path: pathlib.Path, arch: str, compat: str,
                     encoding="utf-8")
 
 
+def write_bad_index(path: pathlib.Path, arch: str, compat: str) -> None:
+    payload = {
+        "packages": [
+            {
+                "name": "hello-missing",
+                "version": "1.0.0",
+                "arch": arch,
+                "compat": compat,
+                "artifact": "/mnt/elf/romfs/hello-missing",
+                "sha256": "0" * 64,
+                "type": "elf",
+            }
+        ]
+    }
+
+    path.write_text(json.dumps(payload, separators=(",", ":")) + "\n",
+                    encoding="utf-8")
+
+
 def write_script(path: pathlib.Path) -> None:
     script = "\n".join(
         [
@@ -64,25 +83,43 @@ def write_script(path: pathlib.Path) -> None:
     path.write_text(script, encoding="utf-8")
 
 
+def write_fail_script(path: pathlib.Path) -> None:
+    script = "\n".join(
+        [
+            "mount -t tmpfs /etc",
+            "mount -t tmpfs /var",
+            "mkdir /etc/nxpkg",
+            "cp /mnt/elf/romfs/bad-index.json /etc/nxpkg/index.json",
+            "nxpkg install hello-missing",
+            "",
+        ]
+    )
+    path.write_text(script, encoding="utf-8")
+
+
 def main() -> int:
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 8:
         print(
-            "usage: mk_pkg_fixture.py <hello-bin> <index-json> <pkgtest-nsh> "
-            "<arch> <compat>",
+            "usage: mk_pkg_fixture.py <hello-bin> <index-json> <bad-index-json> "
+            "<pkgtest-nsh> <pkgfail-nsh> <arch> <compat>",
             file=sys.stderr,
         )
         return 1
 
     hello = pathlib.Path(sys.argv[1])
     index = pathlib.Path(sys.argv[2])
-    script = pathlib.Path(sys.argv[3])
-    arch = sys.argv[4]
-    compat = sys.argv[5]
+    bad_index = pathlib.Path(sys.argv[3])
+    script = pathlib.Path(sys.argv[4])
+    fail_script = pathlib.Path(sys.argv[5])
+    arch = sys.argv[6]
+    compat = sys.argv[7]
     artifact = "/mnt/elf/romfs/hello"
 
     digest = sha256_file(hello)
     write_index(index, arch, compat, artifact, digest)
+    write_bad_index(bad_index, arch, compat)
     write_script(script)
+    write_fail_script(fail_script)
     return 0
 
 

@@ -4,7 +4,7 @@
 #
 
 config TESTING_X86_64_ABI
-	bool "X86_64_ABI testing support"
+	tristate "X86_64_ABI testing support"
 	default n
 	depends on ALLOW_GPL_COMPONENTS
 	---help---

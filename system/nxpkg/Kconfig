@@ -6,6 +6,7 @@
 config SYSTEM_NXPKG
 	bool "'nxpkg' lifecycle helper"
 	default n
+	select CRYPTO
 	select NETUTILS_CJSON
 	---help---
 		Enable the thin package lifecycle helper proposed for the

@@ -21,7 +21,7 @@ config NETUTILS_CJSON_VERSION
 	default "1.7.12"
 
 config NETUTILS_CJSON_TEST
-	bool "Enable cJSON test"
+	tristate "Enable cJSON test"
 	default n
 
 if NETUTILS_CJSON_TEST

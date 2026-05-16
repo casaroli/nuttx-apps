@@ -45,7 +45,7 @@ config OPTEE_CLIENT_VERSION
 endif # LIBTEEC
 
 config OPTEE_SUPPLICANT
-	bool "OP-TEE supplicant"
+	tristate "OP-TEE supplicant"
 	depends on LIBTEEC
 	default n
 	---help---

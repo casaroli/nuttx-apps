@@ -54,6 +54,42 @@ static int pkg_copy_string(FAR char *dest, size_t size, FAR const char *src)
   return 0;
 }
 
+static bool pkg_string_equal(FAR const char *lhs, size_t lhs_size,
+                             FAR const char *rhs, size_t rhs_size)
+{
+  size_t lhs_len;
+  size_t rhs_len;
+
+  lhs_len = strnlen(lhs, lhs_size);
+  rhs_len = strnlen(rhs, rhs_size);
+
+  if (lhs_len >= lhs_size || rhs_len >= rhs_size)
+    {
+      return false;
+    }
+
+  return lhs_len == rhs_len && strncmp(lhs, rhs, lhs_len) == 0;
+}
+
+static int pkg_string_cmp(FAR const char *lhs, size_t lhs_size,
+                          FAR const char *rhs, size_t rhs_size)
+{
+  size_t lhs_len;
+  size_t rhs_len;
+  size_t cmp_len;
+
+  lhs_len = strnlen(lhs, lhs_size);
+  rhs_len = strnlen(rhs, rhs_size);
+  cmp_len = lhs_len > rhs_len ? lhs_len : rhs_len;
+
+  if (lhs_len >= lhs_size || rhs_len >= rhs_size)
+    {
+      return strncmp(lhs, rhs, cmp_len);
+    }
+
+  return strncmp(lhs, rhs, cmp_len + 1);
+}
+
 static FAR cJSON *pkg_metadata_packages_array(FAR cJSON *root)
 {
   if (cJSON_IsArray(root))
@@ -272,7 +308,7 @@ static int pkg_metadata_version_token_cmp(FAR const char *lhs,
     {
       int ret;
 
-      ret = strcmp(lhs, rhs);
+      ret = pkg_string_cmp(lhs, PKG_VERSION_MAX + 1, rhs, PKG_VERSION_MAX + 1);
       if (ret < 0)
         {
           return -1;
@@ -301,7 +337,8 @@ static int pkg_metadata_version_cmp(FAR const char *lhs, FAR const char *rhs)
         {
           if (leftlen + 1 >= sizeof(leftbuf))
             {
-              return strcmp(lhs, rhs);
+              return pkg_string_cmp(lhs, PKG_VERSION_MAX + 1,
+                                    rhs, PKG_VERSION_MAX + 1);
             }
 
           leftbuf[leftlen] = lhs[leftlen];
@@ -312,7 +349,8 @@ static int pkg_metadata_version_cmp(FAR const char *lhs, FAR const char *rhs)
         {
           if (rightlen + 1 >= sizeof(rightbuf))
             {
-              return strcmp(lhs, rhs);
+              return pkg_string_cmp(lhs, PKG_VERSION_MAX + 1,
+                                    rhs, PKG_VERSION_MAX + 1);
             }
 
           rightbuf[rightlen] = rhs[rightlen];
@@ -466,13 +504,16 @@ pkg_metadata_find_latest(FAR const struct pkg_index_s *index,
     {
       FAR const struct pkg_manifest_s *candidate = &index->manifests[i];
 
-      if (strcmp(candidate->name, name) != 0)
+      if (!pkg_string_equal(candidate->name, sizeof(candidate->name),
+                            name, PKG_NAME_MAX + 1))
         {
           continue;
         }
 
-      if (strcmp(candidate->arch, arch) != 0 ||
-          strcmp(candidate->compat, compat) != 0)
+      if (!pkg_string_equal(candidate->arch, sizeof(candidate->arch),
+                            arch, PKG_ARCH_MAX + 1) ||
+          !pkg_string_equal(candidate->compat, sizeof(candidate->compat),
+                            compat, PKG_COMPAT_MAX + 1))
         {
           continue;
         }
@@ -647,7 +688,8 @@ pkg_metadata_find_installed(FAR struct pkg_installed_db_s *db,
 
   for (i = 0; i < db->count; i++)
     {
-      if (strcmp(db->entries[i].name, name) == 0)
+      if (pkg_string_equal(db->entries[i].name, sizeof(db->entries[i].name),
+                           name, PKG_NAME_MAX + 1))
         {
           return &db->entries[i];
         }
