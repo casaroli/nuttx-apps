@@ -310,6 +310,34 @@ int pkg_store_format_manifest_path(FAR char *buffer, size_t size,
                           name, version);
 }
 
+int pkg_store_write_pointers(FAR const char *name,
+                             FAR const char *current,
+                             FAR const char *previous)
+{
+  char path[PATH_MAX];
+  int ret;
+
+  ret = pkg_store_format_current_path(path, sizeof(path), name);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  ret = pkg_store_write_text_atomic(path, current);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  ret = pkg_store_format_previous_path(path, sizeof(path), name);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  return pkg_store_write_text_atomic(path, previous);
+}
+
 int pkg_store_read_text(FAR const char *path, FAR char **buffer)
 {
   FAR FILE *stream;

@@ -198,9 +198,6 @@ static int pkg_install_write_pointers(FAR const struct pkg_installed_db_s *db,
                                       FAR const struct pkg_manifest_s *manifest)
 {
   FAR struct pkg_installed_entry_s *entry;
-  char current[PATH_MAX];
-  char previous[PATH_MAX];
-  int ret;
 
   entry = pkg_metadata_find_installed((FAR struct pkg_installed_db_s *)db,
                                       manifest->name);
@@ -209,26 +206,8 @@ static int pkg_install_write_pointers(FAR const struct pkg_installed_db_s *db,
       return -ENOENT;
     }
 
-  ret = pkg_store_format_current_path(current, sizeof(current), manifest->name);
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  ret = pkg_store_format_previous_path(previous, sizeof(previous),
-                                       manifest->name);
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  ret = pkg_store_write_text_atomic(current, entry->current);
-  if (ret < 0)
-    {
-      return ret;
-    }
-
-  return pkg_store_write_text_atomic(previous, entry->previous);
+  return pkg_store_write_pointers(manifest->name, entry->current,
+                                  entry->previous);
 }
 
 /****************************************************************************

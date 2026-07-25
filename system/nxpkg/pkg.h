@@ -36,12 +36,21 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
-#define PKG_REPO_DIR          "/etc/nxpkg"
-#define PKG_REPO_INDEX        "/etc/nxpkg/index.json"
-#define PKG_REPO_INSTALLED    "/var/lib/nxpkg/installed.json"
-#define PKG_STORE_DIR         "/var/lib/nxpkg/pkgs"
-#define PKG_TMP_DIR           "/var/cache/nxpkg"
-#define PKG_TMP_PKG_DIR       "/var/cache/nxpkg/pkg"
+/* All on-device paths are prefixed by PKG_ROOT, which is empty on the target
+ * (the paths are absolute FHS locations).  A host-side test build can define
+ * PKG_ROOT to redirect the whole tree under a scratch directory.
+ */
+
+#ifndef PKG_ROOT
+#  define PKG_ROOT           ""
+#endif
+
+#define PKG_REPO_DIR          PKG_ROOT "/etc/nxpkg"
+#define PKG_REPO_INDEX        PKG_ROOT "/etc/nxpkg/index.json"
+#define PKG_REPO_INSTALLED    PKG_ROOT "/var/lib/nxpkg/installed.json"
+#define PKG_STORE_DIR         PKG_ROOT "/var/lib/nxpkg/pkgs"
+#define PKG_TMP_DIR           PKG_ROOT "/var/cache/nxpkg"
+#define PKG_TMP_PKG_DIR       PKG_ROOT "/var/cache/nxpkg/pkg"
 
 #define PKG_NAME_MAX          63
 #define PKG_VERSION_MAX       31
@@ -148,6 +157,9 @@ int pkg_store_format_payload_path(FAR char *buffer, size_t size,
 int pkg_store_format_manifest_path(FAR char *buffer, size_t size,
                                    FAR const char *name,
                                    FAR const char *version);
+int pkg_store_write_pointers(FAR const char *name,
+                             FAR const char *current,
+                             FAR const char *previous);
 int pkg_store_read_text(FAR const char *path, FAR char **buffer);
 int pkg_store_write_text_atomic(FAR const char *path, FAR const char *text);
 int pkg_store_copy_file(FAR const char *src, FAR const char *dest);
@@ -179,6 +191,8 @@ int pkg_txn_write_state(FAR const char *name, enum pkg_txn_state_e state);
 int pkg_txn_clear_state(FAR const char *name);
 
 int pkg_install(FAR const char *name);
+int pkg_update(FAR const char *name);
+int pkg_rollback(FAR const char *name);
 int pkg_list(FAR FILE *stream);
 
 void pkg_error(FAR const char *fmt, ...);

@@ -35,6 +35,7 @@ if(CONFIG_SYSTEM_NXPKG)
     pkg_compat.c
     pkg_hash.c
     pkg_install.c
+    pkg_lifecycle.c
     pkg_log.c
     pkg_manifest.c
     pkg_metadata.c

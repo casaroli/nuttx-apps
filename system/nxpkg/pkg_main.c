@@ -79,8 +79,14 @@ int main(int argc, FAR char *argv[])
 
   if (strcmp(cmd, "update") == 0)
     {
-      pkg_error("'update' is not implemented yet in the current unit");
-      return EXIT_FAILURE;
+      if (argc != 3)
+        {
+          pkg_error("update expects exactly one package name");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_update(argv[2]);
     }
 
   if (strcmp(cmd, "list") == 0)
@@ -97,8 +103,14 @@ int main(int argc, FAR char *argv[])
 
   if (strcmp(cmd, "rollback") == 0)
     {
-      pkg_error("'rollback' is not implemented yet in the current unit");
-      return EXIT_FAILURE;
+      if (argc != 3)
+        {
+          pkg_error("rollback expects exactly one package name");
+          pkg_show_usage(stderr, argv[0]);
+          return EXIT_FAILURE;
+        }
+
+      return pkg_rollback(argv[2]);
     }
 
   fprintf(stderr, "ERROR: Unknown subcommand '%s'\n", cmd);
