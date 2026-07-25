@@ -38,7 +38,7 @@
 static void pkg_show_usage(FAR FILE *stream, FAR const char *progname)
 {
   fprintf(stream,
-          "Usage: %s <install|update|list|rollback|help> [args]\n",
+          "Usage: %s <install|update|list|rollback|recover|help> [args]\n",
           progname);
 }
 
@@ -111,6 +111,23 @@ int main(int argc, FAR char *argv[])
         }
 
       return pkg_rollback(argv[2]);
+    }
+
+  if (strcmp(cmd, "recover") == 0)
+    {
+      if (argc == 2)
+        {
+          return pkg_recover_all();
+        }
+
+      if (argc == 3)
+        {
+          return pkg_recover(argv[2]) < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
+        }
+
+      pkg_error("recover takes an optional package name");
+      pkg_show_usage(stderr, argv[0]);
+      return EXIT_FAILURE;
     }
 
   fprintf(stderr, "ERROR: Unknown subcommand '%s'\n", cmd);

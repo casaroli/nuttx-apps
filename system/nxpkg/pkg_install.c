@@ -276,6 +276,12 @@ int pkg_install(FAR const char *name)
 
   pkg_info("layout prepared");
 
+  /* Heal any transaction this package left interrupted by a prior crash
+   * (also clears a stale lock so the acquire below can succeed).
+   */
+
+  pkg_recover(name);
+
   ret = pkg_metadata_load_index(index);
   if (ret < 0)
     {

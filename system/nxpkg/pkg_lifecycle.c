@@ -37,6 +37,134 @@
  ****************************************************************************/
 
 /****************************************************************************
+ * Name: pkg_recover
+ *
+ * Description:
+ *   Heal a package left in a torn state by an operation that was interrupted
+ *   (power loss / reset) mid-transaction.  A leftover .txn or .lock file
+ *   marks an incomplete transaction.
+ *
+ *   The installed database (installed.json) is the authoritative committed
+ *   state and is written atomically as the final activation step; the
+ *   on-disk current/previous activation pointers are a derived mirror.
+ *   Recovery therefore re-derives the pointers from the installed database,
+ *   which rolls an uncommitted transaction back and rolls a committed-but-
+ *   not-yet-cleaned-up one forward, then drops the stale .lock and .txn.
+ *
+ *   Single-user assumption: any .lock present at the start of an op is from
+ *   a crashed run, not a live concurrent one.
+ *
+ ****************************************************************************/
+
+int pkg_recover(FAR const char *name)
+{
+  FAR struct pkg_installed_db_s *db;
+  FAR struct pkg_installed_entry_s *entry;
+  char txn_path[PATH_MAX];
+  char lock_path[PATH_MAX];
+  struct stat st;
+  int ret;
+
+  ret = pkg_store_format_txn_path(txn_path, sizeof(txn_path), name);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  ret = pkg_store_format_lock_path(lock_path, sizeof(lock_path), name);
+  if (ret < 0)
+    {
+      return ret;
+    }
+
+  if (stat(txn_path, &st) != 0 && stat(lock_path, &st) != 0)
+    {
+      return 0;  /* No leftover markers: nothing to recover. */
+    }
+
+  pkg_info("recovering interrupted transaction for '%s'", name);
+
+  /* Re-derive the activation pointers from the authoritative installed db.
+   * If the package has no entry (a first install that never committed),
+   * there is nothing to activate; the orphaned version dir is harmless.
+   */
+
+  db = malloc(sizeof(*db));
+  if (db == NULL)
+    {
+      pkg_error("unable to allocate installed metadata buffer");
+      return -ENOMEM;
+    }
+
+  ret = pkg_metadata_load_installed(db);
+  if (ret >= 0)
+    {
+      entry = pkg_metadata_find_installed(db, name);
+      if (entry != NULL)
+        {
+          pkg_store_write_pointers(name, entry->current, entry->previous);
+        }
+    }
+
+  free(db);
+
+  /* Drop the stale lock and transaction marker. */
+
+  pkg_store_remove_file(lock_path);
+  pkg_txn_clear_state(name);
+
+  pkg_info("recovered '%s'", name);
+  return 0;
+}
+
+/****************************************************************************
+ * Name: pkg_recover_all
+ *
+ * Description:
+ *   Run recovery for every package present in the installed database.  Used
+ *   by "nxpkg recover" with no package name (e.g. at boot).
+ *
+ ****************************************************************************/
+
+int pkg_recover_all(void)
+{
+  FAR struct pkg_installed_db_s *db;
+  size_t i;
+  int ret;
+
+  db = malloc(sizeof(*db));
+  if (db == NULL)
+    {
+      pkg_error("unable to allocate installed metadata buffer");
+      return EXIT_FAILURE;
+    }
+
+  ret = pkg_store_prepare_layout();
+  if (ret < 0)
+    {
+      free(db);
+      pkg_error("unable to prepare package layout: %d", ret);
+      return EXIT_FAILURE;
+    }
+
+  ret = pkg_metadata_load_installed(db);
+  if (ret < 0)
+    {
+      free(db);
+      pkg_error("unable to load installed metadata: %d", ret);
+      return EXIT_FAILURE;
+    }
+
+  for (i = 0; i < db->count; i++)
+    {
+      pkg_recover(db->entries[i].name);
+    }
+
+  free(db);
+  return EXIT_SUCCESS;
+}
+
+/****************************************************************************
  * Name: pkg_update
  *
  * Description:
@@ -75,6 +203,8 @@ int pkg_update(FAR const char *name)
       pkg_error("unable to prepare package layout: %d", ret);
       goto errout;
     }
+
+  pkg_recover(name);
 
   ret = pkg_metadata_load_index(index);
   if (ret < 0)
@@ -171,6 +301,10 @@ int pkg_rollback(FAR const char *name)
       pkg_error("unable to prepare package layout: %d", ret);
       return EXIT_FAILURE;
     }
+
+  /* Heal any interrupted transaction before touching the pointers. */
+
+  pkg_recover(name);
 
   ret = pkg_metadata_load_installed(installed);
   if (ret < 0)

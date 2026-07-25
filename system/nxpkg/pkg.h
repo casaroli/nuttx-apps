@@ -196,6 +196,8 @@ int pkg_txn_clear_state(FAR const char *name);
 int pkg_install(FAR const char *name);
 int pkg_update(FAR const char *name);
 int pkg_rollback(FAR const char *name);
+int pkg_recover(FAR const char *name);
+int pkg_recover_all(void);
 int pkg_list(FAR FILE *stream);
 
 void pkg_error(FAR const char *fmt, ...);
