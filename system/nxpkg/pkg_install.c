@@ -210,6 +210,34 @@ static int pkg_install_write_pointers(FAR const struct pkg_installed_db_s *db,
                                   entry->previous);
 }
 
+static int
+pkg_install_check_dependencies(FAR const struct pkg_installed_db_s *db,
+                               FAR const struct pkg_manifest_s *manifest)
+{
+  size_t i;
+
+  /* Direct dependencies only: every listed dependency must already be an
+   * installed package with an active version.  There is no recursive solver;
+   * install dependencies explicitly first.
+   */
+
+  for (i = 0; i < manifest->dep_count; i++)
+    {
+      FAR const struct pkg_installed_entry_s *dep;
+
+      dep = pkg_metadata_find_installed((FAR struct pkg_installed_db_s *)db,
+                                        manifest->deps[i]);
+      if (dep == NULL || dep->current[0] == '\0')
+        {
+          pkg_error("'%s' requires '%s', which is not installed",
+                    manifest->name, manifest->deps[i]);
+          return -ENOENT;
+        }
+    }
+
+  return 0;
+}
+
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
@@ -384,6 +412,14 @@ int pkg_install(FAR const char *name)
     }
 
   ret = pkg_metadata_load_installed(installed);
+  if (ret < 0)
+    {
+      goto errout;
+    }
+
+  /* Verify direct dependencies before activation (fail closed). */
+
+  ret = pkg_install_check_dependencies(installed, manifest);
   if (ret < 0)
     {
       goto errout;

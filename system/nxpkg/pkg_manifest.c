@@ -126,6 +126,19 @@ int pkg_manifest_validate(FAR const struct pkg_manifest_s *manifest)
       return -EINVAL;
     }
 
+  if (manifest->dep_count > PKG_DEPS_MAX)
+    {
+      return -EINVAL;
+    }
+
+  for (size_t i = 0; i < manifest->dep_count; i++)
+    {
+      if (pkg_validate_required(manifest->deps[i]) < 0)
+        {
+          return -EINVAL;
+        }
+    }
+
   return 0;
 }
 

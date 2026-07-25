@@ -167,6 +167,42 @@ static int pkg_metadata_parse_manifest(FAR cJSON *item,
       return -EINVAL;
     }
 
+  /* Optional direct-dependency list.  Absent means no dependencies. */
+
+  field = cJSON_GetObjectItemCaseSensitive(item, "dependencies");
+  if (field != NULL)
+    {
+      FAR cJSON *dep;
+
+      if (!cJSON_IsArray(field))
+        {
+          return -EINVAL;
+        }
+
+      cJSON_ArrayForEach(dep, field)
+        {
+          value = cJSON_GetStringValue(dep);
+          if (value == NULL)
+            {
+              return -EINVAL;
+            }
+
+          if (manifest->dep_count >= PKG_DEPS_MAX)
+            {
+              return -E2BIG;
+            }
+
+          ret = pkg_copy_string(manifest->deps[manifest->dep_count],
+                                sizeof(manifest->deps[0]), value);
+          if (ret < 0)
+            {
+              return ret;
+            }
+
+          manifest->dep_count++;
+        }
+    }
+
   return pkg_manifest_validate(manifest);
 }
 

@@ -60,6 +60,7 @@
 #define PKG_INDEX_MAX         32
 #define PKG_INSTALLED_MAX     16
 #define PKG_INSTALLED_VERSIONS_MAX 8
+#define PKG_DEPS_MAX          8
 
 /****************************************************************************
  * Public Types
@@ -92,6 +93,8 @@ struct pkg_manifest_s
   char compat[PKG_COMPAT_MAX + 1];
   char artifact[PATH_MAX];
   char sha256[PKG_HASH_HEX_LEN + 1];
+  char deps[PKG_DEPS_MAX][PKG_NAME_MAX + 1];  /* Direct dependencies */
+  size_t dep_count;
   enum pkg_payload_type_e type;
 };
 
