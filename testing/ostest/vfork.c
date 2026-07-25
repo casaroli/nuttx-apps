@@ -35,7 +35,7 @@
 
 #include "ostest.h"
 
-#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID)
+#if defined(CONFIG_ARCH_HAVE_VFORK) && defined(CONFIG_SCHED_WAITPID)
 
 /****************************************************************************
  * Private Data
@@ -55,12 +55,21 @@ int vfork_test(void)
   pid = vfork();
   if (pid == 0)
     {
-      /* There is not very much that the child is permitted to do.  Perhaps
-       * it can just set g_vforkchild.
+      /* The child borrows the parent's memory, so setting g_vforkchild here
+       * is what the parent will observe below.  That sharing is the whole
+       * point of vfork() and is what this test verifies.
+       *
+       * POSIX allows the child almost nothing else: it must not modify any
+       * other data, must not return from this function, and must not call
+       * any function other than _exit() or one of the exec family.  In
+       * particular it must leave through _exit() rather than exit() -- the
+       * child is running in the parent's address space, so running atexit
+       * handlers and flushing the parent's stdio buffers here is precisely
+       * the misuse the restriction exists to prevent.
        */
 
       g_vforkchild = true;
-      exit(0);
+      _exit(0);
     }
   else if (pid < 0)
     {
@@ -70,6 +79,11 @@ int vfork_test(void)
     }
   else
     {
+      /* vfork() does not return in the parent until the child has called
+       * _exit() or exec(), so the child's write is already visible.  The
+       * sleep only makes a failure easier to tell apart from a race.
+       */
+
       sleep(1);
       if (g_vforkchild)
         {
@@ -77,7 +91,8 @@ int vfork_test(void)
         }
       else
         {
-          printf("vfork_test: ERROR Child %d did not run\n", pid);
+          printf("vfork_test: ERROR Child %d did not run, or did not share "
+                 "the parent's memory\n", pid);
           ASSERT(false);
           return -1;
         }

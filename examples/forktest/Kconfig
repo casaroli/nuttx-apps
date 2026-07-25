@@ -1,0 +1,28 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config EXAMPLES_FORKTEST
+	tristate "fork() test"
+	default n
+	depends on ARCH_HAVE_FORK
+	---help---
+		Exercises up_fork(): the child's return value, its private copy of
+		the parent's stack, and that both sides run and are reaped.
+
+if EXAMPLES_FORKTEST
+
+config EXAMPLES_FORKTEST_PROGNAME
+	string "Program name"
+	default "forktest"
+
+config EXAMPLES_FORKTEST_PRIORITY
+	int "forktest task priority"
+	default 100
+
+config EXAMPLES_FORKTEST_STACKSIZE
+	int "forktest stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
