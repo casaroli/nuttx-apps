@@ -31,36 +31,65 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 #include "ostest.h"
 
-#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID)
+#ifdef CONFIG_ARCH_HAVE_VFORK
 
 /****************************************************************************
  * Private Data
  ****************************************************************************/
 
-static volatile bool g_vforkchild;
+/* Set by the parent before vfork() and cleared by the parent after it
+ * resumes.  The child never touches it -- a vfork() child may not modify any
+ * data other than the pid_t holding vfork()'s return value.
+ */
+
+static volatile bool g_vforkrunning;
 
 /****************************************************************************
  * Public Functions
+ ****************************************************************************/
+
+/****************************************************************************
+ * Name: vfork_test
+ *
+ * Description:
+ *   Verify the defining property of vfork():  the parent is suspended until
+ *   the child calls _exit() or one of the exec family of functions.
+ *
+ *   The child does only what POSIX permits it to do -- it calls _exit(), and
+ *   nothing else.  In particular it does not call exit(), which would run
+ *   atexit handlers and flush stdio in the parent's address space; that is
+ *   exactly the misuse vfork()'s restrictions exist to prevent, and a test
+ *   that did it would be testing the wrong thing.
+ *
+ *   Because the child may not write memory and the parent cannot run while
+ *   the child lives, the observable is the child's *exit status*:  if the
+ *   parent were not suspended it would reach waitpid() before the child had
+ *   run at all.
+ *
  ****************************************************************************/
 
 int vfork_test(void)
 {
   pid_t pid;
 
-  g_vforkchild = false;
+  printf("vfork_test: Started\n");
+
+  g_vforkrunning = true;
+
   pid = vfork();
   if (pid == 0)
     {
-      /* There is not very much that the child is permitted to do.  Perhaps
-       * it can just set g_vforkchild.
+      /* Child.  The only thing it is allowed to do is leave.  Note _exit()
+       * and not exit():  we are running in the parent's address space on
+       * borrowed time.
        */
 
-      g_vforkchild = true;
-      exit(0);
+      _exit(42);
     }
   else if (pid < 0)
     {
@@ -68,22 +97,64 @@ int vfork_test(void)
       ASSERT(false);
       return -1;
     }
-  else
+
+  /* Parent.  We only get here once the child has exited or exec'ed:  that is
+   * what vfork() promises, and it is what we are testing.
+   */
+
+  g_vforkrunning = false;
+
+#ifdef CONFIG_SCHED_WAITPID
     {
-      sleep(1);
-      if (g_vforkchild)
+      int status = 0;
+      pid_t ret;
+
+      ret = waitpid(pid, &status, 0);
+
+#ifdef CONFIG_SCHED_CHILD_STATUS
+      /* The child's status was retained for us to collect. */
+
+      if (ret != pid)
         {
-          printf("vfork_test: Child %d ran successfully\n", pid);
-        }
-      else
-        {
-          printf("vfork_test: ERROR Child %d did not run\n", pid);
+          printf("vfork_test: ERROR waitpid() returned %d (%d)\n",
+                 ret, errno);
           ASSERT(false);
           return -1;
         }
-    }
 
+      if (!WIFEXITED(status) || WEXITSTATUS(status) != 42)
+        {
+          printf("vfork_test: ERROR Child %d status 0x%04x, expected "
+                 "exit(42)\n", pid, status);
+          ASSERT(false);
+          return -1;
+        }
+#else
+      /* Without CONFIG_SCHED_CHILD_STATUS an exited child's status is not
+       * retained, so waitpid() can only answer for a child that still
+       * exists.  ECHILD here is therefore not a failure -- it is the
+       * evidence we are looking for:  the child had already run and
+       * terminated by the time we resumed, which is exactly what vfork()
+       * promises.  Had we not been suspended, waitpid() would have blocked
+       * on a child that was still alive.
+       */
+
+      if (ret >= 0 || errno != ECHILD)
+        {
+          printf("vfork_test: ERROR waitpid() returned %d (%d), expected "
+                 "ECHILD for an already-terminated child\n", ret, errno);
+          ASSERT(false);
+          return -1;
+        }
+
+      UNUSED(status);
+#endif
+    }
+#endif
+
+  printf("vfork_test: Child %d ran and exited before the parent resumed\n",
+         pid);
   return 0;
 }
 
-#endif /* CONFIG_ARCH_HAVE_FORK && CONFIG_SCHED_WAITPID */
+#endif /* CONFIG_ARCH_HAVE_VFORK */

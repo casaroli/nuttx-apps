@@ -637,10 +637,22 @@ static int user_main(int argc, char *argv[])
       check_test_memory_usage();
 #endif
 
-#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID) && \
-   !defined(CONFIG_ARCH_SIM)
+#ifdef CONFIG_ARCH_HAVE_TASK_FORK
+      printf("\nuser_main: task_fork() test\n");
+      task_fork_test();
+      check_test_memory_usage();
+#endif
+
+#ifdef CONFIG_ARCH_HAVE_VFORK
       printf("\nuser_main: vfork() test\n");
       vfork_test();
+      check_test_memory_usage();
+#endif
+
+#ifdef CONFIG_ARCH_HAVE_FORK
+      printf("\nuser_main: fork() test\n");
+      fork_test();
+      check_test_memory_usage();
 #endif
 
 #if defined(CONFIG_SMP) && defined(CONFIG_BUILD_FLAT)

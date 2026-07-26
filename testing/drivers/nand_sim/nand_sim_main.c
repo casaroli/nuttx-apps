@@ -25,6 +25,7 @@
  ****************************************************************************/
 
 #include <nuttx/debug.h>
+#include <sched.h>
 #include <stdio.h>
 
 #include <nuttx/drivers/drivers.h>
@@ -140,9 +141,14 @@ int main(int argc, FAR char *argv[])
   int   ret;
   pid_t pid;
 
-  /* Daemon */
+  /* Daemon.  task_fork() rather than fork():  what this wants is a clone of
+   * the caller that keeps running after the caller returns, sharing its
+   * memory -- which is what NuttX's fork() has always done and what
+   * task_fork() is now the honest name for.  A POSIX fork() would give the
+   * child its own copy of everything, and is not available on most targets.
+   */
 
-  pid = fork();
+  pid = task_fork();
 
   if (pid > 0)
     {

@@ -42,8 +42,13 @@
 
 /* #undef USE_CYASSL */
 
-/* Define to 1 if you have the `fork' function. */
+/* Define to 1 if you have the `fork' function.  NuttX provides fork() only
+ * where POSIX fork() semantics can be honoured; see CONFIG_ARCH_HAVE_FORK.
+ */
+
+#ifdef CONFIG_ARCH_HAVE_FORK
 #define LWS_HAVE_FORK
+#endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
 /* Define to 1 if you have the `getenv' function. */
@@ -111,10 +116,14 @@
 /* #undef LWS_HAVE_VFORK_H */
 
 /* Define to 1 if `fork' works. */
+#ifdef CONFIG_ARCH_HAVE_FORK
 #define LWS_HAVE_WORKING_FORK
+#endif
 
 /* Define to 1 if `vfork' works. */
+#ifdef CONFIG_ARCH_HAVE_VFORK
 #define LWS_HAVE_WORKING_VFORK
+#endif
 
 /* Define to 1 if execvpe() exists */
 #define LWS_HAVE_EXECVPE

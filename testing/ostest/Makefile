@@ -144,10 +144,16 @@ CSRCS += sigev_thread.c
 endif
 endif
 
-ifeq ($(CONFIG_ARCH_HAVE_FORK),y)
-ifeq ($(CONFIG_SCHED_WAITPID),y)
+ifeq ($(CONFIG_ARCH_HAVE_TASK_FORK),y)
+CSRCS += task_fork.c
+endif
+
+ifeq ($(CONFIG_ARCH_HAVE_VFORK),y)
 CSRCS += vfork.c
 endif
+
+ifeq ($(CONFIG_ARCH_HAVE_FORK),y)
+CSRCS += fork.c
 endif
 
 ifeq ($(CONFIG_ARCH_SETJMP_H),y)
