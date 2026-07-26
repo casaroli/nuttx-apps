@@ -192,7 +192,16 @@ int fork_test(void)
   memset(g_forkheap, FORK_PARENTMARK, FORK_HEAPSIZE);
 
 #ifdef CONFIG_SCHED_WAITPID
-  if (waitpid(pid, &status, 0) != pid)
+  /* Wait for the child to be done before comparing memory.  waitpid() blocks
+   * on a child that is still alive whether or not its exit status will be
+   * retained, so this synchronises either way; ECHILD simply means the child
+   * had already finished, which is just as good.  It is not a failure:
+   * ostest_main() sets SA_NOCLDWAIT on SIGCHLD for the whole run, so an
+   * exited child's status is not kept even where CONFIG_SCHED_CHILD_STATUS
+   * is enabled.
+   */
+
+  if (waitpid(pid, &status, 0) != pid && errno != ECHILD)
     {
       printf("fork_test: ERROR waitpid() failed: %d\n", errno);
       free(g_forkheap);

@@ -111,44 +111,40 @@ int vfork_test(void)
 
       ret = waitpid(pid, &status, 0);
 
-#ifdef CONFIG_SCHED_CHILD_STATUS
-      /* The child's status was retained for us to collect. */
-
-      if (ret != pid)
-        {
-          printf("vfork_test: ERROR waitpid() returned %d (%d)\n",
-                 ret, errno);
-          ASSERT(false);
-          return -1;
-        }
-
-      if (!WIFEXITED(status) || WEXITSTATUS(status) != 42)
-        {
-          printf("vfork_test: ERROR Child %d status 0x%04x, expected "
-                 "exit(42)\n", pid, status);
-          ASSERT(false);
-          return -1;
-        }
-#else
-      /* Without CONFIG_SCHED_CHILD_STATUS an exited child's status is not
-       * retained, so waitpid() can only answer for a child that still
-       * exists.  ECHILD here is therefore not a failure -- it is the
-       * evidence we are looking for:  the child had already run and
-       * terminated by the time we resumed, which is exactly what vfork()
-       * promises.  Had we not been suspended, waitpid() would have blocked
-       * on a child that was still alive.
+      /* Two answers are correct here, and which one comes back is a property
+       * of the configuration rather than of vfork().
+       *
+       * An exited child's status is only retained if the parent's group has
+       * asked for that:  it needs CONFIG_SCHED_CHILD_STATUS, and it needs
+       * the group not to have set SA_NOCLDWAIT on SIGCHLD -- which
+       * ostest_main() does for the whole run, deliberately, so that child
+       * status *not* being retained is itself covered.  Testing the
+       * compile-time symbol alone is therefore not enough.
+       *
+       * So:  a status that is returned must be exit(42), and ECHILD is
+       * equally good -- it says the child was already gone by the time we
+       * asked, which is the evidence we are after.  Had the parent not been
+       * suspended it would have reached waitpid() while the child was still
+       * alive, and waitpid() would have blocked on it instead.
        */
 
-      if (ret >= 0 || errno != ECHILD)
+      if (ret == pid)
+        {
+          if (!WIFEXITED(status) || WEXITSTATUS(status) != 42)
+            {
+              printf("vfork_test: ERROR Child %d status 0x%04x, expected "
+                     "exit(42)\n", pid, status);
+              ASSERT(false);
+              return -1;
+            }
+        }
+      else if (ret >= 0 || errno != ECHILD)
         {
           printf("vfork_test: ERROR waitpid() returned %d (%d), expected "
-                 "ECHILD for an already-terminated child\n", ret, errno);
+                 "the child's status or ECHILD\n", ret, errno);
           ASSERT(false);
           return -1;
         }
-
-      UNUSED(status);
-#endif
     }
 #endif
 
