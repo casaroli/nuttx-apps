@@ -57,9 +57,9 @@
  * that address holds kernel code, kernel data, or nothing mapped at all does
  * not matter:  either way an unprivileged task must not be able to read it.
  *
- * A BUILD_FLAT configuration has no such boundary and no CONFIG_NUTTX_USERSPACE
- * at all; there the test reports that there is nothing to contain rather than
- * pretending to pass.
+ * A BUILD_FLAT configuration has no such boundary and no
+ * CONFIG_NUTTX_USERSPACE at all; there the test reports that there is
+ * nothing to contain rather than pretending to pass.
  */
 
 #ifdef CONFIG_NUTTX_USERSPACE
@@ -73,6 +73,17 @@
 #define CANARY_PRIORITY         (CONFIG_EXAMPLES_SANDBOX_PRIORITY - 1)
 #define CANARY_STACKSIZE        2048
 #define ESCAPE_STACKSIZE        CONFIG_EXAMPLES_SANDBOX_STACKSIZE
+
+/* How to touch it.  A read and a write are both data accesses and are
+ * refused by the same fault; an instruction fetch is refused by a different
+ * one (a prefetch abort on ARM, an instruction access fault on risc-v).
+ * That is a different exception vector and, historically, a separately
+ * broken one, so both are worth asking about.
+ */
+
+#define SANDBOX_READ            0
+#define SANDBOX_WRITE           1
+#define SANDBOX_EXEC            2
 
 /****************************************************************************
  * Private Data
@@ -111,15 +122,30 @@ static int canary_task(int argc, FAR char *argv[])
  *
  ****************************************************************************/
 
-static void escape(uintptr_t addr, bool store)
+static FAR const char *modename(int mode)
+{
+  switch (mode)
+    {
+      case SANDBOX_WRITE:
+        return "WRITE";
+
+      case SANDBOX_EXEC:
+        return "call";
+
+      default:
+        return "read";
+    }
+}
+
+static void escape(uintptr_t addr, int mode)
 {
   FAR volatile uint32_t *p = (FAR volatile uint32_t *)addr;
 
-  printf("sandbox:   attempting %s of %p\n", store ? "WRITE" : "read",
+  printf("sandbox:   attempting %s of %p\n", modename(mode),
          (FAR void *)addr);
   fflush(stdout);
 
-  if (store)
+  if (mode == SANDBOX_WRITE)
     {
       /* A write is the more dangerous direction and is not the default:  if
        * the hardware does *not* contain it, this corrupts whatever it lands
@@ -128,6 +154,19 @@ static void escape(uintptr_t addr, bool store)
        */
 
       *p = 0xdeadbeef;
+    }
+  else if (mode == SANDBOX_EXEC)
+    {
+      /* Branching into kernel memory is refused by the instruction fetch
+       * rather than by a data access, so it arrives at a different exception
+       * vector.  Whether the target holds anything that would decode as an
+       * instruction is beside the point:  an unprivileged task must not get
+       * that far.
+       */
+
+      void (*fn)(void) = (CODE void (*)(void))addr;
+
+      fn();
     }
   else
     {
@@ -144,17 +183,32 @@ static void escape(uintptr_t addr, bool store)
   fflush(stdout);
 }
 
+static int mode_of(FAR const char *arg)
+{
+  switch (arg[0])
+    {
+      case 'w':
+        return SANDBOX_WRITE;
+
+      case 'x':
+        return SANDBOX_EXEC;
+
+      default:
+        return SANDBOX_READ;
+    }
+}
+
 static int escape_task(int argc, FAR char *argv[])
 {
-  bool      store = (argc > 1 && argv[1][0] == 'w');
-  uintptr_t addr  = SANDBOX_TARGET;
+  int       mode = (argc > 1) ? mode_of(argv[1]) : SANDBOX_READ;
+  uintptr_t addr = SANDBOX_TARGET;
 
   if (argc > 2)
     {
       addr = (uintptr_t)strtoul(argv[2], NULL, 0);
     }
 
-  escape(addr, store);
+  escape(addr, mode);
 
   /* Reaching here means the access was allowed. */
 
@@ -172,10 +226,11 @@ static int escape_task(int argc, FAR char *argv[])
  *
  ****************************************************************************/
 
-static int selfcheck(bool store, uintptr_t addr)
+static int selfcheck(int mode, uintptr_t addr)
 {
   FAR char *argv[3];
   char      addrbuf[24];
+  char      modebuf[2];
   unsigned long before;
   unsigned long after;
   pid_t     canary;
@@ -184,8 +239,7 @@ static int selfcheck(bool store, uintptr_t addr)
   int       ret;
   int       fails = 0;
 
-  printf("sandbox: target %p (%s)\n", (FAR void *)addr,
-         store ? "write" : "read");
+  printf("sandbox: target %p (%s)\n", (FAR void *)addr, modename(mode));
 #if SANDBOX_HAVE_TARGET
   printf("sandbox: derived from CONFIG_NUTTX_USERSPACE = %p\n",
          (FAR void *)(uintptr_t)CONFIG_NUTTX_USERSPACE);
@@ -210,7 +264,10 @@ static int selfcheck(bool store, uintptr_t addr)
   before = g_canary;
 
   snprintf(addrbuf, sizeof(addrbuf), "0x%lx", (unsigned long)addr);
-  argv[0] = store ? (FAR char *)"w" : (FAR char *)"r";
+  modebuf[0] = mode == SANDBOX_WRITE ? 'w' :
+               mode == SANDBOX_EXEC  ? 'x' : 'r';
+  modebuf[1] = '\0';
+  argv[0] = modebuf;
   argv[1] = addrbuf;
   argv[2] = NULL;
 
@@ -315,16 +372,17 @@ static int selfcheck(bool store, uintptr_t addr)
 
 static void usage(void)
 {
-  printf("Usage: sandbox [escape [r|w] [addr]]\n"
-         "  (no args)         spawn an offending task and check it is\n"
-         "                    contained while everything else survives\n"
-         "  escape [r|w] [a]  make the bad access in *this* task; in a\n"
-         "                    contained build this task does not return\n");
+  printf("Usage: sandbox [escape] [r|w|x] [addr]\n"
+         "  (no args)           spawn an offending task and check it is\n"
+         "                      contained while everything else survives\n"
+         "  escape [r|w|x] [a]  make the bad access in *this* task; in a\n"
+         "                      contained build this task does not return\n"
+         "  r read (default), w write, x call the address\n");
 }
 
 int main(int argc, FAR char *argv[])
 {
-  bool      store = false;
+  int       mode = SANDBOX_READ;
   uintptr_t addr  = SANDBOX_TARGET;
   int       argbase = 1;
 
@@ -335,9 +393,10 @@ int main(int argc, FAR char *argv[])
     }
 
 #if !SANDBOX_HAVE_TARGET
-  printf("sandbox: this is a flat build -- there is no kernel/user boundary\n"
-         "sandbox: to escape from, so there is nothing to contain.  Build a\n"
-         "sandbox: protected or kernel configuration to run this test.\n");
+  printf("sandbox: this is a flat build -- there is no kernel/user\n"
+         "sandbox: boundary to escape from, so there is nothing to\n"
+         "sandbox: contain.  Build a protected or kernel configuration\n"
+         "sandbox: to run this test.\n");
   if (argc <= 1)
     {
       return 0;
@@ -349,9 +408,11 @@ int main(int argc, FAR char *argv[])
       argbase = 2;
     }
 
-  if (argc > argbase && (argv[argbase][0] == 'w' || argv[argbase][0] == 'r'))
+  if (argc > argbase && argv[argbase][1] == '\0' &&
+      (argv[argbase][0] == 'r' || argv[argbase][0] == 'w' ||
+       argv[argbase][0] == 'x'))
     {
-      store = (argv[argbase][0] == 'w');
+      mode = mode_of(argv[argbase]);
       argbase++;
     }
 
@@ -365,10 +426,10 @@ int main(int argc, FAR char *argv[])
       /* One-shot mode:  fault in this task, deliberately. */
 
       printf("sandbox: escaping from this task -- expect it to die\n");
-      escape(addr, store);
+      escape(addr, mode);
       printf("sandbox: NOT CONTAINED - returned from the bad access\n");
       return 1;
     }
 
-  return selfcheck(store, addr);
+  return selfcheck(mode, addr);
 }
