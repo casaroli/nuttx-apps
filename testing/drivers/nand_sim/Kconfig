@@ -6,6 +6,7 @@
 config TESTING_NAND_SIM
 	boolean "NAND Flash Simulator"
 	depends on MTD_NAND_RAM && ENABLE_ALL_SIGNALS
+	depends on ARCH_HAVE_TASK_FORK || ARCH_HAVE_FORK
 	default n
 	---help---
 		Enable the NAND Flash Simulator device.

@@ -144,7 +144,15 @@ CSRCS += runner.c
 CSRCS += runner-unix.c
 CSRCS += echo-server.c
 
-CSRCS += $(wildcard libuv/test/test-*.c)
+# test-fork.c and test-pipe-close-stdout-read-stdin.c call fork().  Every
+# test they define is already excluded from the task list on NuttX by
+# 0001-libuv-port-for-nuttx.patch, so they are dead code here.
+
+LIBUV_TEST_CSRCS  = $(wildcard libuv/test/test-*.c)
+LIBUV_TEST_CSRCS := $(filter-out libuv/test/test-fork.c,$(LIBUV_TEST_CSRCS))
+LIBUV_TEST_CSRCS := $(filter-out libuv/test/test-pipe-close-stdout-read-stdin.c,$(LIBUV_TEST_CSRCS))
+
+CSRCS += $(LIBUV_TEST_CSRCS)
 endif
 
 ifneq ($(CONFIG_LIBUV_UTILS_BENCHMARK),)

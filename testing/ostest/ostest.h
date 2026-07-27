@@ -282,10 +282,48 @@ void priority_inheritance(void);
 
 void sched_lock_test(void);
 
+/* The fork family **********************************************************/
+
+/* Until nuttx has the three separate primitives, ARCH_HAVE_FORK stands in
+ * for the first two:  today's fork() is task_fork(), and today's vfork() is
+ * that plus a waitpid().  fork_test() is deliberately not mapped -- the copy
+ * semantics it checks are what does not exist yet, and ARCH_HAVE_VFORK is
+ * the evidence that they do.  These blocks come out with the split.
+ */
+
+#if defined(CONFIG_ARCH_HAVE_TASK_FORK) || defined(CONFIG_ARCH_HAVE_FORK)
+#  define OSTEST_HAVE_TASK_FORK 1
+#endif
+
+#if defined(CONFIG_ARCH_HAVE_VFORK) || \
+    (defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID))
+#  define OSTEST_HAVE_VFORK 1
+#endif
+
+#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_ARCH_HAVE_VFORK)
+#  define OSTEST_HAVE_FORK 1
+#endif
+
+#if defined(OSTEST_HAVE_TASK_FORK) && !defined(CONFIG_ARCH_HAVE_TASK_FORK)
+#  define task_fork() fork()
+#endif
+
+/* task_fork.c **************************************************************/
+
+#ifdef OSTEST_HAVE_TASK_FORK
+int task_fork_test(void);
+#endif
+
 /* vfork.c ******************************************************************/
 
-#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID)
+#ifdef OSTEST_HAVE_VFORK
 int vfork_test(void);
+#endif
+
+/* fork.c *******************************************************************/
+
+#ifdef OSTEST_HAVE_FORK
+int fork_test(void);
 #endif
 
 /* setjmp.c *****************************************************************/
