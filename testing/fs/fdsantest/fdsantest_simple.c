@@ -96,7 +96,7 @@ static void test_case_overflow(void **state)
   assert_int_equal(open_count, close_count);
 }
 
-#if defined(CONFIG_ARCH_HAVE_VFORK) || defined(CONFIG_ARCH_HAVE_FORK)
+#ifdef CONFIG_ARCH_HAVE_VFORK
 static void test_case_vfork(void **state)
 {
   int fd = open("/dev/null", O_RDONLY);
@@ -131,7 +131,7 @@ int main(int argc, FAR char *argv[])
     cmocka_unit_test(test_case_unowned_tagged_close),
     cmocka_unit_test(test_case_owned_tagged_close),
     cmocka_unit_test(test_case_overflow),
-#if defined(CONFIG_ARCH_HAVE_VFORK) || defined(CONFIG_ARCH_HAVE_FORK)
+#ifdef CONFIG_ARCH_HAVE_VFORK
     cmocka_unit_test(test_case_vfork),
 #endif
   };

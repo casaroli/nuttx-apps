@@ -144,20 +144,17 @@ CSRCS += sigev_thread.c
 endif
 endif
 
-# Each test is built where the primitive it tests exists.  See ostest.h for
-# why each also accepts ARCH_HAVE_FORK, and why fork.c does not.
+# Each test is built where the primitive it tests exists.
 
-ifneq ($(CONFIG_ARCH_HAVE_TASK_FORK)$(CONFIG_ARCH_HAVE_FORK),)
+ifeq ($(CONFIG_ARCH_HAVE_TASK_FORK),y)
 CSRCS += task_fork.c
 endif
 
 ifeq ($(CONFIG_ARCH_HAVE_VFORK),y)
 CSRCS += vfork.c
-else ifeq ($(CONFIG_ARCH_HAVE_FORK)$(CONFIG_SCHED_WAITPID),yy)
-CSRCS += vfork.c
 endif
 
-ifeq ($(CONFIG_ARCH_HAVE_FORK)$(CONFIG_ARCH_HAVE_VFORK),yy)
+ifeq ($(CONFIG_ARCH_HAVE_FORK),y)
 CSRCS += fork.c
 endif
 

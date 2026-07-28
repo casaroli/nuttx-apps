@@ -36,7 +36,7 @@
 
 #include "ostest.h"
 
-#ifdef OSTEST_HAVE_TASK_FORK
+#ifdef CONFIG_ARCH_HAVE_TASK_FORK
 
 /****************************************************************************
  * Private Data
@@ -95,4 +95,4 @@ int task_fork_test(void)
   return 0;
 }
 
-#endif /* OSTEST_HAVE_TASK_FORK */
+#endif /* CONFIG_ARCH_HAVE_TASK_FORK */

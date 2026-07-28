@@ -27,7 +27,6 @@
 #include <nuttx/debug.h>
 #include <sched.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #include <nuttx/drivers/drivers.h>
 #include <nuttx/mtd/nand.h>
@@ -143,13 +142,8 @@ int main(int argc, FAR char *argv[])
   pid_t pid;
 
   /* task_fork() rather than fork():  this wants a clone that outlives the
-   * caller and shares its memory.  The fallback below covers a nuttx that
-   * does not have task_fork() yet.
+   * caller and shares its memory.
    */
-
-#ifndef CONFIG_ARCH_HAVE_TASK_FORK
-#  define task_fork() fork()
-#endif
 
   pid = task_fork();
 

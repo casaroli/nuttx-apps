@@ -37,7 +37,7 @@
 
 #include "ostest.h"
 
-#ifdef OSTEST_HAVE_FORK
+#ifdef CONFIG_ARCH_HAVE_FORK
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -277,4 +277,4 @@ int fork_test(void)
   return 0;
 }
 
-#endif /* OSTEST_HAVE_FORK */
+#endif /* CONFIG_ARCH_HAVE_FORK */

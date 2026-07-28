@@ -36,7 +36,7 @@
 
 #include "ostest.h"
 
-#ifdef OSTEST_HAVE_VFORK
+#ifdef CONFIG_ARCH_HAVE_VFORK
 
 /****************************************************************************
  * Private Data
@@ -127,4 +127,4 @@ int vfork_test(void)
   return 0;
 }
 
-#endif /* OSTEST_HAVE_VFORK */
+#endif /* CONFIG_ARCH_HAVE_VFORK */

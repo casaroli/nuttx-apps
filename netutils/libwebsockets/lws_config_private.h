@@ -119,7 +119,7 @@
 #endif
 
 /* Define to 1 if `vfork' works. */
-#if defined(CONFIG_ARCH_HAVE_VFORK) || defined(CONFIG_ARCH_HAVE_FORK)
+#ifdef CONFIG_ARCH_HAVE_VFORK
 #define LWS_HAVE_WORKING_VFORK
 #endif
 

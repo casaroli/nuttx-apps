@@ -143,18 +143,15 @@ if(CONFIG_TESTING_OSTEST)
     endif()
   endif()
 
-  # See testing/ostest/Makefile for why each test also accepts the symbol that
-  # stands in for it on a nuttx without the fork()/vfork() split.
-
-  if(CONFIG_ARCH_HAVE_TASK_FORK OR CONFIG_ARCH_HAVE_FORK)
+  if(CONFIG_ARCH_HAVE_TASK_FORK)
     list(APPEND SRCS task_fork.c)
   endif()
 
-  if(CONFIG_ARCH_HAVE_VFORK OR (CONFIG_ARCH_HAVE_FORK AND CONFIG_SCHED_WAITPID))
+  if(CONFIG_ARCH_HAVE_VFORK)
     list(APPEND SRCS vfork.c)
   endif()
 
-  if(CONFIG_ARCH_HAVE_FORK AND CONFIG_ARCH_HAVE_VFORK)
+  if(CONFIG_ARCH_HAVE_FORK)
     list(APPEND SRCS fork.c)
   endif()
 

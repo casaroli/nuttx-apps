@@ -114,7 +114,7 @@ ifeq ($(CONFIG_ARCH_HAVE_FORK),y)
 else
 	@echo "export ac_cv_func_fork=\"no\"" >> $@
 endif
-ifneq ($(CONFIG_ARCH_HAVE_VFORK)$(CONFIG_ARCH_HAVE_FORK),)
+ifeq ($(CONFIG_ARCH_HAVE_VFORK),y)
 	@echo "export ac_cv_func_vfork=\"yes\"" >> $@
 else
 	@echo "export ac_cv_func_vfork=\"no\"" >> $@
