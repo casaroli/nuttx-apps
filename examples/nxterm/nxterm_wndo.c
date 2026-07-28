@@ -126,7 +126,7 @@ static void nxwndo_redraw(NXWINDOW hwnd, FAR const struct nxgl_rect_s *rect,
        */
 
       wcolor[0] = CONFIG_EXAMPLES_NXTERM_WCOLOR;
-      nxtk_fillwindow(hwnd, rect, wcolor);
+      nxterm_fillwindow(hwnd, rect, wcolor);
     }
 }
 

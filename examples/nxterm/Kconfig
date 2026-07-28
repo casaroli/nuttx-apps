@@ -40,6 +40,18 @@ config EXAMPLES_NXTERM_SERVERPRIO
 	int "Server priority"
 	default 120
 
+config EXAMPLES_NXTERM_FULLSCREEN
+	bool "Full screen terminal"
+	default n
+	---help---
+		Give the terminal the whole display, as a raw NX window, instead
+		of a framed NxTK window occupying three quarters of it.
+
+		There is then no frame, no border and no toolbar, so every pixel
+		belongs to the terminal.  This is what you want on a small panel,
+		where the default leaves too little room for useful text; it is
+		not what you want when the point is to demonstrate NX windowing.
+
 config EXAMPLES_NXTERM_BPP
 	int "Pixel width"
 	default 16
