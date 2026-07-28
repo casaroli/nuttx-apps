@@ -70,6 +70,30 @@
 #  error "Only CONFIG_NX_NPLANES==1 supported"
 #endif
 
+/* Window operations ********************************************************/
+
+/* A full screen terminal is a raw NX window and a windowed one is a framed
+ * NxTK window.  The two have the same set of operations under different
+ * names, so name them once here and let the rest of the example be written
+ * as though there were only one kind of window.
+ */
+
+#ifdef CONFIG_EXAMPLES_NXTERM_FULLSCREEN
+#  define NXTERM_XTERM_TYPE          BOARDIOC_XTERM_RAW
+#  define nxterm_openwindow(h,f,c,a) nx_openwindow(h,f,c,a)
+#  define nxterm_closewindow(w)      nx_closewindow(w)
+#  define nxterm_setposition(w,p)    nx_setposition(w,p)
+#  define nxterm_setsize(w,s)        nx_setsize(w,s)
+#  define nxterm_fillwindow(w,r,c)   nx_fill(w,r,c)
+#else
+#  define NXTERM_XTERM_TYPE          BOARDIOC_XTERM_FRAMED
+#  define nxterm_openwindow(h,f,c,a) nxtk_openwindow(h,f,c,a)
+#  define nxterm_closewindow(w)      nxtk_closewindow(w)
+#  define nxterm_setposition(w,p)    nxtk_setposition(w,p)
+#  define nxterm_setsize(w,s)        nxtk_setsize(w,s)
+#  define nxterm_fillwindow(w,r,c)   nxtk_fillwindow(w,r,c)
+#endif
+
 /* Pixel depth.  If none provided, pick the smallest enabled pixel depth */
 
 #if defined(CONFIG_EXAMPLES_NXTERM_BPP) && \
@@ -223,7 +247,11 @@ struct nxterm_state_s
   pid_t                  pid;       /* Console task ID */
   pthread_t              listener;  /* Server event listener thread */
   NXHANDLE               hnx;       /* The connection handler */
+#ifdef CONFIG_EXAMPLES_NXTERM_FULLSCREEN
+  NXWINDOW               hwnd;      /* The window */
+#else
   NXTKWINDOW             hwnd;      /* The window */
+#endif
   NXTERM                 hdrvr;     /* The console driver */
   struct nxterm_window_s wndo;      /* Describes the window */
   nxgl_coord_t           xres;      /* Screen X resolution */
