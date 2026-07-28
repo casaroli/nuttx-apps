@@ -221,6 +221,7 @@ struct nxterm_state_s
   volatile bool          connected; /* True: Connected to server */
   sem_t                  eventsem;  /* Control waiting for display events */
   pid_t                  pid;       /* Console task ID */
+  pthread_t              listener;  /* Server event listener thread */
   NXHANDLE               hnx;       /* The connection handler */
   NXTKWINDOW             hwnd;      /* The window */
   NXTERM                 hdrvr;     /* The console driver */
