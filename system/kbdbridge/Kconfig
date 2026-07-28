@@ -1,0 +1,40 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config SYSTEM_KBDBRIDGE
+	tristate "Keyboard to NX bridge"
+	default n
+	depends on NX && NX_KBD && INPUT_KEYBOARD
+	---help---
+		Read a keyboard registered through the INPUT_KEYBOARD upper half
+		and feed it to the NX server with nx_kbdin(), so that NX can route
+		keystrokes to the window that has focus.
+
+		NX has no keyboard driver of its own, so without something like this
+		an NxTerm can only take input from whatever device it was given as
+		stdin -- usually the serial console.
+
+		Enable CONFIG_NXTERM_NXKBDIN as well for an NxTerm to accept the
+		injected characters.
+
+if SYSTEM_KBDBRIDGE
+
+config SYSTEM_KBDBRIDGE_PROGNAME
+	string "Program name"
+	default "kbdbridge"
+
+config SYSTEM_KBDBRIDGE_DEVPATH
+	string "Default keyboard device"
+	default "/dev/kbd0"
+
+config SYSTEM_KBDBRIDGE_PRIORITY
+	int "kbdbridge task priority"
+	default 100
+
+config SYSTEM_KBDBRIDGE_STACKSIZE
+	int "kbdbridge stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
