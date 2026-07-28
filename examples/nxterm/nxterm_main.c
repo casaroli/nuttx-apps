@@ -346,12 +346,21 @@ int main(int argc, FAR char *argv[])
   g_nxterm_vars.hdrvr = nxcreate.nxterm;
   DEBUGASSERT(g_nxterm_vars.hdrvr != NULL);
 
-  /* Open the NxTerm driver */
+  /* Open the NxTerm driver.
+   *
+   * Write-only is enough when the device is only ever stdout and stderr.
+   * With CONFIG_NXTERM_NXKBDIN it also supplies stdin, and a write-only
+   * descriptor cannot be read from, so ask for both.
+   */
 
+#ifdef CONFIG_NXTERM_NXKBDIN
+  fd = open(CONFIG_EXAMPLES_NXTERM_DEVNAME, O_RDWR);
+#else
   fd = open(CONFIG_EXAMPLES_NXTERM_DEVNAME, O_WRONLY);
+#endif
   if (fd < 0)
     {
-      printf("nxterm_main: open %s read-only failed: %d\n",
+      printf("nxterm_main: open %s failed: %d\n",
              CONFIG_EXAMPLES_NXTERM_DEVNAME, errno);
       goto errout_with_driver;
     }
@@ -359,8 +368,13 @@ int main(int argc, FAR char *argv[])
   /* Start Console Task *****************************************************/
 
   /* Now re-direct stdout and stderr so that they use the NX console driver.
-   * Note that stdin is retained (file descriptor 0, probably the serial
-   * console).
+   *
+   * Without CONFIG_NXTERM_NXKBDIN, stdin is retained (file descriptor 0,
+   * probably the serial console), because the NxTerm device has no input to
+   * offer.  With it, keyboard input arrives through nx_kbdin() and the
+   * device is readable, so stdin is redirected too -- otherwise the shell in
+   * the window and whatever owns the serial console both read the same
+   * console and race for every keystroke.
    */
 
   printf("nxterm_main: Starting the console task\n");
@@ -368,6 +382,9 @@ int main(int argc, FAR char *argv[])
   fflush(stdout);
   fflush(stderr);
 
+#ifdef CONFIG_NXTERM_NXKBDIN
+  dup2(fd, 0);
+#endif
   dup2(fd, 1);
   dup2(fd, 2);
 
