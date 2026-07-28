@@ -86,6 +86,7 @@ int main(int argc, FAR char *argv[])
   NXHANDLE handle;
   ssize_t nread;
   int fd;
+  int ret;
 
   if (argc > 2)
     {
@@ -165,7 +166,11 @@ int main(int argc, FAR char *argv[])
             }
 
           ch = (uint8_t)events[i].code;
-          nx_kbdin(handle, 1, &ch);
+          ret = nx_kbdin(handle, 1, &ch);
+          if (ret < 0)
+            {
+              fprintf(stderr, "kbdbridge: nx_kbdin failed: %d\n", ret);
+            }
         }
     }
 
