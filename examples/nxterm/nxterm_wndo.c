@@ -195,7 +195,31 @@ static void nxwndo_kbdin(NXWINDOW hwnd, uint8_t nch, FAR const uint8_t *ch,
                          FAR void *arg)
 {
   ginfo("hwnd=%p nch=%d\n", hwnd, nch);
+
+#ifdef CONFIG_NXTERM_NXKBDIN
+  /* Hand the characters to the NxTerm, which is where the shell is waiting
+   * for them.  Writing them to stdout instead would only echo them as
+   * output: the shell reads the terminal's keyboard buffer, and nothing
+   * else fills it.
+   */
+
+  if (g_nxterm_vars.hdrvr)
+    {
+      struct boardioc_nxterm_ioctl_s iocargs;
+      struct nxtermioc_kbdin_s kbdin;
+
+      kbdin.handle = g_nxterm_vars.hdrvr;
+      kbdin.buffer = ch;
+      kbdin.buflen = nch;
+
+      iocargs.cmd = NXTERMIOC_NXTERM_KBDIN;
+      iocargs.arg = (uintptr_t)&kbdin;
+
+      boardctl(BOARDIOC_NXTERM_IOCTL, (uintptr_t)&iocargs);
+    }
+#else
   write(1, ch, nch);
+#endif
 }
 #endif
 

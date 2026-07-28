@@ -140,6 +140,8 @@ static int nxterm_initialize(void)
           return ERROR;
         }
 
+      g_nxterm_vars.listener = thread;
+
       /* Don't return until we are connected to the server */
 
       while (!g_nxterm_vars.connected)
@@ -166,6 +168,29 @@ static int nxterm_initialize(void)
 
 static int nxterm_task(int argc, char **argv)
 {
+#ifdef CONFIG_NXTERM_NXKBDIN
+  int fd;
+
+  /* Open the terminal in this task rather than trusting the descriptors
+   * inherited from the task that created us.  The shell needs the terminal
+   * as stdin as well as stdout, and binding it here makes that independent
+   * of how file descriptors are cloned into a new task group.
+   */
+
+  fd = open(CONFIG_EXAMPLES_NXTERM_DEVNAME, O_RDWR);
+  if (fd < 0)
+    {
+      printf("nxterm_task: open %s failed: %d\n",
+             CONFIG_EXAMPLES_NXTERM_DEVNAME, errno);
+      return EXIT_FAILURE;
+    }
+
+  dup2(fd, 0);
+  dup2(fd, 1);
+  dup2(fd, 2);
+  close(fd);
+#endif
+
   /* If the console front end is selected, then run it on this thread */
 
 #ifdef CONFIG_NSH_CONSOLE
@@ -400,6 +425,22 @@ int main(int argc, FAR char *argv[])
                                   CONFIG_EXAMPLES_NXTERM_STACKSIZE,
                                   nxterm_task, NULL);
   DEBUGASSERT(g_nxterm_vars.pid > 0);
+
+  /* Do not return.
+   *
+   * The listener thread that services messages from the NX server is a
+   * pthread of this task, so returning here would destroy it along with the
+   * task group.  Rendering would survive, because the NxTerm driver writes
+   * to the display from inside the OS, but every server-to-client callback
+   * would stop -- including keyboard input.  Worse, the server would go on
+   * queueing messages to a client that never reads them until it blocked in
+   * "MQ full", taking the whole graphics subsystem down with it.
+   *
+   * Wait for the listener instead, which keeps this task group alive for as
+   * long as the connection lives.
+   */
+
+  pthread_join(g_nxterm_vars.listener, NULL);
   return EXIT_SUCCESS;
 
   /* Error Exits ************************************************************/
