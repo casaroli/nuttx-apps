@@ -11,10 +11,11 @@ config EXAMPLES_SANDBOX
 		a protected or kernel build, and checks that the attempt is contained:
 		the offending task is terminated and everything else keeps running.
 
-		The address it touches is derived from CONFIG_NUTTX_USERSPACE rather
-		than hard-coded, so the test is architecture-neutral.  In a flat build
-		there is no boundary to escape from and the test says so instead of
-		reporting a pass.
+		The address it touches is derived rather than hard-coded, so the test
+		is architecture-neutral:  CONFIG_NUTTX_USERSPACE in a protected build,
+		CONFIG_RAM_START in a kernel build.  In a flat build there is no
+		boundary to escape from and the test says so instead of reporting a
+		pass.
 
 if EXAMPLES_SANDBOX
 
