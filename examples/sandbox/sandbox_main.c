@@ -101,6 +101,17 @@
 #define SANDBOX_WRITE           1
 #define SANDBOX_EXEC            2
 
+/* Exit status the offender uses to say "I survived the access".  It has to
+ * be the *survival* that is marked, not the death:  a task killed by the
+ * fault exits with whatever its architecture's recovery leaves behind, and
+ * that is not uniform.  Where the recovery redirects to _exit(SIGSEGV) the
+ * status is 2816; where it raises SIGSEGV and lets the default action run,
+ * sig_default.c calls _exit(EXIT_FAILURE) and it is 256.  Only the offender
+ * itself can say it got through, and if it is killed it says nothing.
+ */
+
+#define SANDBOX_ESCAPED         42
+
 /****************************************************************************
  * Private Data
  ****************************************************************************/
@@ -249,7 +260,7 @@ static int escape_task(int argc, FAR char *argv[])
 
   /* Reaching here means the access was allowed. */
 
-  return 1;
+  return SANDBOX_ESCAPED;
 }
 #endif
 
@@ -407,10 +418,28 @@ static int selfcheck(int mode, uintptr_t addr)
   after = g_canary;
   g_canary_stop = true;
 
-  /* Now the three things that make this a pass. */
+  /* Now the things that make this a pass. */
 
   printf("\n");
   printf("sandbox: --- results ---\n");
+
+#ifdef CONFIG_SCHED_WAITPID
+  /* Dying is not enough:  the offender has to have died *of the fault*.
+   * Every architecture's recovery redirects it to _exit(SIGSEGV), so that
+   * status is the signature.  Any other one means escape() returned and
+   * the access was allowed -- a containment failure however tidily the
+   * system carried on afterwards.
+   */
+
+  if (ret >= 0 && WIFEXITED(status) &&
+      WEXITSTATUS(status) == SANDBOX_ESCAPED)
+    {
+      printf("sandbox: FAIL - the access was allowed; the offender ran to\n"
+             "sandbox:        completion and reported it (status %d)\n",
+             status);
+      fails++;
+    }
+#endif
 
   if (kill(pid, 0) == 0)
     {
@@ -530,7 +559,7 @@ int main(int argc, FAR char *argv[])
       printf("sandbox: escaping from this task -- expect it to die\n");
       escape(addr, mode);
       printf("sandbox: NOT CONTAINED - returned from the bad access\n");
-      return 1;
+      return SANDBOX_ESCAPED;
     }
 
   return selfcheck(mode, addr);
