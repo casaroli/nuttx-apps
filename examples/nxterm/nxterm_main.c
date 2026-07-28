@@ -201,7 +201,7 @@ static int nxterm_task(int argc, char **argv)
   unlink(CONFIG_EXAMPLES_NXTERM_DEVNAME);
 
   printf("nxterm_task: Close the window\n");
-  nxtk_closewindow(g_nxterm_vars.hwnd);
+  nxterm_closewindow(g_nxterm_vars.hwnd);
 
   /* Disconnect from the server */
 
@@ -271,11 +271,11 @@ int main(int argc, FAR char *argv[])
   /* Create a window */
 
   printf("nxterm_main: Create window\n");
-  g_nxterm_vars.hwnd = nxtk_openwindow(g_nxterm_vars.hnx, 0, &g_nxtermcb,
-                                       NULL);
+  g_nxterm_vars.hwnd = nxterm_openwindow(g_nxterm_vars.hnx, 0, &g_nxtermcb,
+                                         NULL);
   if (!g_nxterm_vars.hwnd)
     {
-      printf("nxterm_main: nxtk_openwindow failed: %d\n", errno);
+      printf("nxterm_main: open window failed: %d\n", errno);
       goto errout_with_nx;
     }
 
@@ -293,6 +293,13 @@ int main(int argc, FAR char *argv[])
 
   /* Determine the size and position of the window */
 
+#ifdef CONFIG_EXAMPLES_NXTERM_FULLSCREEN
+  g_nxterm_vars.wndo.wsize.w = g_nxterm_vars.xres;
+  g_nxterm_vars.wndo.wsize.h = g_nxterm_vars.yres;
+
+  g_nxterm_vars.wpos.x       = 0;
+  g_nxterm_vars.wpos.y       = 0;
+#else
   g_nxterm_vars.wndo.wsize.w = g_nxterm_vars.xres / 2 +
                                g_nxterm_vars.xres / 4;
   g_nxterm_vars.wndo.wsize.h = g_nxterm_vars.yres / 2 +
@@ -300,16 +307,17 @@ int main(int argc, FAR char *argv[])
 
   g_nxterm_vars.wpos.x       = g_nxterm_vars.xres / 8;
   g_nxterm_vars.wpos.y       = g_nxterm_vars.yres / 8;
+#endif
 
   /* Set the window position */
 
   printf("nxterm_main: Set window position to (%d,%d)\n",
          g_nxterm_vars.wpos.x, g_nxterm_vars.wpos.y);
 
-  ret = nxtk_setposition(g_nxterm_vars.hwnd, &g_nxterm_vars.wpos);
+  ret = nxterm_setposition(g_nxterm_vars.hwnd, &g_nxterm_vars.wpos);
   if (ret < 0)
     {
-      printf("nxterm_main: nxtk_setposition failed: %d\n", errno);
+      printf("nxterm_main: set position failed: %d\n", errno);
       goto errout_with_hwnd;
     }
 
@@ -318,14 +326,17 @@ int main(int argc, FAR char *argv[])
   printf("nxterm_main: Set window size to (%d,%d)\n",
          g_nxterm_vars.wndo.wsize.w, g_nxterm_vars.wndo.wsize.h);
 
-  ret = nxtk_setsize(g_nxterm_vars.hwnd, &g_nxterm_vars.wndo.wsize);
+  ret = nxterm_setsize(g_nxterm_vars.hwnd, &g_nxterm_vars.wndo.wsize);
   if (ret < 0)
     {
-      printf("nxterm_main: nxtk_setsize failed: %d\n", errno);
+      printf("nxterm_main: set size failed: %d\n", errno);
       goto errout_with_hwnd;
     }
 
-  /* Open the toolbar */
+#ifndef CONFIG_EXAMPLES_NXTERM_FULLSCREEN
+  /* Open the toolbar.  A full screen terminal has no frame to hang one
+   * on, and would not want to give up the rows in any case.
+   */
 
   printf("nxterm_main: Add toolbar to window\n");
   ret = nxtk_opentoolbar(g_nxterm_vars.hwnd,
@@ -336,6 +347,7 @@ int main(int argc, FAR char *argv[])
       printf("nxterm_main: nxtk_opentoolbar failed: %d\n", errno);
       goto errout_with_hwnd;
     }
+#endif
 
   /* Sleep a little bit to allow the server to catch up */
 
@@ -352,14 +364,19 @@ int main(int argc, FAR char *argv[])
   nxcreate.nxterm              = NULL;
   nxcreate.hwnd                = g_nxterm_vars.hwnd;
   nxcreate.wndo                = g_nxterm_vars.wndo;
-  nxcreate.type                = BOARDIOC_XTERM_FRAMED;
+  nxcreate.type                = NXTERM_XTERM_TYPE;
   nxcreate.minor               = CONFIG_EXAMPLES_NXTERM_MINOR;
 
-  /* BOARDIOC_NXTERM wants the size of the NxTK main sub-window */
+#ifndef CONFIG_EXAMPLES_NXTERM_FULLSCREEN
+  /* BOARDIOC_NXTERM wants the size of the NxTK main sub-window.  A raw
+   * window has neither border nor toolbar, so its whole size is already
+   * the terminal's.
+   */
 
   nxcreate.wndo.wsize.w       -= (2 * CONFIG_NXTK_BORDERWIDTH);
   nxcreate.wndo.wsize.h       -= (CONFIG_EXAMPLES_NXTERM_TOOLBAR_HEIGHT +
                                   2 * CONFIG_NXTK_BORDERWIDTH);
+#endif
 
   ret = boardctl(BOARDIOC_NXTERM, (uintptr_t)&nxcreate);
   if (ret < 0)
@@ -449,7 +466,7 @@ errout_with_driver:
   unlink(CONFIG_EXAMPLES_NXTERM_DEVNAME);
 
 errout_with_hwnd:
-  nxtk_closewindow(g_nxterm_vars.hwnd);
+  nxterm_closewindow(g_nxterm_vars.hwnd);
 
 errout_with_nx:
 
