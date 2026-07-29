@@ -38,6 +38,11 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifdef CONFIG_BUILD_KERNEL
+#  include <pthread.h>
+#  include <spawn.h>
+#endif
+
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
@@ -57,14 +62,25 @@
  * that address holds kernel code, kernel data, or nothing mapped at all does
  * not matter:  either way an unprivileged task must not be able to read it.
  *
- * A BUILD_FLAT configuration has no such boundary and no
- * CONFIG_NUTTX_USERSPACE at all; there the test reports that there is
- * nothing to contain rather than pretending to pass.
+ * A BUILD_KERNEL configuration has no such boundary and no
+ * CONFIG_NUTTX_USERSPACE:  every process gets its own address environment
+ * and the kernel is simply never mapped into it.  CONFIG_RAM_START, where
+ * the kernel image itself is loaded, serves the same purpose there.
+ *
+ * A BUILD_FLAT configuration has neither, and the test reports that there
+ * is nothing to contain rather than pretending to pass.
  */
 
-#ifdef CONFIG_NUTTX_USERSPACE
+#if defined(CONFIG_BUILD_KERNEL) && defined(CONFIG_RAM_START)
+#  define SANDBOX_HAVE_TARGET   1
+#  define SANDBOX_TARGET        ((uintptr_t)CONFIG_RAM_START)
+#  define SANDBOX_ORIGIN_NAME   "CONFIG_RAM_START"
+#  define SANDBOX_ORIGIN_VALUE  ((uintptr_t)CONFIG_RAM_START)
+#elif defined(CONFIG_NUTTX_USERSPACE)
 #  define SANDBOX_HAVE_TARGET   1
 #  define SANDBOX_TARGET        ((uintptr_t)CONFIG_NUTTX_USERSPACE - 16)
+#  define SANDBOX_ORIGIN_NAME   "CONFIG_NUTTX_USERSPACE"
+#  define SANDBOX_ORIGIN_VALUE  ((uintptr_t)CONFIG_NUTTX_USERSPACE)
 #else
 #  define SANDBOX_HAVE_TARGET   0
 #  define SANDBOX_TARGET        ((uintptr_t)0)
@@ -85,6 +101,17 @@
 #define SANDBOX_WRITE           1
 #define SANDBOX_EXEC            2
 
+/* Exit status the offender uses to say "I survived the access".  It has to
+ * be the *survival* that is marked, not the death:  a task killed by the
+ * fault exits with whatever its architecture's recovery leaves behind, and
+ * that is not uniform.  Where the recovery redirects to _exit(SIGSEGV) the
+ * status is 2816; where it raises SIGSEGV and lets the default action run,
+ * sig_default.c calls _exit(EXIT_FAILURE) and it is 256.  Only the offender
+ * itself can say it got through, and if it is killed it says nothing.
+ */
+
+#define SANDBOX_ESCAPED         42
+
 /****************************************************************************
  * Private Data
  ****************************************************************************/
@@ -98,20 +125,40 @@
 static volatile unsigned long g_canary;
 static volatile bool          g_canary_stop;
 
+#ifdef CONFIG_BUILD_KERNEL
+/* Path this program was invoked with, so the offender can be spawned from
+ * the same file.
+ */
+
+static FAR const char *g_progpath = "sandbox";
+#endif
+
 /****************************************************************************
  * Private Functions
  ****************************************************************************/
 
-static int canary_task(int argc, FAR char *argv[])
+static void canary_loop(void)
 {
   while (!g_canary_stop)
     {
       g_canary++;
       usleep(10000);
     }
+}
 
+#ifdef CONFIG_BUILD_KERNEL
+static FAR void *canary_thread(FAR void *arg)
+{
+  canary_loop();
+  return NULL;
+}
+#else
+static int canary_task(int argc, FAR char *argv[])
+{
+  canary_loop();
   return 0;
 }
+#endif
 
 /****************************************************************************
  * Name: escape
@@ -198,6 +245,7 @@ static int mode_of(FAR const char *arg)
     }
 }
 
+#ifndef CONFIG_BUILD_KERNEL
 static int escape_task(int argc, FAR char *argv[])
 {
   int       mode = (argc > 1) ? mode_of(argv[1]) : SANDBOX_READ;
@@ -212,8 +260,9 @@ static int escape_task(int argc, FAR char *argv[])
 
   /* Reaching here means the access was allowed. */
 
-  return 1;
+  return SANDBOX_ESCAPED;
 }
+#endif
 
 /****************************************************************************
  * Name: selfcheck
@@ -228,21 +277,28 @@ static int escape_task(int argc, FAR char *argv[])
 
 static int selfcheck(int mode, uintptr_t addr)
 {
-  FAR char *argv[3];
   char      addrbuf[24];
   char      modebuf[2];
   unsigned long before;
   unsigned long after;
-  pid_t     canary;
   pid_t     pid;
   int       status = 0;
   int       ret;
   int       fails = 0;
+#ifdef CONFIG_BUILD_KERNEL
+  pthread_t canary;
+  posix_spawnattr_t attr;
+  struct sched_param param;
+  FAR const char *spawn_argv[5];
+#else
+  FAR char *argv[3];
+  pid_t     canary;
+#endif
 
   printf("sandbox: target %p (%s)\n", (FAR void *)addr, modename(mode));
 #if SANDBOX_HAVE_TARGET
-  printf("sandbox: derived from CONFIG_NUTTX_USERSPACE = %p\n",
-         (FAR void *)(uintptr_t)CONFIG_NUTTX_USERSPACE);
+  printf("sandbox: derived from %s = %p\n", SANDBOX_ORIGIN_NAME,
+         (FAR void *)SANDBOX_ORIGIN_VALUE);
 #endif
 
   /* Start the canary before anything else, so it is already running when the
@@ -252,6 +308,17 @@ static int selfcheck(int mode, uintptr_t addr)
   g_canary      = 0;
   g_canary_stop = false;
 
+#ifdef CONFIG_BUILD_KERNEL
+  /* A kernel build gives every process its own address environment, so the
+   * canary has to be a thread to share g_canary with this task.
+   */
+
+  if (pthread_create(&canary, NULL, canary_thread, NULL) != 0)
+    {
+      printf("sandbox: FAIL - could not start the canary thread\n");
+      return 1;
+    }
+#else
   canary = task_create("sandbox_canary", CANARY_PRIORITY, CANARY_STACKSIZE,
                        canary_task, NULL);
   if (canary < 0)
@@ -259,6 +326,7 @@ static int selfcheck(int mode, uintptr_t addr)
       printf("sandbox: FAIL - could not start the canary task\n");
       return 1;
     }
+#endif
 
   usleep(100000);
   before = g_canary;
@@ -267,13 +335,40 @@ static int selfcheck(int mode, uintptr_t addr)
   modebuf[0] = mode == SANDBOX_WRITE ? 'w' :
                mode == SANDBOX_EXEC  ? 'x' : 'r';
   modebuf[1] = '\0';
+#ifndef CONFIG_BUILD_KERNEL
   argv[0] = modebuf;
   argv[1] = addrbuf;
   argv[2] = NULL;
+#endif
 
   printf("sandbox: starting the offending task\n");
   fflush(stdout);
 
+#ifdef CONFIG_BUILD_KERNEL
+  /* The offender must be a separate process, so that its death is the only
+   * thing the fault takes with it.  Re-run this program with "escape".
+   */
+
+  spawn_argv[0] = g_progpath;
+  spawn_argv[1] = "escape";
+  spawn_argv[2] = modebuf;
+  spawn_argv[3] = addrbuf;
+  spawn_argv[4] = NULL;
+
+  posix_spawnattr_init(&attr);
+  param.sched_priority = CONFIG_EXAMPLES_SANDBOX_PRIORITY;
+  posix_spawnattr_setschedparam(&attr, &param);
+  posix_spawnattr_setstacksize(&attr, ESCAPE_STACKSIZE);
+
+  ret = posix_spawn(&pid, g_progpath, NULL, &attr,
+                    (FAR char * const *)spawn_argv, NULL);
+  if (ret != 0)
+    {
+      printf("sandbox: FAIL - could not spawn the offender (%d)\n", ret);
+      g_canary_stop = true;
+      return 1;
+    }
+#else
   pid = task_create("sandbox_escape", CONFIG_EXAMPLES_SANDBOX_PRIORITY,
                     ESCAPE_STACKSIZE, escape_task, argv);
   if (pid < 0)
@@ -282,6 +377,7 @@ static int selfcheck(int mode, uintptr_t addr)
       g_canary_stop = true;
       return 1;
     }
+#endif
 
   /* Wait for the offender to be reaped.  If the system contains the fault by
    * killing just that task, this returns.  If it panics or resets, nothing
@@ -322,10 +418,28 @@ static int selfcheck(int mode, uintptr_t addr)
   after = g_canary;
   g_canary_stop = true;
 
-  /* Now the three things that make this a pass. */
+  /* Now the things that make this a pass. */
 
   printf("\n");
   printf("sandbox: --- results ---\n");
+
+#ifdef CONFIG_SCHED_WAITPID
+  /* Dying is not enough:  the offender has to have died *of the fault*.
+   * Every architecture's recovery redirects it to _exit(SIGSEGV), so that
+   * status is the signature.  Any other one means escape() returned and
+   * the access was allowed -- a containment failure however tidily the
+   * system carried on afterwards.
+   */
+
+  if (ret >= 0 && WIFEXITED(status) &&
+      WEXITSTATUS(status) == SANDBOX_ESCAPED)
+    {
+      printf("sandbox: FAIL - the access was allowed; the offender ran to\n"
+             "sandbox:        completion and reported it (status %d)\n",
+             status);
+      fails++;
+    }
+#endif
 
   if (kill(pid, 0) == 0)
     {
@@ -363,6 +477,10 @@ static int selfcheck(int mode, uintptr_t addr)
       printf("sandbox: NOT CONTAINED - %d check(s) failed\n", fails);
     }
 
+#ifdef CONFIG_BUILD_KERNEL
+  pthread_join(canary, NULL);
+#endif
+
   return fails;
 }
 
@@ -386,6 +504,13 @@ int main(int argc, FAR char *argv[])
   uintptr_t addr  = SANDBOX_TARGET;
   int       argbase = 1;
 
+#ifdef CONFIG_BUILD_KERNEL
+  if (argc > 0 && argv[0] != NULL)
+    {
+      g_progpath = argv[0];
+    }
+#endif
+
   if (argc > 1 && strcmp(argv[1], "-h") == 0)
     {
       usage();
@@ -393,10 +518,16 @@ int main(int argc, FAR char *argv[])
     }
 
 #if !SANDBOX_HAVE_TARGET
+#  ifdef CONFIG_BUILD_KERNEL
+  printf("sandbox: this kernel build does not set CONFIG_RAM_START, so\n"
+         "sandbox: no target can be derived.  Pass an address in kernel\n"
+         "sandbox: memory on the command line instead.\n");
+#  else
   printf("sandbox: this is a flat build -- there is no kernel/user\n"
          "sandbox: boundary to escape from, so there is nothing to\n"
          "sandbox: contain.  Build a protected or kernel configuration\n"
          "sandbox: to run this test.\n");
+#  endif
   if (argc <= 1)
     {
       return 0;
@@ -428,7 +559,7 @@ int main(int argc, FAR char *argv[])
       printf("sandbox: escaping from this task -- expect it to die\n");
       escape(addr, mode);
       printf("sandbox: NOT CONTAINED - returned from the bad access\n");
-      return 1;
+      return SANDBOX_ESCAPED;
     }
 
   return selfcheck(mode, addr);
