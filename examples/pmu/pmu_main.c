@@ -50,6 +50,7 @@
 #include <sys/ioctl.h>
 
 #include <nuttx/i2c/i2c_master.h>
+#include <nuttx/lcd/lcd_dev.h>
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -70,6 +71,9 @@
 #define REG_XFER       0x22
 #define REG_XFER_RES   0x23
 #define REG_UNLOCK     0x7f
+#define REG_BL_KEY     0x11
+
+#define LCD_DEVPATH    "/dev/lcd0"
 
 #define SUMMARY_LEN    12
 #define XFER_RES_LEN   6
@@ -379,6 +383,51 @@ static int pmu_mailbox(int fd, uint8_t op, uint8_t reg, uint8_t len,
 }
 
 /****************************************************************************
+ * Name: pmu_backlight
+ *
+ * Description:
+ *   Set the panel backlight through /dev/lcd0, and read it back.
+ *
+ *   Deliberately not a register write.  The co-processor register is two
+ *   lines away, but going through LCDDEVIO_SETPOWER is what exercises the
+ *   path a real caller uses -- NX, the framebuffer, the PM framework -- and
+ *   therefore the only way to find out whether that path is wired up.
+ *
+ ****************************************************************************/
+
+static int pmu_backlight(int level)
+{
+  int power;
+  int fd;
+
+  fd = open(LCD_DEVPATH, O_RDWR);
+  if (fd < 0)
+    {
+      fprintf(stderr, "pmu: open %s failed: %d\n", LCD_DEVPATH, errno);
+      return ERROR;
+    }
+
+  if (level >= 0 &&
+      ioctl(fd, LCDDEVIO_SETPOWER, (unsigned long)level) < 0)
+    {
+      fprintf(stderr, "pmu: LCDDEVIO_SETPOWER failed: %d\n", errno);
+      close(fd);
+      return ERROR;
+    }
+
+  if (ioctl(fd, LCDDEVIO_GETPOWER, (unsigned long)((uintptr_t)&power)) < 0)
+    {
+      fprintf(stderr, "pmu: LCDDEVIO_GETPOWER failed: %d\n", errno);
+      close(fd);
+      return ERROR;
+    }
+
+  printf("lcd power %d of %d\n", power, CONFIG_LCD_MAXPOWER);
+  close(fd);
+  return OK;
+}
+
+/****************************************************************************
  * Name: pmu_usage
  ****************************************************************************/
 
@@ -391,6 +440,8 @@ static void pmu_usage(void)
     "       pmu read <reg> [len]      mailbox read of an AXP2101 register\n"
     "       pmu write [-u] <reg> <b>...  mailbox write, up to 4 bytes\n"
     "       pmu unlock                arm privileged writes for one second\n"
+    "       pmu bl [level]            panel backlight via /dev/lcd0, decimal\n"
+    "       pmu kbl <level>           keyboard backlight, 00-ff\n"
     "\n"
     "-u arms the guard in the same process as the write, because the arming\n"
     "lapses after a second and two shell commands never fit inside that.\n"
@@ -441,6 +492,35 @@ int main(int argc, FAR char *argv[])
                      (unsigned)(buf[0] | (buf[1] << 8)));
               status = EXIT_SUCCESS;
             }
+        }
+    }
+  else if (strcmp(argv[1], "bl") == 0)
+    {
+      /* Decimal here, unlike everything else: this one is an
+       * LCD power level in the units CONFIG_LCD_MAXPOWER is expressed in,
+       * not a register value.
+       */
+
+      int level = argc > 2 ? atoi(argv[2]) : -1;
+
+      status = pmu_backlight(level) == OK ? EXIT_SUCCESS : EXIT_FAILURE;
+    }
+  else if (strcmp(argv[1], "kbl") == 0 && argc >= 3)
+    {
+      /* The keyboard backlight has no NuttX device of its own -- nothing in
+       * the OS models a light that is not attached to a display -- so this
+       * one really is a register write.
+       */
+
+      uint8_t level = (uint8_t)strtoul(argv[2], NULL, 16);
+
+      if (pmu_write(fd, REG_BL_KEY, &level, 1) < 0)
+        {
+          fprintf(stderr, "pmu: keyboard backlight failed: %d\n", errno);
+        }
+      else
+        {
+          status = EXIT_SUCCESS;
         }
     }
   else if (strcmp(argv[1], "unlock") == 0)
