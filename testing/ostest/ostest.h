@@ -284,7 +284,7 @@ void sched_lock_test(void);
 
 /* task_fork.c **************************************************************/
 
-#ifdef CONFIG_ARCH_HAVE_TASK_FORK
+#ifdef CONFIG_TASK_FORK
 int task_fork_test(void);
 #endif
 

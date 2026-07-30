@@ -146,7 +146,7 @@ endif
 
 # Each test is built where the primitive it tests exists.
 
-ifeq ($(CONFIG_ARCH_HAVE_TASK_FORK),y)
+ifeq ($(CONFIG_TASK_FORK),y)
 CSRCS += task_fork.c
 endif
 

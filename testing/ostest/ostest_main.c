@@ -229,7 +229,7 @@ static int user_main(int argc, char *argv[])
    * reporting a failure -- better to learn that in seconds.
    */
 
-#ifdef CONFIG_ARCH_HAVE_TASK_FORK
+#ifdef CONFIG_TASK_FORK
   printf("\nuser_main: task_fork() test\n");
   task_fork_test();
   check_test_memory_usage();

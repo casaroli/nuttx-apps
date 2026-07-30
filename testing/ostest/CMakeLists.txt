@@ -143,7 +143,7 @@ if(CONFIG_TESTING_OSTEST)
     endif()
   endif()
 
-  if(CONFIG_ARCH_HAVE_TASK_FORK)
+  if(CONFIG_TASK_FORK)
     list(APPEND SRCS task_fork.c)
   endif()
 
