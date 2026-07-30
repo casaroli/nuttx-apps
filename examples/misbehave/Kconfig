@@ -1,0 +1,40 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config EXAMPLES_MISBEHAVE
+	tristate "Application misbehaviour containment test"
+	default n
+	---help---
+		A test that has an application do the things a broken or hostile one
+		does -- dereference NULL, load from an unaligned address, divide by
+		zero, call into garbage, overflow its stack, abort() -- and checks
+		that each one takes only the offending task with it.
+
+		This is the complement to EXAMPLES_SANDBOX.  That one asks whether a
+		task can reach memory it does not own; this one asks whether the
+		system survives what a task does to itself.  A boundary can be
+		enforced perfectly and the kernel still panic on the fault that
+		enforced it.
+
+		Whether a given operation faults at all is architecture-specific --
+		ARMv7-A permits unaligned loads, RISC-V does not trap integer divide
+		by zero -- so an operation that simply completes is reported and is
+		not a failure.  The failure is the system not surviving.
+
+if EXAMPLES_MISBEHAVE
+
+config EXAMPLES_MISBEHAVE_PROGNAME
+	string "Program name"
+	default "misbehave"
+
+config EXAMPLES_MISBEHAVE_PRIORITY
+	int "misbehave task priority"
+	default 100
+
+config EXAMPLES_MISBEHAVE_STACKSIZE
+	int "misbehave stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
