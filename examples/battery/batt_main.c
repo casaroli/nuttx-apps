@@ -179,8 +179,63 @@ void health_report(int health)
  * batt_main
  ****************************************************************************/
 
+/****************************************************************************
+ * Name: batt_optional
+ *
+ * Description:
+ *   Perform an ioctl that not every battery driver implements.
+ *
+ *   The two battery classes answer different subsets: a charger has health
+ *   and an input current limit, a gauge has capacity and a chip id, and the
+ *   upper half returns ENOTTY for whatever its lower half left out.  Treating
+ *   that as fatal would mean this example only ever worked against one of
+ *   them, so an unimplemented request is reported and stepped over while a
+ *   real failure still stops the run.
+ *
+ * Returned Value:
+ *   1 if the value was read, 0 if the driver does not implement it, and a
+ *   negative value on a real error.
+ *
+ ****************************************************************************/
+
+static int batt_optional(int fd, int cmd, FAR void *arg, FAR const char *name)
+{
+  if (ioctl(fd, cmd, (unsigned long)((uintptr_t)arg)) >= 0)
+    {
+      return 1;
+    }
+
+  if (errno == ENOTTY || errno == ENOSYS)
+    {
+      printf("%s: not supported by this driver\n", name);
+      return 0;
+    }
+
+  if (errno == ENODEV)
+    {
+      /* A gauge that can reach its hardware but has no cell in it.  Distinct
+       * from "not supported", and the distinction is the point: it is the
+       * difference between a board with no battery and a battery at zero.
+       */
+
+      printf("%s: no battery\n", name);
+      return 0;
+    }
+
+  fprintf(stderr, "ERROR: %s failed: %d\n", name, errno);
+  return -errno;
+}
+
+/****************************************************************************
+ * batt_main
+ ****************************************************************************/
+
 int main(int argc, FAR char *argv[])
 {
+  unsigned int chipid;
+  int capacity;
+  int voltage;
+  int current;
   int i;
   int fd;
   int ret;
@@ -205,6 +260,11 @@ int main(int argc, FAR char *argv[])
 
   sleep(5);
 
+  if (batt_optional(fd, BATIOC_CHIPID, &chipid, "CHIPID") > 0)
+    {
+      printf("CHIPID: %u\n", chipid);
+    }
+
   for (i = 0; i < 10; i++)
     {
       printf("\n----------------------------"
@@ -225,20 +285,50 @@ int main(int argc, FAR char *argv[])
 
       status_report(status);
 
-      /* Read battery health */
+      /* The rest are optional: which of them answer depends on whether this
+       * is a charger or a gauge, and on what its lower half implements.
+       */
 
-      ret = ioctl(fd, BATIOC_HEALTH, (unsigned long)((uintptr_t) &health));
+      ret = batt_optional(fd, BATIOC_HEALTH, &health, "HEALTH");
       if (ret < 0)
         {
-          fprintf(stderr, "ERROR: ioctl(BATIOC_HEALTH) failed: %d\n", errno);
           goto errout_with_fd;
         }
+      else if (ret > 0)
+        {
+          printf("HEALTH: ");
+          health_report(health);
+        }
 
-      /* Show health */
+      ret = batt_optional(fd, BATIOC_CAPACITY, &capacity, "CAPACITY");
+      if (ret < 0)
+        {
+          goto errout_with_fd;
+        }
+      else if (ret > 0)
+        {
+          printf("CAPACITY: %d%%\n", capacity);
+        }
 
-      printf("HEALTH: ");
+      ret = batt_optional(fd, BATIOC_VOLTAGE, &voltage, "VOLTAGE");
+      if (ret < 0)
+        {
+          goto errout_with_fd;
+        }
+      else if (ret > 0)
+        {
+          printf("VOLTAGE: %d mV\n", voltage);
+        }
 
-      health_report(health);
+      ret = batt_optional(fd, BATIOC_CURRENT, &current, "CURRENT");
+      if (ret < 0)
+        {
+          goto errout_with_fd;
+        }
+      else if (ret > 0)
+        {
+          printf("CURRENT: %d mA\n", current);
+        }
 
       /* Wait one second before reading again */
 
