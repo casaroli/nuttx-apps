@@ -87,6 +87,8 @@ struct soak_result_s
   unsigned long elapsed_ms;
   uint8_t       first_bad[2];
   unsigned long first_bad_at;
+  int           first_errno;   /* errno of the first failed transfer       */
+  unsigned long first_err_at;
 };
 
 /****************************************************************************
@@ -194,6 +196,12 @@ static int soak_run(FAR const struct soak_cfg_s *cfg,
 
       if (soak_once(fd, cfg, reply) < 0)
         {
+          if (res->xfer_errors == 0)
+            {
+              res->first_errno = errno;
+              res->first_err_at = i;
+            }
+
           res->xfer_errors++;
         }
       else if (reply[0] != cfg->exp[0] || reply[1] != cfg->exp[1])
@@ -208,7 +216,8 @@ static int soak_run(FAR const struct soak_cfg_s *cfg,
           res->mismatches++;
         }
 
-      if (PROGRESS_EVERY != 0 && (i % PROGRESS_EVERY) == (PROGRESS_EVERY - 1))
+      if (PROGRESS_EVERY != 0 &&
+          (i % PROGRESS_EVERY) == (PROGRESS_EVERY - 1))
         {
           printf("  %lu/%lu  err=%lu bad=%lu\n",
                  i + 1, cfg->count, res->xfer_errors, res->mismatches);
@@ -237,6 +246,12 @@ static void soak_report(FAR const struct soak_cfg_s *cfg,
   printf("  attempted    : %lu\n", res->attempted);
   printf("  xfer errors  : %lu\n", res->xfer_errors);
   printf("  bad replies  : %lu\n", res->mismatches);
+
+  if (res->xfer_errors > 0)
+    {
+      printf("  first error  : errno %d at transaction %lu\n",
+             res->first_errno, res->first_err_at);
+    }
 
   if (res->mismatches > 0)
     {
