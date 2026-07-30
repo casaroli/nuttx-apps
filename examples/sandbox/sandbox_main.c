@@ -112,6 +112,18 @@
 
 #define SANDBOX_ESCAPED         42
 
+/* Exit status for "the access was refused, but silently".  Some hardware does
+ * not trap a denied access at all:  the ESP32-S3 TRM v1.8 p.699 says an
+ * access without permission is "responded with 0 (for internal memory) or
+ * 0xdeadbeaf (for external memory)".  There the load completes, escape()
+ * returns, and a single read cannot tell a refusal from memory that happens
+ * to hold that value.  Reading two addresses whose real contents differ
+ * settles it:  if both come back identical, what came back is the bus's
+ * substitute and not the memory.
+ */
+
+#define SANDBOX_REFUSED         43
+
 /****************************************************************************
  * Private Data
  ****************************************************************************/
@@ -184,7 +196,7 @@ static FAR const char *modename(int mode)
     }
 }
 
-static void escape(uintptr_t addr, int mode)
+static int escape(uintptr_t addr, int mode, uintptr_t addr2)
 {
   FAR volatile uint32_t *p = (FAR volatile uint32_t *)addr;
 
@@ -219,15 +231,41 @@ static void escape(uintptr_t addr, int mode)
     {
       uint32_t v = *p;
 
-      /* Consume the value so the load cannot be optimised away. */
+      /* Getting here means the load did not trap.  On hardware that denies
+       * silently that is not evidence either way, so if a second address was
+       * given, compare.  Identical values from two addresses whose real
+       * contents differ means neither read reached memory.
+       */
+
+      if (addr2 != 0)
+        {
+          FAR volatile uint32_t *q = (FAR volatile uint32_t *)addr2;
+          uint32_t w = *q;
+
+          if (v == w)
+            {
+              printf("sandbox:   REFUSED -- %p and %p both read %08lx,\n"
+                     "sandbox:   so that is the bus substitute, not memory\n",
+                     (FAR void *)addr, (FAR void *)addr2,
+                     (unsigned long)v);
+              fflush(stdout);
+              return SANDBOX_REFUSED;
+            }
+
+          printf("sandbox:   NOT CONTAINED -- read %08lx and %08lx\n",
+                 (unsigned long)v, (unsigned long)w);
+          fflush(stdout);
+          return SANDBOX_ESCAPED;
+        }
 
       printf("sandbox:   NOT CONTAINED -- read %08lx\n", (unsigned long)v);
       fflush(stdout);
-      return;
+      return SANDBOX_ESCAPED;
     }
 
   printf("sandbox:   NOT CONTAINED -- the access completed\n");
   fflush(stdout);
+  return SANDBOX_ESCAPED;
 }
 
 static int mode_of(FAR const char *arg)
@@ -248,19 +286,25 @@ static int mode_of(FAR const char *arg)
 #ifndef CONFIG_BUILD_KERNEL
 static int escape_task(int argc, FAR char *argv[])
 {
-  int       mode = (argc > 1) ? mode_of(argv[1]) : SANDBOX_READ;
-  uintptr_t addr = SANDBOX_TARGET;
+  int       mode  = (argc > 1) ? mode_of(argv[1]) : SANDBOX_READ;
+  uintptr_t addr  = SANDBOX_TARGET;
+  uintptr_t addr2 = 0;
 
   if (argc > 2)
     {
       addr = (uintptr_t)strtoul(argv[2], NULL, 0);
     }
 
-  escape(addr, mode);
+  if (argc > 3)
+    {
+      addr2 = (uintptr_t)strtoul(argv[3], NULL, 0);
+    }
 
-  /* Reaching here means the access was allowed. */
+  /* Reaching the return means the access was not contained; escape() says
+   * whether it was allowed outright or refused without trapping.
+   */
 
-  return SANDBOX_ESCAPED;
+  return escape(addr, mode, addr2);
 }
 #endif
 
@@ -275,9 +319,10 @@ static int escape_task(int argc, FAR char *argv[])
  *
  ****************************************************************************/
 
-static int selfcheck(int mode, uintptr_t addr)
+static int selfcheck(int mode, uintptr_t addr, uintptr_t addr2)
 {
   char      addrbuf[24];
+  char      addr2buf[24];
   char      modebuf[2];
   unsigned long before;
   unsigned long after;
@@ -289,9 +334,9 @@ static int selfcheck(int mode, uintptr_t addr)
   pthread_t canary;
   posix_spawnattr_t attr;
   struct sched_param param;
-  FAR const char *spawn_argv[5];
+  FAR const char *spawn_argv[6];
 #else
-  FAR char *argv[3];
+  FAR char *argv[4];
   pid_t     canary;
 #endif
 
@@ -332,13 +377,15 @@ static int selfcheck(int mode, uintptr_t addr)
   before = g_canary;
 
   snprintf(addrbuf, sizeof(addrbuf), "0x%lx", (unsigned long)addr);
+  snprintf(addr2buf, sizeof(addr2buf), "0x%lx", (unsigned long)addr2);
   modebuf[0] = mode == SANDBOX_WRITE ? 'w' :
                mode == SANDBOX_EXEC  ? 'x' : 'r';
   modebuf[1] = '\0';
 #ifndef CONFIG_BUILD_KERNEL
   argv[0] = modebuf;
   argv[1] = addrbuf;
-  argv[2] = NULL;
+  argv[2] = addr2 != 0 ? addr2buf : NULL;
+  argv[3] = NULL;
 #endif
 
   printf("sandbox: starting the offending task\n");
@@ -353,7 +400,8 @@ static int selfcheck(int mode, uintptr_t addr)
   spawn_argv[1] = "escape";
   spawn_argv[2] = modebuf;
   spawn_argv[3] = addrbuf;
-  spawn_argv[4] = NULL;
+  spawn_argv[4] = addr2 != 0 ? addr2buf : NULL;
+  spawn_argv[5] = NULL;
 
   posix_spawnattr_init(&attr);
   param.sched_priority = CONFIG_EXAMPLES_SANDBOX_PRIORITY;
@@ -439,6 +487,16 @@ static int selfcheck(int mode, uintptr_t addr)
              status);
       fails++;
     }
+  else if (ret >= 0 && WIFEXITED(status) &&
+           WEXITSTATUS(status) == SANDBOX_REFUSED)
+    {
+      /* Refused, but without trapping.  The offender proved it by reading
+       * two addresses and getting one answer.  Containment holds; there was
+       * simply no fault for the kernel to recover from.
+       */
+
+      printf("sandbox: PASS - the access was refused (silently; no trap)\n");
+    }
 #endif
 
   if (kill(pid, 0) == 0)
@@ -490,18 +548,23 @@ static int selfcheck(int mode, uintptr_t addr)
 
 static void usage(void)
 {
-  printf("Usage: sandbox [escape] [r|w|x] [addr]\n"
+  printf("Usage: sandbox [escape] [r|w|x] [addr] [addr2]\n"
          "  (no args)           spawn an offending task and check it is\n"
          "                      contained while everything else survives\n"
          "  escape [r|w|x] [a]  make the bad access in *this* task; in a\n"
          "                      contained build this task does not return\n"
-         "  r read (default), w write, x call the address\n");
+         "  r read (default), w write, x call the address\n"
+         "  addr2  a second kernel address, for read only, whose real\n"
+         "         contents differ from addr's.  Needed on hardware that\n"
+         "         refuses an access without trapping: two reads that come\n"
+         "         back identical did not reach memory.\n");
 }
 
 int main(int argc, FAR char *argv[])
 {
   int       mode = SANDBOX_READ;
   uintptr_t addr  = SANDBOX_TARGET;
+  uintptr_t addr2 = 0;
   int       argbase = 1;
 
 #ifdef CONFIG_BUILD_KERNEL
@@ -550,6 +613,12 @@ int main(int argc, FAR char *argv[])
   if (argc > argbase)
     {
       addr = (uintptr_t)strtoul(argv[argbase], NULL, 0);
+      argbase++;
+    }
+
+  if (argc > argbase)
+    {
+      addr2 = (uintptr_t)strtoul(argv[argbase], NULL, 0);
     }
 
   if (argc > 1 && strcmp(argv[1], "escape") == 0)
@@ -557,10 +626,8 @@ int main(int argc, FAR char *argv[])
       /* One-shot mode:  fault in this task, deliberately. */
 
       printf("sandbox: escaping from this task -- expect it to die\n");
-      escape(addr, mode);
-      printf("sandbox: NOT CONTAINED - returned from the bad access\n");
-      return SANDBOX_ESCAPED;
+      return escape(addr, mode, addr2);
     }
 
-  return selfcheck(mode, addr);
+  return selfcheck(mode, addr, addr2);
 }
