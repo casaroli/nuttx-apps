@@ -1,0 +1,57 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config EXAMPLES_PMSTRESS
+	tristate "Power management current staircase"
+	default n
+	depends on PM
+	---help---
+		Walk the power management states in a fixed, self-timed sequence so
+		that a supply with current logging can record the whole run with no
+		debugger, no console and no host attached.
+
+		Each state is held for a known time and the steps are separated by a
+		short full-speed burst, which appears in the trace as a spike and
+		makes the recording self-describing.  The deepest state comes last
+		and is held until the board is powered off.
+
+if EXAMPLES_PMSTRESS
+
+config EXAMPLES_PMSTRESS_PROGNAME
+	string "Program name"
+	default "pmstress"
+
+config EXAMPLES_PMSTRESS_PRIORITY
+	int "Task priority"
+	default 100
+
+config EXAMPLES_PMSTRESS_STACKSIZE
+	int "Stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+config EXAMPLES_PMSTRESS_STEP_SECS
+	int "Seconds to hold each state"
+	default 30
+	---help---
+		Long enough that the plateau is unambiguous in the log and that any
+		slow settling has finished before the reading is taken.
+
+config EXAMPLES_PMSTRESS_DISCONNECT_SECS
+	int "Seconds to wait before starting"
+	default 30
+	---help---
+		Grace period between describing the run on the console and starting
+		it, so that the debugger and console can be unplugged first.  An
+		attached debugger holds power domains up and would otherwise set the
+		floor for every reading.
+
+config EXAMPLES_PMSTRESS_LEDPATH
+	string "User LED device"
+	default "/dev/userleds"
+	depends on USERLED_LOWER
+	---help---
+		Device used to drive the indicator LEDs off before the run.
+
+endif
