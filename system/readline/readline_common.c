@@ -1440,6 +1440,32 @@ ssize_t readline_common(FAR struct rl_common_s *vtbl, FAR char *buf,
           return submit_line(buf, nch);
         }
 
+      /* Ctrl+C: abandon the line.
+       *
+       * What a shell does at a prompt -- show that the line was discarded
+       * and give a fresh one.  Deliberately not routed through
+       * submit_line(): an abandoned line is not a command and has no place
+       * in the history.  An empty line is returned rather than an error
+       * because that is what makes the caller print its prompt again; zero
+       * would look like end-of-file and take the shell down with it.
+       */
+
+      else if (ch == ASCII_ETX)
+        {
+          nch    = 0;
+          cursor = 0;
+
+#ifdef CONFIG_READLINE_ECHO
+          RL_PUTC(vtbl, '^');
+          RL_PUTC(vtbl, 'C');
+#endif
+          RL_PUTC(vtbl, '\n');
+
+          buf[nch++] = '\n';
+          buf[nch]   = '\0';
+          return nch;
+        }
+
       /* Emacs-style control keys */
 
 #ifdef CONFIG_READLINE_EDIT_EMACS
