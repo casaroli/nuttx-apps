@@ -258,10 +258,62 @@ static void pmstress_leds_off(bool verbose)
  * Public Functions
  ****************************************************************************/
 
+/* Bring-up hook for the POWMAN suspend-to-RAM path.  Declared locally
+ * rather than pulled in from an arch header, because this is a test
+ * vehicle and applications have no business including those.
+ */
+
+extern int rp23xx_pm_suspend(uint32_t wake_ms);
+extern uint32_t rp23xx_pm_wake_source(void);
+
+/****************************************************************************
+ * Name: pmstress_suspend
+ *
+ * Description:
+ *   Drop into the deepest state the chip has and come back on the timed
+ *   wake.  Kept separate from the staircase so it can be iterated on
+ *   quickly, and always armed with a timer so a failure to wake on
+ *   anything else still returns the board.
+ *
+ ****************************************************************************/
+
+static int pmstress_suspend(int seconds)
+{
+  int ret;
+
+  pmstress_leds_off(true);
+
+  printf("pmstress: suspending to RAM for %d s\n", seconds);
+  printf("pmstress: peripherals come back reset; expect the console to be\n"
+         "          unreliable until the system is reinitialised\n\n");
+  fflush(stdout);
+
+  /* Let the console drain: the UART loses its registers on the way down
+   * and anything still queued would be lost mid-character.
+   */
+
+  sleep(2);
+
+  ret = rp23xx_pm_suspend((uint32_t)seconds * 1000);
+
+  printf("\npmstress: back, rp23xx_pm_suspend() returned %d, "
+         "wake source 0x%08lx\n", ret,
+         (unsigned long)rp23xx_pm_wake_source());
+  fflush(stdout);
+
+  return ret;
+}
+
 int main(int argc, FAR char *argv[])
 {
   int total;
   int i;
+
+  if (argc > 1 && strcmp(argv[1], "suspend") == 0)
+    {
+      int seconds = argc > 2 ? atoi(argv[2]) : 10;
+      return pmstress_suspend(seconds);
+    }
 
   printf("\npmstress: power management current staircase\n\n");
 
