@@ -295,6 +295,13 @@ int main(int argc, FAR char *argv[])
          CONFIG_EXAMPLES_PMSTRESS_DISCONNECT_SECS);
   fflush(stdout);
 
+  /* Hold the domain awake across the wait.  Releasing it here would let the
+   * governor take the chip into its deepest state, and that state stops the
+   * system clock, so this sleep would never expire and the run would never
+   * begin.
+   */
+
+  pmstress_hold(PM_NORMAL);
   sleep(CONFIG_EXAMPLES_PMSTRESS_DISCONNECT_SECS);
 
   for (i = 0; i < (int)(sizeof(g_steps) / sizeof(g_steps[0])); i++)
