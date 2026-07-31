@@ -48,6 +48,7 @@
 #include <errno.h>
 #include <debug.h>
 
+#include <nuttx/ascii.h>
 #include <nuttx/nx/nx.h>
 #include <nuttx/input/keyboard.h>
 
@@ -56,6 +57,15 @@
  ****************************************************************************/
 
 #define KBDBRIDGE_BATCH  8    /* Events read per pass */
+
+/* The arrow keys as /dev/kbd0 reports them.  Contiguous and in this order,
+ * which the translation table below relies on.
+ */
+
+#define KBDBRIDGE_KEY_UP     0x80
+#define KBDBRIDGE_KEY_DOWN   0x81
+#define KBDBRIDGE_KEY_LEFT   0x82
+#define KBDBRIDGE_KEY_RIGHT  0x83
 
 /****************************************************************************
  * Private Functions
@@ -141,32 +151,72 @@ int main(int argc, FAR char *argv[])
           continue;
         }
 
-      /* Forward the presses one character at a time.
+      /* Forward the presses.
        *
        * Releases are dropped: NX carries characters, not key states, so a
        * release would arrive at the shell as a second copy of the same
-       * keystroke.  Codes outside 7-bit ASCII are dropped for the same
-       * reason -- the arrow keys report 0x80-0x83, which is a keyboard
-       * convention rather than anything a terminal can render.
+       * keystroke.
+       *
+       * The arrow keys arrive as 0x80-0x83, which is the convention
+       * /dev/kbd0 uses and what apps/examples/lvglterm expects.  A terminal
+       * has no idea what those mean, so they are translated here into the
+       * ANSI sequences one does: ESC [ A/B/C/D.  This is the right layer for
+       * it -- the keyboard device stays generic, and the thing feeding a
+       * terminal speaks terminal.
+       *
+       * Without this, readline never sees an arrow key at all and a line
+       * cannot be edited anywhere but at its end.
        */
 
       for (size_t i = 0; i < (size_t)nread / sizeof(struct keyboard_event_s);
            i++)
         {
-          uint8_t ch;
+          uint8_t seq[3];
+          uint8_t nch;
 
           if (events[i].type != KEYBOARD_PRESS)
             {
               continue;
             }
 
-          if (events[i].code == 0 || events[i].code > 0x7f)
+          if (events[i].code == 0)
             {
               continue;
             }
 
-          ch = (uint8_t)events[i].code;
-          ret = nx_kbdin(handle, 1, &ch);
+          switch (events[i].code)
+            {
+              case KBDBRIDGE_KEY_UP:
+              case KBDBRIDGE_KEY_DOWN:
+              case KBDBRIDGE_KEY_LEFT:
+              case KBDBRIDGE_KEY_RIGHT:
+                {
+                  static const char final[] =
+                    {
+                      'A', 'B', 'D', 'C'  /* up, down, left, right */
+                    };
+
+                  seq[0] = ASCII_ESC;
+                  seq[1] = '[';
+                  seq[2] = final[events[i].code - KBDBRIDGE_KEY_UP];
+                  nch    = 3;
+                }
+                break;
+
+              default:
+                {
+                  if (events[i].code > 0x7f)
+                    {
+                      continue;
+                    }
+
+                  seq[0] = (uint8_t)events[i].code;
+                  nch    = 1;
+                }
+                break;
+            }
+
+          ret = nx_kbdin(handle, nch, seq);
           if (ret < 0)
             {
               fprintf(stderr, "kbdbridge: nx_kbdin failed: %d\n", ret);
