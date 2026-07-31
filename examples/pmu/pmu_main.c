@@ -72,6 +72,11 @@
 #define REG_XFER_RES   0x23
 #define REG_UNLOCK     0x7f
 #define REG_BL_KEY     0x11
+#define REG_POWER_CTL  0x30
+
+/* power_op::BOOTLOADER */
+
+#define POWER_BOOTLOADER  0x08
 
 #define LCD_DEVPATH    "/dev/lcd0"
 
@@ -440,6 +445,8 @@ static void pmu_usage(void)
     "       pmu read <reg> [len]      mailbox read of an AXP2101 register\n"
     "       pmu write [-u] <reg> <b>...  mailbox write, up to 4 bytes\n"
     "       pmu unlock                arm privileged writes for one second\n"
+    "       pmu bootloader            reset the co-processor into its ROM\n"
+    "                                 bootloader, ready for stm32flash\n"
     "       pmu bl [level]            panel backlight via /dev/lcd0, decimal\n"
     "       pmu kbl <level>           keyboard backlight, 00-ff\n"
     "\n"
@@ -492,6 +499,34 @@ int main(int argc, FAR char *argv[])
                      (unsigned)(buf[0] | (buf[1] << 8)));
               status = EXIT_SUCCESS;
             }
+        }
+    }
+  else if (strcmp(argv[1], "bootloader") == 0)
+    {
+      /* Arm and fire in one process: the guard lapses after a second, and
+       * this is the one command where being unable to complete the sequence
+       * would leave the co-processor exactly as it was -- which is the safe
+       * outcome, but not the one that was asked for.
+       *
+       * The co-processor stops answering immediately afterwards.  That is the
+       * success case: it is in the ROM bootloader, which serves neither I2C
+       * address, and stm32flash on the serial port is what talks to it next.
+       */
+
+      uint8_t op[2];
+
+      op[0] = POWER_BOOTLOADER;
+      op[1] = 0;
+
+      if (pmu_write(fd, REG_UNLOCK, magic, sizeof(magic)) < 0 ||
+          pmu_write(fd, REG_POWER_CTL, op, sizeof(op)) < 0)
+        {
+          fprintf(stderr, "pmu: bootloader request failed: %d\n", errno);
+        }
+      else
+        {
+          printf("requested; the co-processor should stop answering now\n");
+          status = EXIT_SUCCESS;
         }
     }
   else if (strcmp(argv[1], "bl") == 0)
