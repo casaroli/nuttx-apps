@@ -187,7 +187,7 @@ void health_report(int health)
  *
  *   The two battery classes answer different subsets: a charger has health
  *   and an input current limit, a gauge has capacity and a chip id, and the
- *   upper half returns ENOTTY for whatever its lower half left out.  Treating
+ *   upper half returns ENOTTY for what its lower half left out.  Treating
  *   that as fatal would mean this example only ever worked against one of
  *   them, so an unimplemented request is reported and stepped over while a
  *   real failure still stops the run.
@@ -198,7 +198,8 @@ void health_report(int health)
  *
  ****************************************************************************/
 
-static int batt_optional(int fd, int cmd, FAR void *arg, FAR const char *name)
+static int batt_optional(int fd, int cmd, FAR void *arg,
+                         FAR const char *name)
 {
   if (ioctl(fd, cmd, (unsigned long)((uintptr_t)arg)) >= 0)
     {

@@ -447,10 +447,10 @@ static void pmu_usage(void)
     "       pmu unlock                arm privileged writes for one second\n"
     "       pmu bootloader            reset the co-processor into its ROM\n"
     "                                 bootloader, ready for stm32flash\n"
-    "       pmu bl [level]            panel backlight via /dev/lcd0, decimal\n"
+    "       pmu bl [level]            panel backlight, /dev/lcd0, decimal\n"
     "       pmu kbl <level>           keyboard backlight, 00-ff\n"
     "\n"
-    "-u arms the guard in the same process as the write, because the arming\n"
+    "-u arms the guard in the same process as the write, since arming\n"
     "lapses after a second and two shell commands never fit inside that.\n"
     "\n"
     "All numbers are hex.  A mailbox write to a denied register reports\n"
@@ -464,7 +464,11 @@ static void pmu_usage(void)
 
 int main(int argc, FAR char *argv[])
 {
-  static const uint8_t magic[] = { 0x50, 0x4b, 0x55, 0x4c };
+  static const uint8_t magic[] =
+    {
+      0x50, 0x4b, 0x55, 0x4c
+    };
+
   uint8_t data[XFER_MAX_DATA];
   uint8_t buf[4];
   int status = EXIT_FAILURE;
@@ -508,7 +512,7 @@ int main(int argc, FAR char *argv[])
        * would leave the co-processor exactly as it was -- which is the safe
        * outcome, but not the one that was asked for.
        *
-       * The co-processor stops answering immediately afterwards.  That is the
+       * The co-processor stops answering immediately after.  That is the
        * success case: it is in the ROM bootloader, which serves neither I2C
        * address, and stm32flash on the serial port is what talks to it next.
        */
