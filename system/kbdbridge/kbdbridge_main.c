@@ -50,6 +50,7 @@
 
 #include <nuttx/ascii.h>
 #include <nuttx/nx/nx.h>
+#include <nuttx/input/kbd_codec.h>
 #include <nuttx/input/keyboard.h>
 
 /****************************************************************************
@@ -57,15 +58,6 @@
  ****************************************************************************/
 
 #define KBDBRIDGE_BATCH  8    /* Events read per pass */
-
-/* The arrow keys as /dev/kbd0 reports them.  Contiguous and in this order,
- * which the translation table below relies on.
- */
-
-#define KBDBRIDGE_KEY_UP     0x80
-#define KBDBRIDGE_KEY_DOWN   0x81
-#define KBDBRIDGE_KEY_LEFT   0x82
-#define KBDBRIDGE_KEY_RIGHT  0x83
 
 /****************************************************************************
  * Private Functions
@@ -157,15 +149,20 @@ int main(int argc, FAR char *argv[])
        * release would arrive at the shell as a second copy of the same
        * keystroke.
        *
-       * The arrow keys arrive as 0x80-0x83, which is the convention
-       * /dev/kbd0 uses and what apps/examples/lvglterm expects.  A terminal
-       * has no idea what those mean, so they are translated here into the
-       * ANSI sequences one does: ESC [ A/B/C/D.  This is the right layer for
-       * it -- the keyboard device stays generic, and the thing feeding a
-       * terminal speaks terminal.
+       * An arrow key produces no character, so a keyboard reports it as a
+       * special key carrying a keycode rather than as a press carrying a
+       * character.  A terminal has no idea what a keycode means, so they
+       * are translated here into the ANSI sequences one does:
+       * ESC [ A/B/C/D.  This is the right layer for it -- the keyboard
+       * device stays generic, and the thing feeding a terminal speaks
+       * terminal.
        *
        * Without this, readline never sees an arrow key at all and a line
        * cannot be edited anywhere but at its end.
+       *
+       * Any other special key is dropped rather than guessed at.  There is
+       * no character it could stand for, and emitting the keycode would put
+       * an unrelated character on the display.
        */
 
       for (size_t i = 0; i < (size_t)nread / sizeof(struct keyboard_event_s);
@@ -174,46 +171,50 @@ int main(int argc, FAR char *argv[])
           uint8_t seq[3];
           uint8_t nch;
 
-          if (events[i].type != KEYBOARD_PRESS)
+          if (events[i].type == KEYBOARD_SPECPRESS)
+            {
+              char final;
+
+              switch (events[i].code)
+                {
+                  case KEYCODE_UP:
+                    final = 'A';
+                    break;
+
+                  case KEYCODE_DOWN:
+                    final = 'B';
+                    break;
+
+                  case KEYCODE_LEFT:
+                    final = 'D';
+                    break;
+
+                  case KEYCODE_RIGHT:
+                    final = 'C';
+                    break;
+
+                  default:
+                    continue;
+                }
+
+              seq[0] = ASCII_ESC;
+              seq[1] = '[';
+              seq[2] = final;
+              nch    = 3;
+            }
+          else if (events[i].type == KEYBOARD_PRESS)
+            {
+              if (events[i].code == 0 || events[i].code > 0x7f)
+                {
+                  continue;
+                }
+
+              seq[0] = (uint8_t)events[i].code;
+              nch    = 1;
+            }
+          else
             {
               continue;
-            }
-
-          if (events[i].code == 0)
-            {
-              continue;
-            }
-
-          switch (events[i].code)
-            {
-              case KBDBRIDGE_KEY_UP:
-              case KBDBRIDGE_KEY_DOWN:
-              case KBDBRIDGE_KEY_LEFT:
-              case KBDBRIDGE_KEY_RIGHT:
-                {
-                  static const char final[] =
-                    {
-                      'A', 'B', 'D', 'C'  /* up, down, left, right */
-                    };
-
-                  seq[0] = ASCII_ESC;
-                  seq[1] = '[';
-                  seq[2] = final[events[i].code - KBDBRIDGE_KEY_UP];
-                  nch    = 3;
-                }
-                break;
-
-              default:
-                {
-                  if (events[i].code > 0x7f)
-                    {
-                      continue;
-                    }
-
-                  seq[0] = (uint8_t)events[i].code;
-                  nch    = 1;
-                }
-                break;
             }
 
           ret = nx_kbdin(handle, nch, seq);
