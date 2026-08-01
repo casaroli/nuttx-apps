@@ -1,0 +1,34 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config EXAMPLES_PMU
+	tristate "I2C slave soak test"
+	default n
+	depends on I2C_DRIVER
+	---help---
+		Hammer a known-answer register on an I2C slave and count how often
+		the answer comes back wrong.  Intended for measuring a slave
+		implementation: the register read never changes, so every mismatch
+		is a transport fault.
+
+		Exercises both a STOP between the register select and the read, and
+		a repeated START, because slave implementations frequently handle
+		only one of the two correctly.
+
+if EXAMPLES_PMU
+
+config EXAMPLES_PMU_PROGNAME
+	string "Program name"
+	default "pmu"
+
+config EXAMPLES_PMU_PRIORITY
+	int "pmu task priority"
+	default 100
+
+config EXAMPLES_PMU_STACKSIZE
+	int "pmu stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
