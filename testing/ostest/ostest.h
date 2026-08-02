@@ -282,10 +282,22 @@ void priority_inheritance(void);
 
 void sched_lock_test(void);
 
+/* task_fork.c **************************************************************/
+
+#ifdef CONFIG_TASK_FORK
+int task_fork_test(void);
+#endif
+
 /* vfork.c ******************************************************************/
 
-#if defined(CONFIG_ARCH_HAVE_FORK) && defined(CONFIG_SCHED_WAITPID)
+#ifdef CONFIG_ARCH_HAVE_VFORK
 int vfork_test(void);
+#endif
+
+/* fork.c *******************************************************************/
+
+#ifdef CONFIG_ARCH_HAVE_FORK
+int fork_test(void);
 #endif
 
 /* setjmp.c *****************************************************************/

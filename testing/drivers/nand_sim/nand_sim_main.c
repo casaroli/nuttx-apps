@@ -25,7 +25,9 @@
  ****************************************************************************/
 
 #include <nuttx/debug.h>
+#include <sched.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <nuttx/drivers/drivers.h>
 #include <nuttx/mtd/nand.h>
@@ -140,9 +142,11 @@ int main(int argc, FAR char *argv[])
   int   ret;
   pid_t pid;
 
-  /* Daemon */
+  /* task_fork() rather than fork():  this wants a clone that outlives the
+   * caller and shares its memory.
+   */
 
-  pid = fork();
+  pid = task_fork();
 
   if (pid > 0)
     {
