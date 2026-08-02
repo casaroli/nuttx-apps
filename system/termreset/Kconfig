@@ -1,0 +1,31 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config SYSTEM_TERMRESET
+	tristate "Terminal reset command"
+	default n
+	---help---
+		Restore echo and canonical input on the terminal, for when a
+		full-screen program was killed before it could do so itself.  The
+		symptom is a shell that still runs what is typed but shows none of
+		it.  Traditionally called "reset".
+
+if SYSTEM_TERMRESET
+
+config SYSTEM_TERMRESET_PROGNAME
+	string "Program name"
+	default "reset"
+	---help---
+		The name this command is installed under.
+
+config SYSTEM_TERMRESET_PRIORITY
+	int "Task priority"
+	default 100
+
+config SYSTEM_TERMRESET_STACKSIZE
+	int "Stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
