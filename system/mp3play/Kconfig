@@ -1,0 +1,42 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config SYSTEM_MP3PLAY
+	tristate "MP3 player"
+	default n
+	depends on AUDIOUTILS_LIBMAD && AUDIOUTILS_NXAUDIO_LIB
+	---help---
+		Decode an MP3 file with libmad and play it through an audio
+		device that takes PCM.  This is software decoding, for devices
+		that cannot decode the bitstream themselves; nxplayer's MP3
+		support hands the bitstream to the device instead.
+
+		The decoder runs in the audio message loop, filling each buffer
+		as the device gives it back, and reports what fraction of
+		realtime the decoding cost when the file ends.
+
+if SYSTEM_MP3PLAY
+
+config SYSTEM_MP3PLAY_PROGNAME
+	string "Program name"
+	default "mp3play"
+
+config SYSTEM_MP3PLAY_PRIORITY
+	int "Task priority"
+	default 100
+
+config SYSTEM_MP3PLAY_STACKSIZE
+	int "Stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+config SYSTEM_MP3PLAY_DECODESTACK
+	int "Decoder thread stack size"
+	default 8192
+	---help---
+		The thread that runs the audio message loop and, inside it, the
+		decoder.  libmad keeps its large state on the heap here, but the
+		layer III routines still want a few kilobytes of stack.
+
+endif
