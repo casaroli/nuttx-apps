@@ -31,6 +31,20 @@ config SYSTEM_MP3PLAY_STACKSIZE
 	int "Stack size"
 	default DEFAULT_TASK_STACKSIZE
 
+config SYSTEM_MP3PLAY_REPORT
+	string "Report file"
+	default "/tmp/mp3play.txt"
+	---help---
+		Where to write the decode cost and the output device's underrun
+		count when a file finishes.  Empty writes no file.
+
+		This wants to be somewhere in RAM.  The point of it is to record
+		what happened without a debugger attached -- halting the CPU to
+		read counters stops the thread that refills the audio and
+		manufactures the underruns being counted -- so writing it to the
+		same card the audio is streaming from would disturb the thing
+		being measured.
+
 config SYSTEM_MP3PLAY_DECODESTACK
 	int "Decoder thread stack size"
 	default 8192

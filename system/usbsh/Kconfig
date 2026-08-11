@@ -1,0 +1,47 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config SYSTEM_USBSH
+	tristate "Shell on the USB serial port"
+	default n
+	depends on CDCACM && NSH_LIBRARY && !CDCACM_CONSOLE
+	---help---
+		Run a second NSH session on a USB CDC/ACM port.
+
+		This is for boards whose console is something slow or intrusive
+		-- a debug probe's RTT link, which halts the CPU on every access
+		-- where a fast terminal is wanted without giving up the one
+		that already works.  Both sessions see the same filesystem.
+
+		If the USB port should be the console instead, use
+		CDCACM_CONSOLE and NSH_USBCONSOLE; this is the other choice.
+
+if SYSTEM_USBSH
+
+config SYSTEM_USBSH_PROGNAME
+	string "Program name"
+	default "usbsh"
+
+config SYSTEM_USBSH_MINOR
+	int "CDC/ACM minor number"
+	default 0
+
+config SYSTEM_USBSH_DEVNAME
+	string "Device path"
+	default "/dev/ttyACM0"
+
+config SYSTEM_USBSH_PRIORITY
+	int "Task priority"
+	default 100
+
+config SYSTEM_USBSH_STACKSIZE
+	int "Stack size"
+	default 4096
+	---help---
+		This task runs the shell itself, not just the plumbing, so it
+		needs what NSH needs.  Measured at 92% of 2048 with stack
+		colouration on, which is too close to be worth saving 2 KB over.
+
+endif

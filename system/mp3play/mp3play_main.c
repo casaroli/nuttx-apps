@@ -39,7 +39,10 @@
 #include <pthread.h>
 #include <sched.h>
 
+#include <sys/ioctl.h>
+
 #include <nuttx/audio/audio.h>
+#include <nuttx/audio/pwm_audio.h>
 #include <audioutils/nxaudio.h>
 
 /* mad.h is generated on whatever host built the release, and this one
@@ -74,6 +77,18 @@
 #define MP3PLAY_MAXFRAMES 1152
 
 #define MP3PLAY_MAXCHAN   2
+
+/* How many bad frames to skip in a row before giving up on the file.
+ *
+ * Recoverable errors are normal -- an ID3 tag arrives as one -- so they
+ * cannot simply end the stream.  But a file that ends mid-frame can leave
+ * the decoder returning one without consuming any input, and retrying that
+ * for ever is a busy loop on the thread that feeds the audio: the output
+ * starves, the console stops draining and the shell goes with it.  Any real
+ * run of bad frames longer than this is a broken file.
+ */
+
+#define MP3PLAY_MAXERRORS 64
 
 /****************************************************************************
  * Private Types
@@ -112,6 +127,16 @@ struct mp3play_s
   uint64_t          decodeus;
   uint64_t          outframes;
 
+  /* What the output device says about itself, polled as buffers come back
+   * so that a dropout is reported where it can be seen -- on whatever
+   * terminal started the player -- rather than only to a debugger.
+   */
+
+  struct pwm_audio_status_s status;
+  uint32_t          underruns;        /* Last count reported */
+  uint64_t          lastreport;       /* When it was reported, us */
+  bool              hasstatus;
+
   uint8_t           inbuf[MP3PLAY_INBUF + MAD_BUFFER_GUARD];
 };
 
@@ -120,6 +145,8 @@ struct mp3play_s
  ****************************************************************************/
 
 static void mp3play_interleave(FAR struct mp3play_s *priv);
+static void mp3play_writereport(FAR struct mp3play_s *priv,
+                                uint64_t audious);
 static void mp3play_dequeue_cb(unsigned long arg,
                                FAR struct ap_buffer_s *apb);
 static void mp3play_complete_cb(unsigned long arg);
@@ -250,6 +277,7 @@ static bool mp3play_refill(FAR struct mp3play_s *priv)
 static bool mp3play_decode(FAR struct mp3play_s *priv)
 {
   uint64_t started = mp3play_now_us();
+  unsigned int errors = 0;
 
   for (; ; )
     {
@@ -271,7 +299,8 @@ static bool mp3play_decode(FAR struct mp3play_s *priv)
               continue;
             }
 
-          if (MAD_RECOVERABLE(priv->stream.error))
+          if (MAD_RECOVERABLE(priv->stream.error) &&
+              ++errors < MP3PLAY_MAXERRORS)
             {
               /* A bad frame.  ID3 tags land here too, which is why this is
                * not worth reporting:  most files start with one.
@@ -418,6 +447,41 @@ static void mp3play_dequeue_cb(unsigned long arg,
     {
       nxaudio_enqbuffer(&priv->nxaudio, apb);
     }
+
+  /* Report a dropout the moment it happens, on this player's own output.
+   * The driver's syslog goes to the debug console, which is not where
+   * anyone listening to the board is looking.
+   */
+
+  if (ioctl(priv->nxaudio.fd, AUDIOIOC_PWMAUDIOSTATUS,
+            (unsigned long)&priv->status) == OK)
+    {
+      priv->hasstatus = true;
+
+      /* At most one line a second.
+       *
+       * Printing every underrun is what a dropout storm does to a console:
+       * the messages are produced faster than the terminal drains them, the
+       * write blocks, and the thread that blocks is the one refilling the
+       * audio -- so the reporting causes the fault it is reporting, and
+       * takes the shell down with it.  The running total is what matters
+       * anyway, and the exact count is in the summary.
+       */
+
+      if (priv->status.underruns != priv->underruns)
+        {
+          uint64_t now = mp3play_now_us();
+
+          if (now - priv->lastreport >= 1000000)
+            {
+              printf("mp3play: UNDERRUN total %" PRIu32 " (buffer %" PRIu32
+                     ")\n", priv->status.underruns, priv->status.buffers);
+              fflush(stdout);
+              priv->lastreport = now;
+              priv->underruns  = priv->status.underruns;
+            }
+        }
+    }
 }
 
 /****************************************************************************
@@ -535,6 +599,53 @@ static FAR void *mp3play_audio_thread(pthread_addr_t arg)
  * Name: mp3play_report
  ****************************************************************************/
 
+static void mp3play_writereport(FAR struct mp3play_s *priv, uint64_t audious)
+{
+  FAR FILE *f;
+
+  if (CONFIG_SYSTEM_MP3PLAY_REPORT[0] == '\0')
+    {
+      return;
+    }
+
+  f = fopen(CONFIG_SYSTEM_MP3PLAY_REPORT, "w");
+  if (f == NULL)
+    {
+      fprintf(stderr, "mp3play: cannot write %s: %d\n",
+              CONFIG_SYSTEM_MP3PLAY_REPORT, errno);
+      return;
+    }
+
+  fprintf(f, "rate %u Hz, %u ch\n", priv->samprate, priv->chnum);
+  fprintf(f, "audio %llu ms, %" PRIu32 " mp3 frames\n",
+          (unsigned long long)(audious / 1000), priv->mp3frames);
+  fprintf(f, "decode %llu ms = %llu%% of realtime, %llu us/frame\n",
+          (unsigned long long)(priv->decodeus / 1000),
+          (unsigned long long)(audious ? priv->decodeus * 100 / audious : 0),
+          (unsigned long long)(priv->decodeus / priv->mp3frames));
+
+  if (priv->hasstatus)
+    {
+      uint32_t rate = priv->status.samprate ? priv->status.samprate : 1;
+
+      fprintf(f, "device %" PRIu32 " frames/half = %" PRIu32 " us\n",
+              priv->status.bufframes,
+              priv->status.bufframes * 1000000 / rate);
+      fprintf(f, "buffers %" PRIu32 ", underruns %" PRIu32 "\n",
+              priv->status.buffers, priv->status.underruns);
+      fprintf(f, "occupancy low %" PRIu32 " frames = %" PRIu32 " ms\n",
+              priv->status.occlow, priv->status.occlow * 1000 / rate);
+      fprintf(f, "refill max %" PRIu32 " us\n", priv->status.refillmax);
+    }
+
+  fclose(f);
+  printf("mp3play: report written to %s\n", CONFIG_SYSTEM_MP3PLAY_REPORT);
+}
+
+/****************************************************************************
+ * Name: mp3play_report
+ ****************************************************************************/
+
 static void mp3play_report(FAR struct mp3play_s *priv)
 {
   uint64_t audious;
@@ -557,6 +668,14 @@ static void mp3play_report(FAR struct mp3play_s *priv)
          (unsigned long long)(priv->decodeus / 1000),
          (unsigned long long)(audious ? priv->decodeus * 100 / audious : 0),
          (unsigned long long)(priv->decodeus / priv->mp3frames));
+
+  if (priv->hasstatus)
+    {
+      printf("mp3play: %" PRIu32 " buffers, %" PRIu32 " underruns\n",
+             priv->status.buffers, priv->status.underruns);
+    }
+
+  mp3play_writereport(priv, audious);
 }
 
 /****************************************************************************
