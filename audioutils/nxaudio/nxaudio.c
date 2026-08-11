@@ -104,13 +104,39 @@ static FAR struct ap_buffer_s **create_audio_buffers(int fd, int num, int sz)
   FAR struct ap_buffer_s **ret;
 
   ret = (FAR struct ap_buffer_s **)calloc(num, sizeof(FAR void *));
+  if (ret == NULL)
+    {
+      return NULL;
+    }
 
   for (i = 0; i < num; i++)
     {
       desc.numbytes = sz;
       desc.u.pbuffer = &ret[i];
 
-      ioctl(fd, AUDIOIOC_ALLOCBUFFER, (unsigned long)(uintptr_t)&desc);
+      /* An allocation that fails must not be passed off as a buffer.
+       *
+       * Ignoring this leaves a null or unset pointer in the array and
+       * returns it as though everything worked; the caller then hands that
+       * to the audio device and the first write through it takes the board
+       * down with a hard fault a long way from the cause.  Running out of
+       * memory has to be visible where it happens.
+       */
+
+      if (ioctl(fd, AUDIOIOC_ALLOCBUFFER,
+                (unsigned long)(uintptr_t)&desc) != sizeof(desc) ||
+          ret[i] == NULL)
+        {
+          while (i-- > 0)
+            {
+              desc.u.buffer = ret[i];
+              ioctl(fd, AUDIOIOC_FREEBUFFER,
+                    (unsigned long)(uintptr_t)&desc);
+            }
+
+          free(ret);
+          return NULL;
+        }
     }
 
   return ret;
@@ -206,6 +232,15 @@ int init_nxaudio_devname(FAR struct nxaudio_s *nxaudio,
 
       nxaudio->abufs = create_audio_buffers(nxaudio->fd,
                                buf_info.nbuffers, buf_info.buffer_size);
+      if (nxaudio->abufs == NULL)
+        {
+          mq_close(nxaudio->mq);
+          ioctl(nxaudio->fd, AUDIOIOC_RELEASE, 0);
+          close(nxaudio->fd);
+          nxaudio->abufnum = 0;
+          return -1;
+        }
+
       nxaudio->abufnum = buf_info.nbuffers;
 
       return 0;
